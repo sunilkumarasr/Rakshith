@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Rakshith</string>
+
+    <string name="yourname">Your name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="enterpassword">Enter password</string>
+    <string name="createpassword">Create password</string>
+    <string name="entercreatepassword">Enter create password</string>
+    <string name="enteremailaddress">Enter email address</string>
+    <string name="enteryourname">Enter your name</string>
+    <string name="fullName">Full name</string>
+    <string name="enterfullName">Enter your full name</string>
+    <string name="createAccount">Create Account</string>
+    <string name="createAccountNote">Enter your personal information</string>
+    <string name="signup">Sign Up</string>
+    <string name="signupNote">To get more advantages sign up your accounts by filling in some informations</string>
+    <string name="signin">Sign In</string>
+    <string name="signinNote">Enter your email address and password to continue the shopping</string>
+    <string name="forgot">Forgot password</string>
+    <string name="forgotNote">Enter your email address to recover your password</string>
+    <string name="otpVerification">OTP verification</string>
+    <string name="otp">OTP</string>
+    <string name="resend">Resend</string>
+    <string name="otpNote">An OTP has been sent to your email</string>
+    <string name="submit">Submit</string>
+    <string name="createnewpasswordNote">Create your new password</string>
+    <string name="newpassword">New password</string>
+    <string name="enternewpassword">Enter new password</string>
+    <string name="conformnewpassword">Conform password</string>
+    <string name="enterconformnewpassword">Enter conform password</string>
+    <string name="donthaveanaccount">Don\'t have an account?</string>
+    <string name="alreadyhaveanaccount">Already have an account?</string>
+    <string name="search">Search Your Vegetables....</string>
+    <string name="location">Location</string>
+    <string name="locationnote">Andhra Pradesh, Tanuku</string>
+    <string name="categories">Categories</string>
+    <string name="actuleprice">₹800</string>
+    <string name="offerprice">₹500</string>
+    <string name="products">Products</string>
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="cart">Cart</string>
+    <string name="viewMore">View More</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

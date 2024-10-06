@@ -1,0 +1,19 @@
+<!-- res/drawable/bottom_nav_item_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Top line for the selected item -->
+    <item android:left="0dp" android:right="0dp" android:top="0dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/colorPrimary" /> <!-- Color for the top line -->
+            <size android:height="2dp" /> <!-- Thickness of the top line -->
+        </shape>
+    </item>
+
+    <!-- Background of the selected item -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" /> <!-- Transparent background -->
+        </shape>
+    </item>
+
+</layer-list>
