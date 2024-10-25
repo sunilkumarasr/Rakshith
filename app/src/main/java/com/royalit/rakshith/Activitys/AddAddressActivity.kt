@@ -1,6 +1,8 @@
 package com.royalit.rakshith.Activitys
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,8 +30,8 @@ class AddAddressActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-//        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Add Address"
-//        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.addaddress)
+        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
 
     }
 

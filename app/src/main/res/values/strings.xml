@@ -43,6 +43,24 @@
     <string name="cart">Cart</string>
     <string name="viewMore">View More</string>
 
+    <!--    address-->
+    <string name="mobilenumber">Mobile Number</string>
+    <string name="entermobilenumber">10-dits mobile number without prefixes</string>
+    <string name="alternatemobilenumber">Alternate Mobile Number</string>
+    <string name="enteralternatemobilenumber">10-dits mobile number without prefixes</string>
+    <string name="flataddress">Flat, House no, Building, Company, Apartment</string>
+    <string name="enterflataddress">Enter Flat, House no, Building, Company, Apartment</string>
+    <string name="areaaddress">Area, Street, Sector, Landmark</string>
+    <string name="enterareaaddress">Enter Area, Street, Sector, Landmark</string>
+    <string name="landmark">Landmark</string>
+    <string name="enterlandmark">Enetr Landmark</string>
+    <string name="pincode">Pincode</string>
+    <string name="enterpincode">6-digit Pincode</string>
+    <string name="city">Town/City</string>
+    <string name="addaddress">Add address</string>
+    <string name="editaddress">Edit address</string>
+    <string name="update">Update</string>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

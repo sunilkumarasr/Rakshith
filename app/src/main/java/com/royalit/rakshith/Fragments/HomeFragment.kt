@@ -1,13 +1,16 @@
 package com.royalit.rakshith.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
+import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
 import com.royalit.rakshith.Config.ViewController
@@ -54,6 +57,11 @@ class HomeFragment : Fragment() {
             HomeCategoriesApi()
             HomeProductsApi()
         }
+
+        binding.viewMoreProducts.setOnClickListener {
+            startActivity(Intent(activity, ProductsListActivity::class.java))
+        }
+
     }
 
     private fun HomebannersApi() {
@@ -65,6 +73,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun HomeCategoriesApi() {
+
         // Populate the static list with data
         categoryList = ArrayList()
         categoryList.add(HomeCategoriesModel(R.drawable.vegitable_ic, "Veggies"))
@@ -81,6 +90,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun HomeProductsApi() {
+
         // Populate the static list with data
         productsList = ArrayList()
         productsList.add(HomeProductsModel(R.drawable.tomoto_ic, "Tomato", "₹800","",4))
@@ -93,9 +103,13 @@ class HomeFragment : Fragment() {
 
         // Set the adapter
         binding.recyclerViewProducts.layoutManager = GridLayoutManager(activity, 2)
-        homeProductsAdapter = HomeProductsAdapter(productsList)
+        homeProductsAdapter = HomeProductsAdapter(productsList){ selectedItem ->
+            Toast.makeText(activity, "Added ${selectedItem.title} to cart", Toast.LENGTH_SHORT).show()
+        }
+
         binding.recyclerViewProducts.adapter = homeProductsAdapter
         binding.recyclerViewProducts.setHasFixedSize(true)
+
     }
 
 

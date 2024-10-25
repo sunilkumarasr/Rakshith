@@ -5,15 +5,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 
-class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel>) : RecyclerView.Adapter<HomeProductsAdapter.ItemViewHolder>() {
+class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel> , private val onClick: (HomeProductsModel) -> Unit) : RecyclerView.Adapter<HomeProductsAdapter.ItemViewHolder>() {
 
     // ViewHolder class to hold the views for each item
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val relative: RelativeLayout = itemView.findViewById(R.id.relative)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
         val txtPrice: TextView = itemView.findViewById(R.id.txtPrice)
@@ -30,6 +32,10 @@ class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel>) : 
         holder.imgProducts.setImageResource(item.imageResId) // Set image
         holder.txtTitle.text = item.title
         holder.txtPrice.text = item.price
+
+        holder.relative.setOnClickListener {
+            onClick(item)
+        }
     }
 
     override fun getItemCount(): Int {
