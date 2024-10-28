@@ -33,10 +33,16 @@
         <item name="cardBackgroundColor">@color/white</item>
         <item name="cornerFamilyTopLeft">rounded</item>
         <item name="cornerFamilyTopRight">rounded</item>
-        <item name="cornerSizeTopRight">40dp</item>
-        <item name="cornerSizeTopLeft">40dp</item>
+        <item name="cornerSizeTopRight">35dp</item>
+        <item name="cornerSizeTopLeft">35dp</item>
         <item name="cornerSizeBottomRight">8dp</item>
         <item name="cornerSizeBottomLeft">8dp</item>
     </style>
+
+    <style name="NavigationItemText">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/teachers_medium</item>
+    </style>
+
 
 </resources>

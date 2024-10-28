@@ -65,4 +65,7 @@ dependencies {
     //banners
     implementation ("com.github.denzcoskun:ImageSlideshow:0.1.2")
 
+    //lottie
+    implementation ("com.airbnb.android:lottie:6.0.0")
+
 }

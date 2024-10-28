@@ -1,5 +1,7 @@
 package com.royalit.rakshith.Adapters
 
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +20,8 @@ class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel> , p
         val relative: RelativeLayout = itemView.findViewById(R.id.relative)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
-        val txtPrice: TextView = itemView.findViewById(R.id.txtPrice)
+        val txtOfferPrice: TextView = itemView.findViewById(R.id.txtOfferPrice)
+        val txtActualPrice: TextView = itemView.findViewById(R.id.txtActualPrice)
         val addToCart: LinearLayout = itemView.findViewById(R.id.addToCart)
     }
 
@@ -31,7 +34,11 @@ class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel> , p
         val item = itemList[position]
         holder.imgProducts.setImageResource(item.imageResId) // Set image
         holder.txtTitle.text = item.title
-        holder.txtPrice.text = item.price
+        holder.txtOfferPrice.text = item.price
+
+        val spannableString = SpannableString("₹1000" )
+        spannableString.setSpan(StrikethroughSpan(), 0, spannableString.length, 0)
+        holder.txtActualPrice.text = spannableString
 
         holder.relative.setOnClickListener {
             onClick(item)

@@ -7,7 +7,7 @@
     style="@style/MyCardView"
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginBottom="15dp"
+    android:layout_marginBottom="8dp"
     android:layout_marginEnd="8dp"
     app:cardElevation="5dp"
     android:background="@color/white"

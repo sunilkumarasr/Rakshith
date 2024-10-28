@@ -28,12 +28,22 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.loginLinear.setOnClickListener {
-            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
         binding.linearSubmit.setOnClickListener {
-            startActivity(Intent(this@RegisterActivity, DashBoardActivity::class.java))
+            val intent = Intent(this@RegisterActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
+    }
 
 }

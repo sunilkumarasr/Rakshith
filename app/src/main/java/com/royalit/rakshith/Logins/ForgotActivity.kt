@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.royalit.rakshith.Activitys.DashBoardActivity
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityForgotBinding
@@ -29,16 +30,17 @@ class ForgotActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-//        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
-//
-//        binding.txtLogin.setOnClickListener {
-//            finish()
-//        }
+        binding.linearBack.setOnClickListener {
+            val intent = Intent(this@ForgotActivity, LoginActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
+        }
 
         binding.linearSubmit.setOnClickListener {
-            startActivity(Intent(this@ForgotActivity,OTPActivity::class.java).apply {
-                putExtra("email",binding.emailEdit.editableText.trim().toString())
-            })
+            val intent = Intent(this@ForgotActivity, OTPActivity::class.java)
+            intent.putExtra("email",binding.emailEdit.editableText.trim().toString())
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
             finish()
         }
 
@@ -50,12 +52,21 @@ class ForgotActivity : AppCompatActivity() {
 //                forgotApi()
 //            }
 //        }
+
     }
 
 
     private fun validateEmail(email: String): Boolean {
         val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
         return email.matches(Regex(emailPattern))
+    }
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@ForgotActivity, LoginActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 }

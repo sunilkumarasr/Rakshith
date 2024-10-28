@@ -33,9 +33,12 @@ class CreatePasswordActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-//        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener {
-//            startActivity(Intent(this@CreatePasswordActivity, LoginActivity::class.java))
-//        }
+        binding.linearBack.setOnClickListener {
+            val intent = Intent(this@CreatePasswordActivity, LoginActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
+        }
+
 //
 //        binding.cardLogin.setOnClickListener {
 //            if(!ViewController.noInterNetConnectivity(applicationContext)){
@@ -49,7 +52,9 @@ class CreatePasswordActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(Intent(this@CreatePasswordActivity, LoginActivity::class.java))
+        val intent = Intent(this@CreatePasswordActivity, LoginActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 

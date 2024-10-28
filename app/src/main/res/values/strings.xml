@@ -5,8 +5,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="enterpassword">Enter password</string>
-    <string name="createpassword">Create password</string>
-    <string name="entercreatepassword">Enter create password</string>
+    <string name="confirmpassword">Confirm password</string>
+    <string name="entercpassword">Enter Confirm password</string>
     <string name="enteremailaddress">Enter email address</string>
     <string name="enteryourname">Enter your name</string>
     <string name="fullName">Full name</string>
@@ -24,23 +24,24 @@
     <string name="resend">Resend</string>
     <string name="otpNote">An OTP has been sent to your email</string>
     <string name="submit">Submit</string>
+    <string name="createpassword">Create password</string>
     <string name="createnewpasswordNote">Create your new password</string>
     <string name="newpassword">New password</string>
     <string name="enternewpassword">Enter new password</string>
-    <string name="conformnewpassword">Conform password</string>
-    <string name="enterconformnewpassword">Enter conform password</string>
     <string name="donthaveanaccount">Don\'t have an account?</string>
     <string name="alreadyhaveanaccount">Already have an account?</string>
     <string name="search">Search Your Vegetables....</string>
     <string name="location">Location</string>
-    <string name="locationnote">Andhra Pradesh, Tanuku</string>
+    <string name="locationnote">Tanuku, Andhra Pradesh, India</string>
     <string name="categories">Categories</string>
     <string name="actuleprice">₹800</string>
     <string name="offerprice">₹500</string>
     <string name="products">Products</string>
     <string name="home">Home</string>
+    <string name="faq">Faq</string>
     <string name="favorite">Favorite</string>
     <string name="cart">Cart</string>
+    <string name="orders">Orders</string>
     <string name="viewMore">View More</string>
 
     <!--    address-->
@@ -60,6 +61,27 @@
     <string name="addaddress">Add address</string>
     <string name="editaddress">Edit address</string>
     <string name="update">Update</string>
+
+    <!--    menu-->
+    <string name="general">General</string>
+    <string name="profile">Profile</string>
+    <string name="myaddress">My Address</string>
+    <string name="language">Language</string>
+    <string name="promotionalactivity">Promotional Activity</string>
+    <string name="coupon">Coupon</string>
+    <string name="mywallet">My Wallet</string>
+    <string name="earnings">Earnings</string>
+    <string name="refeandearn">Refer &amp; Earn</string>
+    <string name="helpandsupport">Help &amp; Support</string>
+    <string name="about">about</string>
+    <string name="termsandconditions">Terms &amp; Conditions</string>
+    <string name="privacyPolicy">Privacy Policy</string>
+    <string name="refundPolicy">Refund Policy</string>
+    <string name="shippingPolicy">Shipping Policy</string>
+    <string name="logout">Logout</string>
+    <string name="logout_note">Are you sure you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>

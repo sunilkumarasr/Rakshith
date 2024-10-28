@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
         productsList.add(HomeProductsModel(R.drawable.capsicom_ic, "Capsicum", "₹800","",4))
         productsList.add(HomeProductsModel(R.drawable.mirchi_ic, "Green Mirchi", "₹200","",4))
         productsList.add(HomeProductsModel(R.drawable.onion_ic, "Onion", "₹900","",4))
-        productsList.add(HomeProductsModel(R.drawable.brrtroot_ic, "Beetroot", "₹300","",4))
+        productsList.add(HomeProductsModel(R.drawable.carrot, "Carrot", "₹300","",4))
 
         // Set the adapter
         binding.recyclerViewProducts.layoutManager = GridLayoutManager(activity, 2)

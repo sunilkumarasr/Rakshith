@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(
             this,
-            ContextCompat.getColor(this, R.color.colorPrimary),
+            ContextCompat.getColor(this, R.color.lightPrimary),
             false
         )
 
@@ -36,9 +36,13 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             if (loginCheck.equals("Login")) {
-                startActivity(Intent(this@SplashActivity, DashBoardActivity::class.java))
+                val intent = Intent(this@SplashActivity, DashBoardActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             } else {
-                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
         }, 3000)
     }

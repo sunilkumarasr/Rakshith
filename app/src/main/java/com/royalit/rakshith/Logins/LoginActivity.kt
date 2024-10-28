@@ -1,7 +1,9 @@
 package com.royalit.rakshith.Logins
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.royalit.rakshith.Activitys.DashBoardActivity
@@ -20,19 +22,26 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
+
         inits()
     }
 
     private fun inits() {
 
         binding.txtForgot.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, ForgotActivity::class.java))
+            val intent = Intent(this@LoginActivity, ForgotActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
         binding.registerLinear.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
         binding.linearSubmit.setOnClickListener {
-            startActivity(Intent(this@LoginActivity, DashBoardActivity::class.java))
+            val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
     }

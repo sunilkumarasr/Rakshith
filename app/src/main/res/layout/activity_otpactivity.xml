@@ -5,245 +5,221 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Logins.OTPActivity">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/splash1">
-
-        <ScrollView
+        android:background="@color/white"
+        android:scrollbars="none">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_above="@+id/cardBottom">
+            android:layout_height="wrap_content"
+            android:padding="25dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/linearBack"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/circle_round"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/back_ic"/>
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="@string/otpVerification"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimary" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/otpNote"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="12sp"
+                android:textColor="@color/txtHeader"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/otp"
+                android:textColor="@color/text"
+                android:layout_gravity="center"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="14sp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-                <androidx.appcompat.widget.AppCompatTextView
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:gravity="center_horizontal">
+
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/otpVerification"
-                    android:fontFamily="@font/teachers_bold"
-                    android:textSize="28sp"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:text="@string/otpNote"
-                    android:fontFamily="@font/teachers_semibold"
-                    android:textSize="14sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"/>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
+                    app:strokeColor="@color/box_border">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="40dp"
+                            android:layout_height="45dp"
+                            android:background="@null"
+                            android:id="@+id/pinEdit1"
+                            android:fontFamily="sans-serif"
+                            android:ems="1"
+                            android:gravity="center"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:hint="0"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    app:cardElevation="2dp"
-                    >
+                    android:orientation="horizontal"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeColor="@color/box_border">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:text="@string/otp"
-                            android:textColor="@color/text"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:layout_marginStart="20dp"
-                            android:gravity="center_horizontal">
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                app:cardBackgroundColor="@color/white"
-                                app:strokeColor="@color/box_border">
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:layout_width="40dp"
-                                        android:layout_height="45dp"
-                                        android:background="@null"
-                                        android:id="@+id/pinEdit1"
-                                        android:fontFamily="sans-serif"
-                                        android:ems="1"
-                                        android:gravity="center"
-                                        android:inputType="phone"
-                                        android:maxLength="1"
-                                        android:hint="0"
-                                        android:paddingHorizontal="10dp"
-                                        android:paddingVertical="2dp" />
-                                </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:orientation="horizontal"
-                                app:cardBackgroundColor="@color/white"
-                                app:strokeColor="@color/box_border">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:layout_width="40dp"
-                                        android:layout_height="45dp"
-                                        android:background="@null"
-                                        android:id="@+id/pinEdit2"
-                                        android:ems="1"
-                                        android:fontFamily="sans-serif"
-                                        android:gravity="center"
-                                        android:inputType="phone"
-                                        android:maxLength="1"
-                                        android:hint="0"
-                                        android:paddingHorizontal="10dp"
-                                        android:paddingVertical="2dp" />
-                                </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:orientation="horizontal"
-                                app:cardBackgroundColor="@color/white"
-                                app:strokeColor="@color/box_border">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:layout_width="40dp"
-                                        android:layout_height="45dp"
-                                        android:background="@null"
-                                        android:ems="1"
-                                        android:fontFamily="sans-serif"
-                                        android:id="@+id/pinEdit3"
-                                        android:gravity="center"
-                                        android:inputType="phone"
-                                        android:maxLength="1"
-                                        android:hint="0"
-                                        android:paddingHorizontal="10dp"
-                                        android:paddingVertical="2dp" />
-                                </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                            <com.google.android.material.card.MaterialCardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:orientation="horizontal"
-                                app:cardBackgroundColor="@color/white"
-                                app:strokeColor="@color/box_border">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal">
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:layout_width="40dp"
-                                        android:layout_height="45dp"
-                                        android:background="@null"
-                                        android:ems="1"
-                                        android:fontFamily="sans-serif"
-                                        android:id="@+id/pinEdit4"
-                                        android:gravity="center"
-                                        android:inputType="phone"
-                                        android:maxLength="1"
-                                        android:hint="0"
-                                        android:paddingHorizontal="10dp"
-                                        android:paddingVertical="2dp" />
-                                </LinearLayout>
-                            </com.google.android.material.card.MaterialCardView>
-
-                        </LinearLayout>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:text="@string/resend"
-                            android:textColor="@color/colorPrimary"
-                            android:layout_gravity="center"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:id="@+id/linearSubmit"
-                            android:layout_width="200dp"
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="40dp"
                             android:layout_height="45dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="15dp"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/round_button">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="@string/submit"
-                                android:gravity="center"
-                                android:textColor="@color/white"
-                                android:textSize="15sp"
-                                android:fontFamily="@font/teachers_bold"/>
-                        </LinearLayout>
-
+                            android:background="@null"
+                            android:id="@+id/pinEdit2"
+                            android:ems="1"
+                            android:fontFamily="sans-serif"
+                            android:gravity="center"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:hint="0"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="2dp" />
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                </androidx.cardview.widget.CardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeColor="@color/box_border">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="40dp"
+                            android:layout_height="45dp"
+                            android:background="@null"
+                            android:ems="1"
+                            android:fontFamily="sans-serif"
+                            android:id="@+id/pinEdit3"
+                            android:gravity="center"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:hint="0"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="horizontal"
+                    app:cardBackgroundColor="@color/white"
+                    app:strokeColor="@color/box_border">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="40dp"
+                            android:layout_height="45dp"
+                            android:background="@null"
+                            android:ems="1"
+                            android:fontFamily="sans-serif"
+                            android:id="@+id/pinEdit4"
+                            android:gravity="center"
+                            android:inputType="phone"
+                            android:maxLength="1"
+                            android:hint="0"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="2dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
-        </ScrollView>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardBottom"
-            android:layout_width="100dp"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            app:cardElevation="3dp"
-            app:cardCornerRadius="10dp"
-            android:layout_centerHorizontal="true"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/resend"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="14sp"/>
 
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/linearSubmit"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/round_button">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/submit"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/teachers_bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </layout>

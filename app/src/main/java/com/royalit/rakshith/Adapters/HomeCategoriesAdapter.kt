@@ -19,7 +19,8 @@ class HomeCategoriesAdapter(private val itemList: ArrayList<HomeCategoriesModel>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.banners_layout_items_list, parent, false)
+       // val view = LayoutInflater.from(parent.context).inflate(R.layout.banners_layout_items_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.banners_layout_relative_items_list, parent, false)
         return ItemViewHolder(view)
     }
 

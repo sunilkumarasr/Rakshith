@@ -17,16 +17,16 @@
         app:itemTextColor="@drawable/bottom_nav_item_color_selector" />
 
     <item
-        android:id="@+id/cart"
-        android:icon="@drawable/cart_ic"
-        android:title="@string/cart"
+        android:id="@+id/orders"
+        android:icon="@drawable/bag_ic"
+        android:title="@string/orders"
         app:itemIconTint="@drawable/bottom_nav_item_color_selector"
         app:itemTextColor="@drawable/bottom_nav_item_color_selector" />
 
     <item
-        android:id="@+id/profile"
-        android:icon="@drawable/profile_ic"
-        android:title="Profile"
+        android:id="@+id/menu"
+        android:icon="@drawable/menu"
+        android:title="Menu"
         app:itemIconTint="@drawable/bottom_nav_item_color_selector"
         app:itemTextColor="@drawable/bottom_nav_item_color_selector" />
 

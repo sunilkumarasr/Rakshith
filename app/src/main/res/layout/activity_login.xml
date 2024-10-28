@@ -5,197 +5,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Logins.LoginActivity">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/splash1">
-
-        <ScrollView
+        android:background="@color/white"
+        android:scrollbars="none">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_above="@+id/cardBottom">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="25dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/signin"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="22sp"
+                android:textColor="@color/colorPrimary" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/signinNote"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="12sp"
+                android:textColor="@color/txtHeader"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/email"
+                android:textColor="@color/text"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="14sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/signin"
-                    android:fontFamily="@font/teachers_bold"
-                    android:textSize="28sp"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:text="@string/signinNote"
-                    android:fontFamily="@font/teachers_semibold"
-                    android:textSize="14sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"/>
-
-                <androidx.cardview.widget.CardView
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/editbox_round">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/emailEdit"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/white"
-                    app:cardCornerRadius="20dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    app:cardElevation="2dp"
-                    >
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="20dp">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
-                            android:text="@string/email"
-                            android:textColor="@color/text"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/editbox_round">
-                            <androidx.appcompat.widget.AppCompatEditText
-                                android:id="@+id/emailEdit"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:background="@null"
-                                android:textSize="15sp"
-                                android:singleLine="true"
-                                android:hint="@string/enteremailaddress"
-                                android:fontFamily="@font/teachers_regular"
-                                android:textColorHint="@color/hintcolor"
-                                android:inputType="textEmailAddress"/>
-                        </LinearLayout>
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/password"
-                            android:textColor="@color/text"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/editbox_round">
-                            <androidx.appcompat.widget.AppCompatEditText
-                                android:id="@+id/passwordEdit"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                android:background="@null"
-                                android:singleLine="true"
-                                android:textSize="15sp"
-                                android:hint="@string/enterpassword"
-                                android:fontFamily="@font/teachers_regular"
-                                android:textColorHint="@color/hintcolor"
-                                android:inputType="textPassword"/>
-                        </LinearLayout>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/txtForgot"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginTop="15dp"
-                            android:text="@string/forgot"
-                            android:textColor="@color/colorPrimary"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:id="@+id/linearSubmit"
-                            android:layout_width="200dp"
-                            android:layout_height="45dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginBottom="20dp"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/round_button">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="@string/signin"
-                                android:gravity="center"
-                                android:textColor="@color/white"
-                                android:textSize="15sp"
-                                android:fontFamily="@font/teachers_bold"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/registerLinear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="15dp"
-                            android:layout_gravity="center"
-                            android:orientation="horizontal">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_horizontal"
-                                android:text="@string/donthaveanaccount"
-                                android:fontFamily="@font/teachers_semibold"
-                                android:textColor="@color/text"
-                                android:textSize="14sp" />
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginStart="10dp"
-                                android:fontFamily="@font/teachers_bold"
-                                android:text="@string/signup"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
+                    android:layout_marginEnd="10dp"
+                    android:background="@null"
+                    android:textSize="15sp"
+                    android:singleLine="true"
+                    android:hint="@string/enteremailaddress"
+                    android:fontFamily="@font/teachers_regular"
+                    android:textColorHint="@color/hintcolor"
+                    android:inputType="textEmailAddress"/>
             </LinearLayout>
-        </ScrollView>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/password"
+                android:textColor="@color/text"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="14sp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/editbox_round">
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/passwordEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@null"
+                    android:singleLine="true"
+                    android:textSize="15sp"
+                    android:hint="@string/enterpassword"
+                    android:fontFamily="@font/teachers_regular"
+                    android:textColorHint="@color/hintcolor"
+                    android:inputType="textPassword"/>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtForgot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="15dp"
+                android:text="@string/forgot"
+                android:textColor="@color/colorPrimary"
+                android:fontFamily="@font/teachers_semibold"
+                android:textSize="14sp"/>
+            <LinearLayout
+                android:id="@+id/linearSubmit"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/round_button">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/signin"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/teachers_bold"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/registerLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/donthaveanaccount"
+                    android:fontFamily="@font/teachers_semibold"
+                    android:textColor="@color/text"
+                    android:textSize="14sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/teachers_bold"
+                    android:text="@string/signup"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardBottom"
-            android:layout_width="100dp"
-            android:layout_height="2dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            app:cardElevation="3dp"
-            app:cardCornerRadius="10dp"
-            android:layout_centerHorizontal="true"/>
-
-    </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </layout>

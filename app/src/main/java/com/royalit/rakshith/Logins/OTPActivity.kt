@@ -46,8 +46,11 @@ class OTPActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-     //  binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
-
+        binding.linearBack.setOnClickListener {
+            val intent = Intent(this@OTPActivity, ForgotActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
+        }
 
         var count = 0
         fun setFocusable(){
@@ -115,10 +118,19 @@ class OTPActivity : AppCompatActivity() {
 
 
         binding.linearSubmit.setOnClickListener {
-            startActivity(Intent(this@OTPActivity, CreatePasswordActivity::class.java))
+            val intent = Intent(this@OTPActivity, CreatePasswordActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@OTPActivity, ForgotActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 }
