@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
+import com.royalit.rakshith.Activitys.AboutUsActivity
+import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
@@ -104,7 +106,9 @@ class HomeFragment : Fragment() {
         // Set the adapter
         binding.recyclerViewProducts.layoutManager = GridLayoutManager(activity, 2)
         homeProductsAdapter = HomeProductsAdapter(productsList){ selectedItem ->
-            Toast.makeText(activity, "Added ${selectedItem.title} to cart", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), ProductsDetailsActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
         binding.recyclerViewProducts.adapter = homeProductsAdapter

@@ -2,6 +2,7 @@ package com.royalit.rakshith.Activitys
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -17,7 +18,6 @@ class EditAddressActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_address)
         setContentView(binding.root)
         ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
@@ -27,7 +27,7 @@ class EditAddressActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.editaddress)
-        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
 
     }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009935</color>
-    <color name="darkcolorPrimary">#009935</color>
-    <color name="lightgreen">#26a84e</color>
+    <color name="colorPrimary">#6aaa2d</color>
+    <color name="darkcolorPrimary">#6aaa2d</color>
+    <color name="lightgreen">#81bc48</color>
     <color name="lightPrimary">#e4f4e9</color>
     <color name="black">#000000</color>
     <color name="uncheckBottom">#8f8f8f</color>
@@ -24,7 +24,7 @@
     <color name="hintcolor">#999999</color>
     <color name="blue">#1793CF</color>
     <color name="trance">#00000000</color>
-    <color name="bg">#f6fbf7</color>
+    <color name="bg">#f2f9f4</color>
     <color name="itemBg">#c9dacf</color>
     <color name="filledStarColor">#FFD700</color>
     <color name="halfFilledStarColor">#FFA500</color>

@@ -38,11 +38,11 @@ class SplashActivity : AppCompatActivity() {
             if (loginCheck.equals("Login")) {
                 val intent = Intent(this@SplashActivity, DashBoardActivity::class.java)
                 startActivity(intent)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                overridePendingTransition(R.anim.from_right, R.anim.to_left)
             } else {
                 val intent = Intent(this@SplashActivity, LoginActivity::class.java)
                 startActivity(intent)
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
         }, 3000)
     }

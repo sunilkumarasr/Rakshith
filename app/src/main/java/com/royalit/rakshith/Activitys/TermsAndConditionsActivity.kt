@@ -2,6 +2,7 @@ package com.royalit.rakshith.Activitys
 
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -28,8 +29,8 @@ class TermsAndConditionsActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-//        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Terms And Conditions"
-//        binding.root.findViewById<ImageView>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Terms And Conditions"
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
 
     }
 

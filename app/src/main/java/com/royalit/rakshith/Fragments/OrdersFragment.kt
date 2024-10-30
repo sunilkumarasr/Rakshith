@@ -5,6 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.royalit.rakshith.Adapters.ViewPagerAdapter
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.FragmentMenuBinding
@@ -33,6 +39,22 @@ class OrdersFragment : Fragment() {
     }
 
     private fun init() {
+
+        // Set up the adapter
+        binding.viewPager.adapter = ViewPagerAdapter(requireActivity())
+
+        // Link the TabLayout and ViewPager2
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "All"
+                1 -> "Pending"
+                2 -> "Complete"
+                else -> "All"
+            }
+        }.attach()
+
+
+
 
         if (!ViewController.noInterNetConnectivity(requireActivity())) {
             ViewController.showToast(requireActivity(), "Please check your connection ")

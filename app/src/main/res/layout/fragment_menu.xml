@@ -7,6 +7,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg"
         android:scrollbars="none">
 
         <LinearLayout
@@ -72,6 +73,36 @@
                         android:background="@color/lightGray" />
 
                     <LinearLayout
+                        android:id="@+id/linearCart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/cart_ic"
+                            app:tint="@color/black" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/teachers_regular"
+                            android:text="@string/cart"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/lightGray" />
+
+                    <LinearLayout
                         android:id="@+id/linearMyAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -91,6 +122,36 @@
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/myaddress"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/lightGray" />
+
+                    <LinearLayout
+                        android:id="@+id/linearOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/tremsandconditions"
+                            app:tint="@color/black" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/teachers_regular"
+                            android:text="@string/orders"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -167,7 +228,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
-                            android:src="@drawable/coupon"
+                            android:src="@drawable/coupon_ic"
                             app:tint="@color/black" />
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -197,7 +258,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
-                            android:src="@drawable/wallet"
+                            android:src="@drawable/wallet_ic"
                             app:tint="@color/black" />
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -251,7 +312,7 @@
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
-                            android:src="@drawable/referafriend"
+                            android:src="@drawable/referafriend_ic"
                             app:tint="@color/black" />
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
