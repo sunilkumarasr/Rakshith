@@ -118,6 +118,8 @@ class OTPActivity : AppCompatActivity() {
 
 
         binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
             val intent = Intent(this@OTPActivity, CreatePasswordActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)

@@ -28,8 +28,13 @@ class AboutUsActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = "AboutUs"
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = this@AboutUsActivity.getString(R.string.about)
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
+
 
     }
 

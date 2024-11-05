@@ -9,6 +9,12 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.AlphaAnimation
+import android.view.animation.AnimationSet
+import android.view.animation.BounceInterpolator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -96,6 +102,24 @@ object ViewController {
             // editText.isFocusable= false
         }
         return true
+    }
+
+
+    fun animation(): AnimationSet {
+        val fadeIn = AlphaAnimation(0f, 1f).apply {
+            interpolator = DecelerateInterpolator()
+            duration = 100
+        }
+        val fadeOut = AlphaAnimation(1f, 0f).apply {
+            interpolator = AccelerateInterpolator()
+            startOffset = 100
+            duration = 100
+        }
+        return AnimationSet(false).apply {
+            addAnimation(fadeIn)
+            // Uncomment the line below if you want to add fadeOut to the animation sequence
+//             addAnimation(fadeOut)
+        }
     }
 
 

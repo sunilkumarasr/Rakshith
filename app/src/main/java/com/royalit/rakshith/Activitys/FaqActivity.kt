@@ -37,8 +37,13 @@ class FaqActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = "FAQ"
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.faq)
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
+
 
 
         if(!ViewController.noInterNetConnectivity(this@FaqActivity)){

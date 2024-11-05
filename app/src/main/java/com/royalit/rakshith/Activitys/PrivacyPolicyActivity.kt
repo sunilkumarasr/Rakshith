@@ -29,8 +29,13 @@ class PrivacyPolicyActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Privacy Policy"
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.privacyPolicy)
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
+
 
         //privacyPolicyApi()
     }

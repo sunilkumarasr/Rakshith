@@ -13,7 +13,6 @@
         <include
             layout="@layout/layout_top"/>
 
-
     </LinearLayout>
 
 </layout>

@@ -30,8 +30,13 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Edit Profile"
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.editProfile)
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
+
 
     }
 

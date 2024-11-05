@@ -27,7 +27,12 @@ class EditAddressActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.editaddress)
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
+
 
     }
 

@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/language/baseline_language_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Library/Android/sdk/icons/material/materialicons/horizontal_rule/baseline_horizontal_rule_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="language" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="minimize_ic" />
                           </map>
                         </option>
                       </PersistentState>

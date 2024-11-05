@@ -31,12 +31,16 @@ class ForgotActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.linearBack.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearBack.startAnimation(animations)
             val intent = Intent(this@ForgotActivity, LoginActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
 
         binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
             val intent = Intent(this@ForgotActivity, OTPActivity::class.java)
             intent.putExtra("email",binding.emailEdit.editableText.trim().toString())
             startActivity(intent)

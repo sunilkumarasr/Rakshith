@@ -28,11 +28,15 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.loginLinear.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.loginLinear.startAnimation(animations)
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
         binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
             val intent = Intent(this@RegisterActivity, DashBoardActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)

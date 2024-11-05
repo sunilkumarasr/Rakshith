@@ -30,9 +30,14 @@ class NotificationsActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = "Notifications"
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener { finish() }
+        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.notifications)
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+            val animations = ViewController.animation()
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            finish()
+        }
 
-       // NotificationsListApi()
+
+        // NotificationsListApi()
     }
 }

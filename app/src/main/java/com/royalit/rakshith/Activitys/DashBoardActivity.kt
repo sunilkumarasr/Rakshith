@@ -1,5 +1,6 @@
 package com.royalit.rakshith.Activitys
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +21,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Logins.ForgotActivity
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityDashBoardBinding
 
@@ -45,6 +47,14 @@ class DashBoardActivity : AppCompatActivity(){
 
     private fun inits() {
         bottomMenu()
+
+        binding.linearCart.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearCart.startAnimation(animations)
+            val intent = Intent(this@DashBoardActivity, CartActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        }
     }
 
     private fun bottomMenu() {
@@ -54,6 +64,7 @@ class DashBoardActivity : AppCompatActivity(){
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
+
             when (menuItem.itemId) {
                 R.id.home -> {
                     navController.navigate(R.id.homeFragment)

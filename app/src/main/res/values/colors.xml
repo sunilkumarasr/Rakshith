@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6aaa2d</color>
-    <color name="darkcolorPrimary">#6aaa2d</color>
-    <color name="lightgreen">#81bc48</color>
+    <color name="colorPrimary">#009935</color>
+    <color name="darkcolorPrimary">#009935</color>
+    <color name="lightgreen">#23a54f</color>
     <color name="lightPrimary">#e4f4e9</color>
     <color name="black">#000000</color>
     <color name="uncheckBottom">#8f8f8f</color>
@@ -17,16 +17,18 @@
     <color name="splashcolor">#02bbfd</color>
     <color name="selectedRed">#E84D1A</color>
     <color name="statusBarBg">#4548B9</color>
-    <color name="green">#11D171</color>
+    <color name="green">#23a54f</color>
     <color name="pending">#DBBD28</color>
     <color name="box_border">#eeeeee</color>
     <color name="box_gray">#f6f6f6</color>
     <color name="hintcolor">#999999</color>
     <color name="blue">#1793CF</color>
     <color name="trance">#00000000</color>
-    <color name="bg">#f2f9f4</color>
+    <color name="bg">#edf6f2</color>
     <color name="itemBg">#c9dacf</color>
     <color name="filledStarColor">#FFD700</color>
     <color name="halfFilledStarColor">#FFA500</color>
     <color name="emptyStarColor">#C0C0C0</color>
+    <color name="lgreen">#cdead4</color>
+    <color name="txtH">#979797</color>
 </resources>

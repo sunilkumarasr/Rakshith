@@ -1,6 +1,7 @@
 package com.royalit.rakshith.Logins
 
 import android.content.Intent
+import android.graphics.Bitmap.Config
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -29,16 +30,22 @@ class LoginActivity : AppCompatActivity() {
     private fun inits() {
 
         binding.txtForgot.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.txtForgot.startAnimation(animations)
             val intent = Intent(this@LoginActivity, ForgotActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
         binding.registerLinear.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.registerLinear.startAnimation(animations)
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
         binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
             val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)

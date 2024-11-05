@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Adapters.FavouriteAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
@@ -69,7 +70,9 @@ class FavouriteFragment : Fragment() {
         // Set the adapter
         binding.recyclerview.layoutManager = GridLayoutManager(activity, 2)
         favouriteAdapter = FavouriteAdapter(favouriteList){ selectedItem ->
-            Toast.makeText(activity, "Added ${selectedItem.title} to cart", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), ProductsDetailsActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
         binding.recyclerview.adapter = favouriteAdapter

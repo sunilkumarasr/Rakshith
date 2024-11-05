@@ -34,6 +34,8 @@ class CreatePasswordActivity : AppCompatActivity() {
 
     private fun inits() {
         binding.linearBack.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearBack.startAnimation(animations)
             val intent = Intent(this@CreatePasswordActivity, LoginActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
