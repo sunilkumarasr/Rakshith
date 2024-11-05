@@ -87,6 +87,7 @@
     <string name="logout_note">Are you sure you want to logout?</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
+    <string name="checkout">Checkout</string>
     <string name="placeorder">Place Order</string>
     <string name="addtocart">Add to Cart</string>
     <string name="description">Description</string>
@@ -94,7 +95,22 @@
     <string name="Itemsprice">Items Price</string>
     <string name="discount">Discount</string>
     <string name="deliveryCharges">Delivery Charges</string>
-
+    <string name="address">Address</string>
+    <string name="payment">Payment</string>
+    <string name="noData">No Data</string>
+    <string name="title">Title</string>
+    <string name="orderSuccessfull">Order Successfull</string>
+    <string name="orderNote">Your order #96454 is successfully placed</string>
+    <string name="trackMyOrder">Track My Order</string>
+    <string name="goBack">Go Back</string>
+    <string name="orderFailed">Order Failed</string>
+    <string name="orderFailedNote">You can place the order again or contact support if the issue persists.</string>
+    <string name="tryAgain">Try Again</string>
+    <string name="delete">Delete</string>
+    <string name="deleteConfirmation">Delete Confirmation</string>
+    <string name="deleteConfirmationNote">Are you sure you want to delete this item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="dummyNote">Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
      Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</string>

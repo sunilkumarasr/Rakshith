@@ -1,0 +1,73 @@
+<!-- res/layout/custom_popup.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/popup_background">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center_horizontal"
+       android:gravity="center_horizontal"
+       android:orientation="horizontal">
+       <androidx.appcompat.widget.AppCompatImageView
+           android:id="@+id/delete"
+           android:layout_width="22dp"
+           android:layout_height="24dp"
+           android:scaleType="fitXY"
+           android:src="@drawable/delete_ic"
+           app:tint="@color/selectedRed"/>
+       <androidx.appcompat.widget.AppCompatTextView
+           android:id="@+id/tvDeleteTitle"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="5dp"
+           android:layout_gravity="center_vertical"
+           android:text="@string/deleteConfirmation"
+           android:textSize="16sp"
+           android:textColor="@color/black"
+           android:fontFamily="@font/teachers_medium"/>
+   </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvDeleteMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deleteConfirmationNote"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        android:textColor="@color/txtH"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:fontFamily="@font/teachers_medium"
+            android:text="@string/no"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            android:background="@drawable/round_red"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDelete"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:text="@string/yes"
+            android:fontFamily="@font/teachers_medium"
+            android:textColor="@color/white"
+            android:background="@drawable/round_red"/>
+    </LinearLayout>
+
+</LinearLayout>

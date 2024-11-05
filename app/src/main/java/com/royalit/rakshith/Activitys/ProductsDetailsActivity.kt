@@ -31,22 +31,17 @@ class ProductsDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        val window = window
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
-
         inits()
 
     }
 
     private fun inits() {
-        binding.imgBack.setOnClickListener {
+        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
             val animations = ViewController.animation()
-            binding.imgBack.startAnimation(animations)
+            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
             finish()
         }
+        
         binding.AddFavourite.setOnClickListener {
             val animations = ViewController.animation()
             binding.AddFavourite.startAnimation(animations)

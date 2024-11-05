@@ -19,6 +19,7 @@ class CartAdapter(private val itemList: ArrayList<CartModel>, private val onClic
     // ViewHolder class to hold the views for each item
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val relative: RelativeLayout = itemView.findViewById(R.id.relative)
+        val delete: ImageView = itemView.findViewById(R.id.delete)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
         val txtOfferPrice: TextView = itemView.findViewById(R.id.txtOfferPrice)
@@ -42,6 +43,11 @@ class CartAdapter(private val itemList: ArrayList<CartModel>, private val onClic
         spannableString.setSpan(StrikethroughSpan(), 0, spannableString.length, 0)
         holder.txtActualPrice.text = spannableString
 
+        holder.delete.setOnClickListener {
+            val animations = ViewController.animation()
+            holder.delete.startAnimation(animations)
+            onClick(item,"Delete")
+        }
         holder.linearDecrement.setOnClickListener {
             val animations = ViewController.animation()
             holder.linearDecrement.startAnimation(animations)

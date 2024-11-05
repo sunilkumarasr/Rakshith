@@ -21,7 +21,8 @@
         <RelativeLayout
             android:id="@+id/relative"
             android:layout_width="75dp"
-            android:layout_height="75dp">
+            android:layout_height="75dp"
+            android:layout_gravity="center_vertical">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProducts"
                 android:layout_width="match_parent"
@@ -34,23 +35,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtTitle"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/teachers_semibold"
-                android:text="@string/locationnote"
-                android:textColor="@color/txtHeader"
-                android:textSize="15sp"
-                android:singleLine="true"/>
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/teachers_semibold"
+                    android:text="@string/locationnote"
+                    android:textColor="@color/txtHeader"
+                    android:textSize="15sp"
+                    android:singleLine="true"/>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/delete"
+                    android:layout_width="22dp"
+                    android:layout_height="24dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/delete_ic"
+                    app:tint="@color/selectedRed"/>
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtOfferPrice"

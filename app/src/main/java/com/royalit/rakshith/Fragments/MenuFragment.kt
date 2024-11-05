@@ -9,17 +9,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.royalit.rakshith.Activitys.AboutUsActivity
-import com.royalit.rakshith.Activitys.AddAddressActivity
+import com.royalit.rakshith.Activitys.MyAddressActivity
 import com.royalit.rakshith.Activitys.CartActivity
-import com.royalit.rakshith.Activitys.DashBoardActivity
-import com.royalit.rakshith.Activitys.EditAddressActivity
 import com.royalit.rakshith.Activitys.EditProfileActivity
 import com.royalit.rakshith.Activitys.MyOrdersActivity
 import com.royalit.rakshith.Activitys.PrivacyPolicyActivity
 import com.royalit.rakshith.Activitys.TermsAndConditionsActivity
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.R
-import com.royalit.rakshith.databinding.ActivityAddAddressBinding
 import com.royalit.rakshith.databinding.FragmentMenuBinding
 
 class MenuFragment : Fragment() ,View.OnClickListener{
@@ -83,7 +80,7 @@ class MenuFragment : Fragment() ,View.OnClickListener{
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearMyAddress -> {
-                val intent = Intent(requireActivity(), AddAddressActivity::class.java)
+                val intent = Intent(requireActivity(), MyAddressActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }

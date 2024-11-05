@@ -38,7 +38,7 @@
             android:layout_marginEnd="10dp"
             android:background="@null"
             android:textAlignment="center"
-            android:fontFamily="@font/teachers_medium"
+            android:fontFamily="@font/teachers_semibold"
             android:hint=""
             android:textColor="@color/white"
             android:textColorHint="@color/white"

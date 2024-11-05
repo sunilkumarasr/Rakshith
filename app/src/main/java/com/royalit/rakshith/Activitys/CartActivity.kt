@@ -1,24 +1,22 @@
 package com.royalit.rakshith.Activitys
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.royalit.rakshith.Adapters.CartAdapter
-import com.royalit.rakshith.Adapters.HomeProductsAdapter
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.CartModel
-import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityCartBinding
-import com.royalit.rakshith.databinding.ActivityEditProfileBinding
 
 class CartActivity : AppCompatActivity() {
 
@@ -53,6 +51,14 @@ class CartActivity : AppCompatActivity() {
 
         CartListApi()
 
+        binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
+            val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        }
+
     }
 
 
@@ -72,6 +78,9 @@ class CartActivity : AppCompatActivity() {
         // Set the adapter
         binding.recyclerview.layoutManager = LinearLayoutManager(this@CartActivity, LinearLayoutManager.VERTICAL, false)
         cartAdapter = CartAdapter(cartList){ selectedItem, type ->
+            if (type.equals("Delete")){
+                deletePopup()
+            }
             if (type.equals("Increment")){
                 quantity++
             }
@@ -91,6 +100,35 @@ class CartActivity : AppCompatActivity() {
         binding.recyclerview.adapter = cartAdapter
         binding.recyclerview.setHasFixedSize(true)
 
+    }
+
+
+    @SuppressLint("InflateParams")
+    private fun deletePopup() {
+        val dialog = Dialog(this)
+        val customView = LayoutInflater.from(this).inflate(R.layout.item_delete_conformation_popup, null)
+        dialog.setContentView(customView)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val layoutParams = dialog.window?.attributes
+        layoutParams?.width =
+            (resources.displayMetrics.widthPixels * 0.9).toInt() // 90% of screen width
+        dialog.window?.attributes = layoutParams
+
+        val btnDelete = customView.findViewById<Button>(R.id.btnDelete)
+
+        btnDelete.setOnClickListener {
+            val animations = ViewController.animation()
+            btnDelete.startAnimation(animations)
+            dialog.dismiss()
+        }
+
+        // Show the dialog
+        dialog.show()
     }
 
 }

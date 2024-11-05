@@ -1,0 +1,72 @@
+<!-- res/layout/custom_popup.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/popup_background">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/payment_success"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/orderSuccessfull"
+        android:fontFamily="@font/teachers_semibold"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        android:textColor="@color/black" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="@string/orderNote"
+        android:textColor="@color/txtH"
+        android:layout_marginTop="8dp"
+        android:textSize="13sp"/>
+
+    <LinearLayout
+        android:id="@+id/linearSubmit"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/round_button">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/trackMyOrder"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:fontFamily="@font/teachers_medium"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearHome"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/edit_edge_green">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/goBack"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:fontFamily="@font/teachers_medium"/>
+    </LinearLayout>
+
+</LinearLayout>
