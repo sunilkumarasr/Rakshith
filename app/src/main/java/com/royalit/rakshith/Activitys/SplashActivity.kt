@@ -1,9 +1,11 @@
 package com.royalit.rakshith.Activitys
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.royalit.rakshith.Config.Preferences
@@ -11,6 +13,7 @@ import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Logins.LoginActivity
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivitySplashBinding
+import java.util.Locale
 
 class SplashActivity : AppCompatActivity() {
 
@@ -23,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(
             this,
-            ContextCompat.getColor(this, R.color.lightPrimary),
+            ContextCompat.getColor(this, R.color.splashbg),
             false
         )
 
@@ -32,8 +35,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun inits() {
-        val loginCheck = Preferences.loadStringValue(applicationContext, Preferences.LOGINCHECK, "")
+        
+        //language
+//        val languageCode = Preferences.loadStringValue(applicationContext, Preferences.languageCode, "")
+//        if (languageCode != null) {
+//            setLocale(languageCode)
+//        }
 
+        val loginCheck = Preferences.loadStringValue(applicationContext, Preferences.LOGINCHECK, "")
         Handler(Looper.getMainLooper()).postDelayed({
             if (loginCheck.equals("Login")) {
                 val intent = Intent(this@SplashActivity, DashBoardActivity::class.java)
@@ -46,6 +55,15 @@ class SplashActivity : AppCompatActivity() {
             }
         }, 3000)
     }
+
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        resources.updateConfiguration(config, resources.displayMetrics)
+    }
+
 
 
 }

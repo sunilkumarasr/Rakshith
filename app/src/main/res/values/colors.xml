@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009935</color>
-    <color name="darkcolorPrimary">#009935</color>
-    <color name="lightgreen">#23a54f</color>
+    <color name="colorPrimary">#64a811</color>
+    <color name="darkcolorPrimary">#64a811</color>
+    <color name="lightgreen">#488d0f</color>
     <color name="lightPrimary">#e4f4e9</color>
     <color name="black">#000000</color>
     <color name="uncheckBottom">#8f8f8f</color>
@@ -19,7 +19,8 @@
     <color name="statusBarBg">#4548B9</color>
     <color name="green">#23a54f</color>
     <color name="pending">#DBBD28</color>
-    <color name="box_border">#eeeeee</color>
+    <color name="box_border">#3b6507</color>
+<!--    <color name="box_border">#eeeeee</color>-->
     <color name="box_gray">#f6f6f6</color>
     <color name="hintcolor">#999999</color>
     <color name="blue">#1793CF</color>
@@ -31,4 +32,6 @@
     <color name="emptyStarColor">#C0C0C0</color>
     <color name="lgreen">#cdead4</color>
     <color name="txtH">#979797</color>
+    <color name="editPromo">#f1f1f1</color>
+    <color name="splashbg">#142609</color>
 </resources>

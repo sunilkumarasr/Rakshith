@@ -12,9 +12,7 @@ import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.AnimationSet
-import android.view.animation.BounceInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.TranslateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -23,7 +21,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.internal.ContextUtils
 
 object ViewController {
-
 
     var mProgressDialog: ProgressDialog? = null
 
@@ -108,7 +105,7 @@ object ViewController {
     fun animation(): AnimationSet {
         val fadeIn = AlphaAnimation(0f, 1f).apply {
             interpolator = DecelerateInterpolator()
-            duration = 100
+            duration = 50
         }
         val fadeOut = AlphaAnimation(1f, 0f).apply {
             interpolator = AccelerateInterpolator()

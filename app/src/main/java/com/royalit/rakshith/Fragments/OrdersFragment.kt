@@ -46,10 +46,10 @@ class OrdersFragment : Fragment() {
         // Link the TabLayout and ViewPager2
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
-                0 -> "All"
-                1 -> "Pending"
-                2 -> "Complete"
-                else -> "All"
+                0 -> getString(R.string.tab_all)
+                1 -> getString(R.string.tab_upcoming)
+                2 -> getString(R.string.tab_complete)
+                else -> getString(R.string.tab_all)
             }
         }.attach()
 

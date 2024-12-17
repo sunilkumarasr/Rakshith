@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 
@@ -39,6 +40,13 @@ class HomeProductsAdapter(private val itemList: ArrayList<HomeProductsModel> , p
         val spannableString = SpannableString("₹1000" )
         spannableString.setSpan(StrikethroughSpan(), 0, spannableString.length, 0)
         holder.txtActualPrice.text = spannableString
+
+//        Glide.with(holder.itemView.context)
+//            .load(item.imageResId)
+//            .centerCrop()
+//            .placeholder(R.drawable.vegitable_ic)
+//            .error(R.drawable.vegitable_ic)
+//            .into(holder.imgProducts)
 
         holder.relative.setOnClickListener {
             onClick(item)

@@ -13,9 +13,11 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.royalit.rakshith.Activitys.AboutUsActivity
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.ProductsListActivity
+import com.royalit.rakshith.Activitys.SearchActivity
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Logins.ForgotActivity
 import com.royalit.rakshith.Models.HomeCategoriesModel
 import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
@@ -61,7 +63,19 @@ class HomeFragment : Fragment() {
         }
 
         binding.viewMoreProducts.setOnClickListener {
-            startActivity(Intent(activity, ProductsListActivity::class.java))
+            val animations = ViewController.animation()
+            binding.viewMoreProducts.startAnimation(animations)
+            val intent = Intent(activity, ProductsListActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        }
+
+        binding.cardSearch.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.cardSearch.startAnimation(animations)
+            val intent = Intent(activity, SearchActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
     }
@@ -99,7 +113,7 @@ class HomeFragment : Fragment() {
         productsList.add(HomeProductsModel(R.drawable.cabage_ic, "Cabbage", "₹400","",4))
         productsList.add(HomeProductsModel(R.drawable.bangala_ic, "Bangala", "₹500","",4))
         productsList.add(HomeProductsModel(R.drawable.capsicom_ic, "Capsicum", "₹800","",4))
-        productsList.add(HomeProductsModel(R.drawable.mirchi_ic, "Green Mirchi", "₹200","",4))
+        productsList.add(HomeProductsModel(R.drawable.mirchi_ic, "Mirchi", "₹200","",4))
         productsList.add(HomeProductsModel(R.drawable.onion_ic, "Onion", "₹900","",4))
         productsList.add(HomeProductsModel(R.drawable.carrot, "Carrot", "₹300","",4))
 
