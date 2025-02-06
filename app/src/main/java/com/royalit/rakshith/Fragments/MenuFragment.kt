@@ -222,7 +222,6 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         startActivity(intent)
     }
 
-
     private fun LogoutDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireActivity())
         val view = layoutInflater.inflate(R.layout.bottom_sheet_logout, null)

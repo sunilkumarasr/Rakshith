@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Rakshith</string>
 
+    <string name="api_key">61d7193e52d6er4AuKwW0MjIU61d7193e52d6eYAqnHTf7</string>
+
     <string name="splashNote">Eat organic for your well-being be</string>
 
     <string name="yourname">Your name</string>
     <string name="email">Email</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="enterphoneNumber">Enter Phone number</string>
     <string name="password">Password</string>
     <string name="enterpassword">Enter password</string>
     <string name="confirmpassword">Confirm password</string>
@@ -18,6 +22,7 @@
     <string name="signup">Sign Up</string>
     <string name="signupNote">To get more advantages sign up your accounts by filling in some informations</string>
     <string name="signin">Sign In</string>
+    <string name="login">Login</string>
     <string name="signinNote">Enter your email address and password to continue the shopping</string>
     <string name="forgot">Forgot password</string>
     <string name="forgotNote">Enter your email address to recover your password</string>
@@ -48,6 +53,7 @@
     <string name="viewMore">View More</string>
     <string name="instock">In Stock</string>
     <string name="outofstock">Out of Stock</string>
+    <string name="Backto">Back to</string>
 
     <string name="tab_all">All</string>
     <string name="tab_upcoming">Upcomings</string>

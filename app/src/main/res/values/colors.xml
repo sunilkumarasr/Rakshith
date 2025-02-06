@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#64a811</color>
-    <color name="darkcolorPrimary">#64a811</color>
-    <color name="lightgreen">#488d0f</color>
+    <color name="colorPrimary">#3b6c64</color>
+    <color name="darkcolorPrimary">#3b6c64</color>
+    <color name="lightgreen">#ebf0ef</color>
     <color name="lightPrimary">#e4f4e9</color>
     <color name="black">#000000</color>
     <color name="uncheckBottom">#8f8f8f</color>
     <color name="txtHeader">#474747</color>
     <color name="txtdes">#5F5F5F</color>
     <color name="txtLight">#9d9d9d</color>
-    <color name="text">#333333</color>
+    <color name="text">#b7b7b7</color>
     <color name="black3">#888888</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#999999</color>
@@ -19,9 +19,10 @@
     <color name="statusBarBg">#4548B9</color>
     <color name="green">#23a54f</color>
     <color name="pending">#DBBD28</color>
-    <color name="box_border">#3b6507</color>
+    <color name="box_border">#f5f5f5</color>
 <!--    <color name="box_border">#eeeeee</color>-->
     <color name="box_gray">#f6f6f6</color>
+    <color name="darkGray">#666666</color>
     <color name="hintcolor">#999999</color>
     <color name="blue">#1793CF</color>
     <color name="trance">#00000000</color>
@@ -34,4 +35,6 @@
     <color name="txtH">#979797</color>
     <color name="editPromo">#f1f1f1</color>
     <color name="splashbg">#142609</color>
+    <color name="bgGray">#fefefe</color>
+    <color name="bgWhite">#ffffff</color>
 </resources>

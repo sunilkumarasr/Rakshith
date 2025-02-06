@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">రక్షిత్</string>
+    <string name="api_key">61d7193e52d6er4AuKwW0MjIU61d7193e52d6eYAqnHTf7</string>
 
     <string name="splashNote">Eat organic for your well-being be</string>
     <string name="yourname">మీ పేరు</string>
     <string name="email">ఇమెయిల్</string>
+    <string name="phoneNumber">Phone number</string>
+    <string name="enterphoneNumber">Enter Phone number</string>
     <string name="password">పాస్‌వర్డ్</string>
     <string name="enterpassword">పాస్‌వర్డ్‌ను నమోదు చేయండి</string>
     <string name="confirmpassword">పాస్‌వర్డ్‌ను ధృవీకరించండి</string>
@@ -18,6 +21,7 @@
     <string name="signup">సైన్ అప్</string>
     <string name="signupNote">ఇంకా ఎక్కువ ప్రయోజనాలను పొందటానికి మీ ఖాతాను నమోదు చేయండి</string>
     <string name="signin">సైన్ ఇన్</string>
+    <string name="login">Login</string>
     <string name="signinNote">షాపింగ్ కొనసాగించడానికి మీ ఇమెయిల్ చిరునామా మరియు పాస్‌వర్డ్‌ను నమోదు చేయండి</string>
     <string name="forgot">పాస్‌వర్డ్ మర్చిపోయారా</string>
     <string name="forgotNote">మీ పాస్‌వర్డ్‌ను పునరుద్ధరించడానికి మీ ఇమెయిల్ చిరునామా నమోదు చేయండి</string>
@@ -48,6 +52,7 @@
     <string name="viewMore">ఇంకా చూడండి</string>
     <string name="instock">స్టాక్‌లో ఉంది</string>
     <string name="outofstock">స్టాక్ నుండి బయట</string>
+    <string name="Backto">Back to</string>
 
     <string name="tab_all">అన్నీ</string>
     <string name="tab_upcoming">రాబోయేవి</string>

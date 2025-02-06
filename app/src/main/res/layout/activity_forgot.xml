@@ -13,53 +13,54 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:padding="25dp"
             android:orientation="vertical">
+
             <LinearLayout
-                android:id="@+id/linearBack"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/circle_round"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/back_ic"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/linearBack"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_back"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/back_ic"
+                        app:tint="@color/txtdes"/>
+                </LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/forgot"
+                    android:fontFamily="@font/teachers_semibold"
+                    android:textSize="22sp"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
+
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="25dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/forgot"
-                android:fontFamily="@font/teachers_semibold"
-                android:textSize="22sp"
-                android:textColor="@color/colorPrimary" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/forgotNote"
-                android:fontFamily="@font/teachers_semibold"
-                android:textSize="12sp"
-                android:textColor="@color/txtHeader"/>
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/forgot_logo"
+                android:layout_gravity="center_horizontal" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/email"
-                android:textColor="@color/text"
-                android:fontFamily="@font/teachers_semibold"
+                android:text="@string/enteremailaddress"
+                android:textColor="@color/txtLight"
+                android:fontFamily="@font/teachers_medium"
                 android:textSize="14sp"/>
 
             <LinearLayout
@@ -68,6 +69,13 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/editbox_round">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/mail"
+                    app:tint="@color/darkGray"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"/>
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/emailEdit"
                     android:layout_width="match_parent"
@@ -85,7 +93,7 @@
 
             <LinearLayout
                 android:id="@+id/linearSubmit"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
@@ -98,8 +106,41 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp"
-                    android:fontFamily="@font/teachers_bold"/>
+                    android:fontFamily="@font/teachers_medium"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/registerLinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/Backto"
+                    android:fontFamily="@font/teachers_medium"
+                    android:textColor="@color/txtLight"
+                    android:textSize="13sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/teachers_semibold"
+                    android:text="@string/signin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
 
         </LinearLayout>
     </ScrollView>

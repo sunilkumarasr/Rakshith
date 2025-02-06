@@ -10,8 +10,9 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
 
-    const val Image_Path = "https://divyaangdisha.com/disability/"
-    private const val BASE_URL = "https://divyaangdisha.com/disability/api/"
+    private const val BASE_URL = "https://svefreshproducts.com/app/api/"
+    public const val Image_URL = "https://svefreshproducts.com/uploads/products/"
+    public const val Image_URL2 = "https://svefreshproducts.com/app/uploads/products/"
 
     // Initialize logging interceptor
     private val interceptor = HttpLoggingInterceptor().apply {

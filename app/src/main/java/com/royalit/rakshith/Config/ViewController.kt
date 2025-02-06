@@ -84,9 +84,21 @@ object ViewController {
         }
     }
 
-    fun hideKeyboard(context: Context, view: View) {
-        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+    fun hideKeyBoard(activity: Activity) {
+        val view = activity.currentFocus
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    fun validateEmail(email: String): Boolean {
+        val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        return email.matches(Regex(emailPattern))
+    }
+    fun validateMobile(phone: String): Boolean {
+        val regex = Regex("^[6-9][0-9]{9}$")
+        return phone.matches(regex)
     }
 
     fun hasEditText(editText: EditText, errMsg: String??

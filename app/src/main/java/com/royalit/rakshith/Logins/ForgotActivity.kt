@@ -2,6 +2,7 @@ package com.royalit.rakshith.Logins
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +10,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.royalit.rakshith.Activitys.DashBoardActivity
+import com.royalit.rakshith.Api.RetrofitClient
+import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Models.ForgotModel
+import com.royalit.rakshith.Models.LoginModel
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityForgotBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ForgotActivity : AppCompatActivity() {
 
@@ -41,11 +49,8 @@ class ForgotActivity : AppCompatActivity() {
         binding.linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearSubmit.startAnimation(animations)
-            val intent = Intent(this@ForgotActivity, OTPActivity::class.java)
-            intent.putExtra("email",binding.emailEdit.editableText.trim().toString())
-            startActivity(intent)
-            overridePendingTransition(R.anim.from_right, R.anim.to_left)
-            finish()
+            forgotApi()
+
         }
 
 //
@@ -60,11 +65,59 @@ class ForgotActivity : AppCompatActivity() {
     }
 
 
-    private fun validateEmail(email: String): Boolean {
-        val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-        return email.matches(Regex(emailPattern))
-    }
+    private fun forgotApi() {
+        val email = binding.emailEdit.text?.trim().toString()
 
+
+        ViewController.hideKeyBoard(this@ForgotActivity )
+
+
+        if (email.isEmpty()) {
+            ViewController.showToast(applicationContext, "Enter Email")
+            return
+        }
+
+        if (!ViewController.validateEmail(email)) {
+            ViewController.showToast(applicationContext, "Enter Valid mobile number")
+        } else {
+            ViewController.showLoading(this@ForgotActivity)
+            val apiServices = RetrofitClient.apiInterface
+            val call =
+                apiServices.forgotApi(
+                    getString(R.string.api_key),
+                    email,
+                )
+            call.enqueue(object : Callback<ForgotModel> {
+                override fun onResponse(
+                    call: Call<ForgotModel>,
+                    response: Response<ForgotModel>
+                ) {
+                    binding.progressBar.visibility = View.GONE
+                    try {
+                        if (response.isSuccessful) {
+                            if (response.body()?.code==1){
+                                val intent = Intent(this@ForgotActivity, DashBoardActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                ViewController.showToast(applicationContext, "Invalid Email")
+                            }
+                        } else {
+                            ViewController.showToast(applicationContext, "Invalid Email")
+                        }
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                    } catch (e: TypeCastException) {
+                        e.printStackTrace()
+                    }
+                }
+                override fun onFailure(call: Call<ForgotModel>, t: Throwable) {
+                    binding.progressBar.visibility = View.GONE
+                    ViewController.showToast(applicationContext, "Invalid Email")
+                }
+            })
+        }
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()
