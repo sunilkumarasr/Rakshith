@@ -7,6 +7,7 @@
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
+       android:background="@color/whitebg"
        android:orientation="vertical">
 
       <!-- TabLayout for tabs -->
@@ -16,7 +17,8 @@
           android:layout_height="wrap_content"
           app:tabIndicatorColor="@color/colorPrimary"
           app:tabIndicatorHeight="4dp"
-          app:tabRippleColor="@android:color/transparent" />
+          app:tabRippleColor="@android:color/transparent"
+          android:background="@color/whitebg"/>
 
       <!-- ViewPager2 for swiping between pages -->
       <androidx.viewpager2.widget.ViewPager2

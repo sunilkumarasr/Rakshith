@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Adapters.FavouriteAdapter
@@ -59,17 +60,19 @@ class FavouriteFragment : Fragment() {
 
         // Populate the static list with data
         favouriteList = ArrayList()
-        favouriteList.add(FavouriteModel(R.drawable.tomoto_ic, "Tomato", "₹800","",4))
-        favouriteList.add(FavouriteModel(R.drawable.cabage_ic, "Cabbage", "₹400","",4))
-        favouriteList.add(FavouriteModel(R.drawable.bangala_ic, "Bangala", "₹500","",4))
-        favouriteList.add(FavouriteModel(R.drawable.capsicom_ic, "Capsicum", "₹800","",4))
-        favouriteList.add(FavouriteModel(R.drawable.mirchi_ic, "Green Mirchi", "₹200","",4))
-        favouriteList.add(FavouriteModel(R.drawable.onion_ic, "Onion", "₹900","",4))
-        favouriteList.add(FavouriteModel(R.drawable.carrot, "CCarrot", "₹300","",4))
+        favouriteList.add(FavouriteModel(R.drawable.beets_ic, "Tomato ahfdsa df jasg fja", "₹800","",4))
+        favouriteList.add(FavouriteModel(R.drawable.califlower_ic, "Cabbage", "₹400","",4))
+        favouriteList.add(FavouriteModel(R.drawable.green_leafy_ic, "Bangala", "₹500","",4))
+        favouriteList.add(FavouriteModel(R.drawable.beets_ic, "Capsicum", "₹800","",4))
+        favouriteList.add(FavouriteModel(R.drawable.califlower_ic, "Green Mirchi", "₹200","",4))
+        favouriteList.add(FavouriteModel(R.drawable.beets_ic, "Onion", "₹900","",4))
+        favouriteList.add(FavouriteModel(R.drawable.green_leafy_ic, "CCarrot", "₹300","",4))
 
         // Set the adapter
-        binding.recyclerview.layoutManager = GridLayoutManager(activity, 2)
-        favouriteAdapter = FavouriteAdapter(favouriteList){ selectedItem ->
+        binding.recyclerview.layoutManager = LinearLayoutManager(activity) // This sets the RecyclerView to display in a vertical list
+        binding.recyclerview.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
+        favouriteAdapter = FavouriteAdapter(favouriteList) { selectedItem ->
             val intent = Intent(requireActivity(), ProductsDetailsActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
@@ -77,6 +80,7 @@ class FavouriteFragment : Fragment() {
 
         binding.recyclerview.adapter = favouriteAdapter
         binding.recyclerview.setHasFixedSize(true)
+
 
     }
 

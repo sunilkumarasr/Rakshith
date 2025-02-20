@@ -26,7 +26,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:text="@string/fullName"
+                    android:text="@string/yourName"
                     android:textColor="@color/txtdes"
                     android:fontFamily="@font/teachers_semibold"
                     android:textSize="14sp"/>

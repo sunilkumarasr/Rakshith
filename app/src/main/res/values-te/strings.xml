@@ -7,6 +7,7 @@
     <string name="yourname">మీ పేరు</string>
     <string name="email">ఇమెయిల్</string>
     <string name="phoneNumber">Phone number</string>
+    <string name="emailAddress">Email Address</string>
     <string name="enterphoneNumber">Enter Phone number</string>
     <string name="password">పాస్‌వర్డ్</string>
     <string name="enterpassword">పాస్‌వర్డ్‌ను నమోదు చేయండి</string>
@@ -14,7 +15,7 @@
     <string name="entercpassword">ధృవీకరించండి పాస్‌వర్డ్‌ను నమోదు చేయండి</string>
     <string name="enteremailaddress">ఇమెయిల్ చిరునామా నమోదు చేయండి</string>
     <string name="enteryourname">మీ పేరు నమోదు చేయండి</string>
-    <string name="fullName">పూర్తి పేరు</string>
+    <string name="yourName">పూర్తి పేరు</string>
     <string name="enterfullName">మీ పూర్తి పేరు నమోదు చేయండి</string>
     <string name="createAccount">ఖాతా సృష్టించండి</string>
     <string name="createAccountNote">మీ వ్యక్తిగత సమాచారం నమోదు చేయండి</string>
@@ -53,6 +54,7 @@
     <string name="instock">స్టాక్‌లో ఉంది</string>
     <string name="outofstock">స్టాక్ నుండి బయట</string>
     <string name="Backto">Back to</string>
+    <string name="iAgreeWith">I Agree With</string>
 
     <string name="tab_all">అన్నీ</string>
     <string name="tab_upcoming">రాబోయేవి</string>

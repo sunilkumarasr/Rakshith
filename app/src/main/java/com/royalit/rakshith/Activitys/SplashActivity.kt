@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(
             this,
-            ContextCompat.getColor(this, R.color.splashbg),
+            ContextCompat.getColor(this, R.color.splashcolor),
             false
         )
 
@@ -49,7 +49,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)
             } else {
-                val intent = Intent(this@SplashActivity, LoginActivity::class.java)
+                val intent = Intent(this@SplashActivity, IntroScreensActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }

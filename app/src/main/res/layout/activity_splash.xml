@@ -8,53 +8,37 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/splashbg">
+        android:background="@color/splashcolor">
 
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/sp_1"
             android:scaleType="fitXY"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:src="@drawable/app_l"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"/>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_centerVertical="true"
-            android:layout_marginStart="15sp"
             android:orientation="vertical">
-
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:src="@drawable/app_l"/>
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Eat organic"
-                android:textSize="30sp"
+                android:layout_marginTop="15dp"
+                android:text="Village Vegetables"
+                android:textSize="25sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/teachers_bold" />
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="for your well-being"
-                android:textSize="30sp"
-                android:textColor="@color/white"
-                android:fontFamily="@font/teachers_bold"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="be"
-                android:textSize="30sp"
-                android:textColor="@color/white"
-                android:fontFamily="@font/teachers_bold"/>
+                android:fontFamily="@font/teachers_semibold" />
 
         </LinearLayout>
+
 
     </RelativeLayout>
 

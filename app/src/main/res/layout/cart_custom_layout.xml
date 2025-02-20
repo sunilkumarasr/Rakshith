@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:src="@drawable/cart_ic"
         android:visibility="visible"
-        app:tint="@color/white"/>
+        app:tint="@color/txtdes"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/cart_badge_count"

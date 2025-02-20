@@ -3,6 +3,7 @@ package com.royalit.rakshith.Api
 import com.royalit.rakshith.Adapters.FaqModel
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
+import com.royalit.rakshith.Models.RegisterModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
@@ -19,6 +20,19 @@ import retrofit2.http.FormUrlEncoded
 
 
 interface ApiInterface {
+
+    @FormUrlEncoded
+    @POST("user_resistration")
+    fun registerApi(
+        @Field("api_key") api_key: String,
+        @Field("full_name") full_name: String,
+        @Field("mobile_number") mobile_number: String,
+        @Field("email_id") email_id: String,
+        @Field("state") state: String,
+        @Field("city") city: String,
+        @Field("pswrd") pswrd: String,
+        @Field("address") address: String,
+    ): Call<RegisterModel>
 
     @FormUrlEncoded
     @POST("user_login")

@@ -51,6 +51,7 @@ class DashBoardActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
+
     }
 
     private fun bottomMenu() {

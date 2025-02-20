@@ -7,7 +7,8 @@
 
     <string name="yourname">Your name</string>
     <string name="email">Email</string>
-    <string name="phoneNumber">Phone number</string>
+    <string name="emailAddress">Email Address</string>
+    <string name="phoneNumber">Phone Number</string>
     <string name="enterphoneNumber">Enter Phone number</string>
     <string name="password">Password</string>
     <string name="enterpassword">Enter password</string>
@@ -15,7 +16,7 @@
     <string name="entercpassword">Enter Confirm password</string>
     <string name="enteremailaddress">Enter email address</string>
     <string name="enteryourname">Enter your name</string>
-    <string name="fullName">Full name</string>
+    <string name="yourName">Your name</string>
     <string name="enterfullName">Enter your full name</string>
     <string name="createAccount">Create Account</string>
     <string name="createAccountNote">Enter your personal information</string>
@@ -37,7 +38,7 @@
     <string name="enternewpassword">Enter new password</string>
     <string name="donthaveanaccount">Don\'t have an account?</string>
     <string name="alreadyhaveanaccount">Already have an account?</string>
-    <string name="search">Search ....</string>
+    <string name="search">Search your products</string>
     <string name="location">Location</string>
     <string name="locationnote">Tanuku, Andhra Pradesh, India</string>
     <string name="categories">Categories</string>
@@ -50,10 +51,11 @@
     <string name="cart">Cart</string>
     <string name="orders">Orders</string>
     <string name="menu">Menu</string>
-    <string name="viewMore">View More</string>
+    <string name="viewMore">See all</string>
     <string name="instock">In Stock</string>
     <string name="outofstock">Out of Stock</string>
     <string name="Backto">Back to</string>
+    <string name="iAgreeWith">I Agree With</string>
 
     <string name="tab_all">All</string>
     <string name="tab_upcoming">Upcomings</string>

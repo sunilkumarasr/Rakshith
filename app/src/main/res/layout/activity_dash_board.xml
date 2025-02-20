@@ -6,70 +6,70 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/whitebg">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/relativeTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="@color/colorPrimary">
+            android:padding="15dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/edge_gray_light">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/marker_ic"
+                    app:tint="@color/txtLight"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/linearCart"
+                android:layout_weight="1"
                 android:orientation="vertical">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
                     android:background="@null"
-                    android:fontFamily="@font/teachers_bold"
+                    android:fontFamily="@font/teachers_medium"
                     android:hint="Hi Sunil.."
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="15sp" />
-                <LinearLayout
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="18sp"/>
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="15dp"
-                        android:layout_height="18dp"
-                        android:src="@drawable/marker_ic" />
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="3dp"
-                        android:background="@null"
-                        android:fontFamily="@font/teachers_medium"
-                        android:hint="@string/locationnote"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="3dp"
+                    android:background="@null"
+                    android:fontFamily="@font/teachers_regular"
+                    android:hint="@string/locationnote"
+                    android:textColor="@color/txtdes"
+                    android:textColorHint="@color/txtdes"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/circle_round"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <include
                     layout="@layout/cart_custom_layout" />
             </LinearLayout>
+        </LinearLayout>
 
-        </RelativeLayout>
 
         <fragment
             android:id="@+id/frame_layout"

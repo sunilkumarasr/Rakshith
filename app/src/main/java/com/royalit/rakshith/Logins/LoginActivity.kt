@@ -100,20 +100,24 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<LoginModel>,
                     response: Response<LoginModel>
                 ) {
-
                     binding.progressBar.visibility = View.GONE
                     try {
                         if (response.isSuccessful) {
 
-                            Preferences.saveStringValue(this@LoginActivity, Preferences.userId,response.body()?.response!!.customer_id.toString())
-                            Preferences.saveStringValue(this@LoginActivity, Preferences.name,response.body()?.response!!.full_name.toString())
-                            Preferences.saveStringValue(this@LoginActivity, Preferences.mobileNumber,response.body()?.response!!.mobile_number.toString())
-                            Preferences.saveStringValue(this@LoginActivity, Preferences.address,response.body()?.response!!.address.toString())
-                            Preferences.saveStringValue(this@LoginActivity, Preferences.email,response.body()?.response!!.email_id.toString())
+                            if (response.body()?.code==1){
+                                Preferences.saveStringValue(this@LoginActivity, Preferences.userId,response.body()?.response!!.customer_id.toString())
+                                Preferences.saveStringValue(this@LoginActivity, Preferences.name,response.body()?.response!!.full_name.toString())
+                                Preferences.saveStringValue(this@LoginActivity, Preferences.mobileNumber,response.body()?.response!!.mobile_number.toString())
+                                Preferences.saveStringValue(this@LoginActivity, Preferences.address,response.body()?.response!!.address.toString())
+                                Preferences.saveStringValue(this@LoginActivity, Preferences.email,response.body()?.response!!.email_id.toString())
 
-                            val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
-                            startActivity(intent)
-                            finish()
+                                val intent = Intent(this@LoginActivity, DashBoardActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            }else {
+                                ViewController.showToast(applicationContext, "Login Failed")
+                            }
+
 
                         } else {
                             ViewController.showToast(applicationContext, "Invalid Mobile Number")

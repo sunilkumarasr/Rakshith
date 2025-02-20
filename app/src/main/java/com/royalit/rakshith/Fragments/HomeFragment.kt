@@ -70,21 +70,22 @@ class HomeFragment : Fragment() {
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
-        binding.cardSearch.setOnClickListener {
+        binding.linearSearch.setOnClickListener {
             val animations = ViewController.animation()
-            binding.cardSearch.startAnimation(animations)
+            binding.linearSearch.startAnimation(animations)
             val intent = Intent(activity, SearchActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+
     }
 
     private fun HomebannersApi() {
         val imageList = mutableListOf<SlideModel>()
-        imageList.add(SlideModel(R.drawable.banner1, ""))
-        imageList.add(SlideModel(R.drawable.banner2, ""))
-        imageList.add(SlideModel(R.drawable.banner3, ""))
+        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
+        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
+        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
         binding.imageSlider.setImageList(imageList)
     }
 
@@ -109,13 +110,13 @@ class HomeFragment : Fragment() {
 
         // Populate the static list with data
         productsList = ArrayList()
-        productsList.add(HomeProductsModel(R.drawable.tomoto_ic, "Tomato", "₹800","",4))
-        productsList.add(HomeProductsModel(R.drawable.cabage_ic, "Cabbage", "₹400","",4))
-        productsList.add(HomeProductsModel(R.drawable.bangala_ic, "Bangala", "₹500","",4))
-        productsList.add(HomeProductsModel(R.drawable.capsicom_ic, "Capsicum", "₹800","",4))
-        productsList.add(HomeProductsModel(R.drawable.mirchi_ic, "Mirchi", "₹200","",4))
-        productsList.add(HomeProductsModel(R.drawable.onion_ic, "Onion", "₹900","",4))
-        productsList.add(HomeProductsModel(R.drawable.carrot, "Carrot", "₹300","",4))
+        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Tomato", "₹800","",4))
+        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Cabbage", "₹400","",4))
+        productsList.add(HomeProductsModel(R.drawable.green_leafy_ic, "Bangala", "₹500","",4))
+        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Capsicum", "₹800","",4))
+        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Mirchi", "₹200","",4))
+        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Onion", "₹900","",4))
+        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Carrot", "₹300","",4))
 
         // Set the adapter
         binding.recyclerViewProducts.layoutManager = GridLayoutManager(activity, 2)
