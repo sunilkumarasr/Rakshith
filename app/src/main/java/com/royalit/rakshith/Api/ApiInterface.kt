@@ -1,6 +1,8 @@
 package com.royalit.rakshith.Api
 
+import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.FaqModel
+import com.royalit.rakshith.Adapters.Search.SearchModel
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
 import com.royalit.rakshith.Models.RegisterModel
@@ -53,5 +55,20 @@ interface ApiInterface {
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>
+
+    @FormUrlEncoded
+    @POST("api/cart_list")
+    fun getCartList(
+        @Field("api_key") api_key: String,
+        @Field("customer_id") customer_id: String
+    ): Call<CartListResponse>
+
+
+    @FormUrlEncoded
+    @POST("search_products_list")
+    fun searchApi(
+        @Field("api_key") api_key: String,
+        @Field("search_word") search_word: String
+    ): Call<SearchModel>
 
 }

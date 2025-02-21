@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/whitebg">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,15 +14,16 @@
 
         <LinearLayout
             android:id="@+id/imgBack"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/edge_gray_light"
             android:layout_centerVertical="true"
-            android:background="@drawable/circle_round"
             android:gravity="center"
             android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
+                app:tint="@color/colorPrimary"
                 android:src="@drawable/back_ic" />
         </LinearLayout>
 
@@ -40,8 +41,8 @@
             android:textAlignment="center"
             android:fontFamily="@font/teachers_semibold"
             android:hint=""
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
             android:textSize="15sp" />
 
         <LinearLayout
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/circle_round"
+            android:background="@drawable/edge_gray_light"
             android:gravity="center"
             android:orientation="horizontal">
             <include
