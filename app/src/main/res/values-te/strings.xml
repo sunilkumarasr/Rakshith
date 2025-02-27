@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">రక్షిత్</string>
+    <string name="app_name">Village Vegetables</string>
     <string name="api_key">61d7193e52d6er4AuKwW0MjIU61d7193e52d6eYAqnHTf7</string>
 
     <string name="splashNote">Eat organic for your well-being be</string>
@@ -37,12 +37,13 @@
     <string name="enternewpassword">కొత్త పాస్‌వర్డ్‌ను నమోదు చేయండి</string>
     <string name="donthaveanaccount">ఖాతా లేదు</string>
     <string name="alreadyhaveanaccount">కానీ ఇప్పటికే ఖాతా ఉంది</string>
-    <string name="search">వెతకండి....</string>
+    <string name="search">Search</string>
+    <string name="searchyourProducts">Search your products</string>
     <string name="location">ప్రాంతం</string>
     <string name="locationnote">తనుకు, ఆంధ్రప్రదేశ్, భారత్</string>
     <string name="categories">వర్గాలు</string>
-    <string name="actuleprice">₹800</string>
-    <string name="offerprice">₹500</string>
+    <string name="actuleprice">₹0</string>
+    <string name="offerprice">₹0</string>
     <string name="products">ఉత్పత్తులు</string>
     <string name="home">హోమ్</string>
     <string name="faq">సహాయం మరియు ప్రశ్నలు</string>
@@ -102,12 +103,13 @@
     <string name="logout_note">మీరు లాగౌట్ కావాలనుకుంటున్నారా?</string>
     <string name="cancel">రద్దు</string>
     <string name="ok">అవును</string>
-    <string name="checkout">చెకౌట్</string>
+    <string name="checkout">CheckOut</string>
+    <string name="proceedtocheckout">Proceed to CheckOut</string>
     <string name="placeorder">ఆర్డర్ పెట్టండి</string>
     <string name="addtocart">కార్టుకు జోడించండి</string>
     <string name="description">వివరణ</string>
     <string name="totalAmount">మొత్తం మొత్తం</string>
-    <string name="Itemsprice">అంశ ధర</string>
+    <string name="Items">అంశ</string>
     <string name="discount">డిస్కౌంట్</string>
     <string name="deliveryCharges">డెలివరీ ఛార్జీలు</string>
     <string name="address">చిరునామా</string>

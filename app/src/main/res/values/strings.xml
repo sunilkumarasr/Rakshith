@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rakshith</string>
+    <string name="app_name">Village Vegetables</string>
 
     <string name="api_key">61d7193e52d6er4AuKwW0MjIU61d7193e52d6eYAqnHTf7</string>
 
@@ -38,12 +38,13 @@
     <string name="enternewpassword">Enter new password</string>
     <string name="donthaveanaccount">Don\'t have an account?</string>
     <string name="alreadyhaveanaccount">Already have an account?</string>
-    <string name="search">Search your products</string>
+    <string name="search">Search</string>
+    <string name="searchyourProducts">Search your products</string>
     <string name="location">Location</string>
     <string name="locationnote">Tanuku, Andhra Pradesh, India</string>
     <string name="categories">Categories</string>
-    <string name="actuleprice">₹000</string>
-    <string name="offerprice">₹000</string>
+    <string name="actuleprice">₹0</string>
+    <string name="offerprice">₹0</string>
     <string name="products">Products</string>
     <string name="home">Home</string>
     <string name="faq">Faq</string>
@@ -103,12 +104,13 @@
     <string name="logout_note">Are you sure you want to logout?</string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
-    <string name="checkout">Checkout</string>
+    <string name="checkout">CheckOut</string>
+    <string name="proceedtocheckout">Proceed to CheckOut</string>
     <string name="placeorder">Place Order</string>
     <string name="addtocart">Add to Cart</string>
     <string name="description">Description</string>
     <string name="totalAmount">Total Amount</string>
-    <string name="Itemsprice">Items Price</string>
+    <string name="Items">Items</string>
     <string name="discount">Discount</string>
     <string name="deliveryCharges">Delivery Charges</string>
     <string name="address">Address</string>

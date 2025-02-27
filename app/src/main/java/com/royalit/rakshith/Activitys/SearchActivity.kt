@@ -121,11 +121,11 @@ class SearchActivity : AppCompatActivity() {
     private fun DataSet(categories: List<SearchItems>) {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@SearchActivity)
         binding.recyclerview.adapter = SearchAdapter(categories) { item ->
-            //Toast.makeText(activity, "Clicked: ${item.text}", Toast.LENGTH_SHORT).show()
-//            startActivity(Intent(activity, ClassDetailsActivity::class.java).apply {
-//                putExtra("id",item.id)
-//                putExtra("Name",item.class_name)
-//            })
+            val intent = Intent(this@SearchActivity, ProductsDetailsActivity::class.java).apply {
+                putExtra("productsId", item.products_id)
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
     }
 

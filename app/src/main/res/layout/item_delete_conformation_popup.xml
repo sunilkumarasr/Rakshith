@@ -51,21 +51,21 @@
         android:orientation="horizontal"
         android:layout_marginTop="15dp">
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCancel"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:fontFamily="@font/teachers_medium"
-            android:text="@string/no"
-            android:backgroundTint="@color/gray"
-            android:textColor="@color/white"
-            android:background="@drawable/round_red"/>
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnDelete"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:layout_marginStart="15dp"
             android:text="@string/yes"
             android:fontFamily="@font/teachers_medium"
+            android:textColor="@color/white"
+            android:background="@drawable/round_red"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="15dp"
+            android:fontFamily="@font/teachers_medium"
+            android:text="@string/no"
+            android:backgroundTint="@color/gray"
             android:textColor="@color/white"
             android:background="@drawable/round_red"/>
     </LinearLayout>

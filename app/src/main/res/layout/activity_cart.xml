@@ -5,68 +5,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activitys.CartActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/whitebg"
         android:orientation="vertical">
-
-        <include
-            android:id="@+id/linear_top"
-            layout="@layout/layout_top"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/linear_top"
-            android:layout_above="@+id/linearBottom">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:id="@+id/imgBack"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/edge_gray_light"
                 android:layout_centerVertical="true"
-                android:visibility="gone" />
+                android:gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:tint="@color/colorPrimary"
+                    android:src="@drawable/back_ic" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtNoData"
+                android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:text="No Result Found"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:visibility="gone"
-                android:fontFamily="@font/teachers_medium"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:textAlignment="center"
+                android:fontFamily="@font/teachers_semibold"
+                android:hint="Cart"
+                android:textColor="@color/colorPrimary"
+                android:textColorHint="@color/colorPrimary"
+                android:textSize="15sp" />
         </RelativeLayout>
 
-
-        <LinearLayout
-            android:id="@+id/linearBottom"
+        <RelativeLayout
+            android:id="@+id/relativeData"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical">
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardPrice"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/linearBottom">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtNoData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:text="No Result Found"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:visibility="gone"
+                    android:fontFamily="@font/teachers_medium"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearBottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="15dp"
-                app:cardElevation="4dp"
-                app:strokeWidth="0dp">
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -107,6 +127,18 @@
 
                     </LinearLayout>
 
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/teachers_medium"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:text="Payment summery"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,50 +147,24 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtItems"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:text="@string/Itemsprice"
+                            android:fontFamily="@font/teachers_medium"
+                            android:text="@string/Items"
                             android:textColor="@color/txtH"
                             android:textSize="13sp" />
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtItemsPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:gravity="end"
-                            android:fontFamily="@font/teachers_semibold"
                             android:text="@string/offerprice"
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="horizontal">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:text="@string/deliveryCharges"
-                            android:textColor="@color/txtH"
-                            android:textSize="13sp" />
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="end"
-                            android:fontFamily="@font/teachers_semibold"
-                            android:text="@string/offerprice"
+                            android:fontFamily="@font/teachers_medium"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -176,7 +182,36 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
+                            android:text="@string/deliveryCharges"
+                            android:textColor="@color/txtH"
+                            android:textSize="13sp" />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="end"
+                            android:fontFamily="@font/teachers_medium"
+                            android:text="@string/offerprice"
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/teachers_medium"
                             android:text="@string/discount"
                             android:textColor="@color/txtH"
                             android:textSize="13sp" />
@@ -186,7 +221,7 @@
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:gravity="end"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
                             android:text="@string/offerprice"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
@@ -213,67 +248,70 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
                             android:text="@string/totalAmount"
-                            android:textColor="@color/txtH"
-                            android:textSize="13sp" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp" />
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtTotalPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center_vertical"
                             android:gravity="end"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
                             android:text="@string/offerprice"
-                            android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp" />
                     </LinearLayout>
 
 
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="10dp"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/linearSubmit"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:fontFamily="@font/teachers_bold"
-                        android:text="@string/offerprice"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
+                        android:layout_height="45dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/round_button">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/proceedtocheckout"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/teachers_medium"/>
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/linearSubmit"
-                    android:layout_width="400dp"
-                    android:layout_height="45dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@drawable/round_button">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/checkout"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:fontFamily="@font/teachers_bold"/>
-                </LinearLayout>
+
             </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/linearNoData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/empty_cart"/>
         </LinearLayout>
+    </LinearLayout>
 
-
-    </RelativeLayout>
 
 </layout>

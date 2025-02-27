@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<LoginModel>,
                     response: Response<LoginModel>
                 ) {
-                    binding.progressBar.visibility = View.GONE
+                    ViewController.hideLoading()
                     try {
                         if (response.isSuccessful) {
 
@@ -124,13 +124,11 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
-                    } catch (e: TypeCastException) {
-                        e.printStackTrace()
                     }
                 }
 
                 override fun onFailure(call: Call<LoginModel>, t: Throwable) {
-                    binding.progressBar.visibility = View.GONE
+                    ViewController.hideLoading()
                     ViewController.showToast(applicationContext, "Invalid Credentials")
                 }
             })
