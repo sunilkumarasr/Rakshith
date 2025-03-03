@@ -57,7 +57,7 @@
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:background="@drawable/round_button_light_gray"/>
+            android:background="@drawable/round_cancel_button"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttonOk"

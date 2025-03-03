@@ -24,19 +24,25 @@ class HelpAndSupportActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        inits()
+        inIts()
 
     }
 
-    private fun inits() {
-        binding.root.findViewById<TextView>(R.id.txtTitle).text = getString(R.string.helpandsupport)
-        binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
+    private fun inIts() {
+        binding.imgBack.setOnClickListener {
             val animations = ViewController.animation()
-            binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
+            binding.imgBack.startAnimation(animations)
             finish()
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
 
         //helpAndSupportApi()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 }

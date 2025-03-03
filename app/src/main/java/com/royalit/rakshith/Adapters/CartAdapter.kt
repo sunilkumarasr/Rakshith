@@ -1,8 +1,10 @@
 package com.royalit.rakshith.Adapters
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Paint
 import android.text.SpannableString
 import android.text.style.StrikethroughSpan
@@ -13,8 +15,11 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.royalit.rakshith.Activitys.CheckOutActivity
+import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Search.SearchItems
 import com.royalit.rakshith.Api.RetrofitClient
@@ -49,6 +54,7 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+
         Glide.with(holder.imgProducts)
             .load(RetrofitClient.Image_URL2+item.product_image)
             .error(R.drawable.logo)
@@ -57,24 +63,72 @@ class CartAdapter(
         holder.txtQuantity.text = item.quantity
         holder.txtOfferPrice.text =  "(Price : ₹"+item.offer_price+" )"
         holder.cartQty.text = item.cart_quantity
+        val cartQ = intArrayOf(holder.cartQty.text.toString().toInt())
+
 
         val finalAmount: Int = item.offer_price.toInt() * item.cart_quantity.toInt()
-        holder.txtTotalPrice.text = "Quantity : "+item.cart_quantity+" = Total : ₹ "+finalAmount
-
+        holder.txtTotalPrice.text = "Total Price : ₹ "+finalAmount
 
         holder.imgDelete.setOnClickListener {
+            val animations = ViewController.animation()
+            holder.imgDelete.startAnimation(animations)
             quantityChangeListener?.onDeleteCartItem(item)
         }
 
         holder.linearDecrement.setOnClickListener {
-
+            val animations = ViewController.animation()
+            holder.linearDecrement.startAnimation(animations)
+            if (cartQ[0] > 1) {
+                cartQ[0]--
+                holder.cartQty.text = "" + cartQ[0]
+                holder.cartQty.text = cartQ[0].toString()
+                val carstQty = holder.cartQty.text.toString()
+                if(cartQ[0]==1){
+                    click!!.onAddToCartClicked(item, carstQty,1)
+                }else{
+                    click!!.onAddToCartClicked(item, carstQty,1)
+                }
+                // holder.binding.addToCartBtn.performClick()
+            }
         }
+
         holder.linearIncrement.setOnClickListener {
+            val animations = ViewController.animation()
+            holder.linearIncrement.startAnimation(animations)
+            val cartQty = holder.cartQty.text.toString()
+            if (item.max_order_quantity.toInt()<=cartQty.toInt()){
+                ViewController.showToast(context,"Max Quantity only for "+item.max_order_quantity)
+                return@setOnClickListener
+            }
+            if (item.stock == cartQty) {
+                ViewController.showToast(context,"Stock Limit only " + item.stock)
+            }else{
+                cartQ[0]++
+                if (item.max_order_quantity.toInt()<=cartQty.toInt()){
+                    Toast.makeText(context, "Can't add Max Quantity for this Product", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+                holder.cartQty.text = cartQ[0].toString()
 
+                // Notify the quantity change to the listener
+                quantityChangeListener?.onQuantityChanged(item, cartQ[0])
+                holder.cartQty.text = "" + cartQ.get(0)
+                // holder.binding.addToCartBtn.performClick()
+            }
         }
-        holder.imgProducts.setOnClickListener {
 
+        holder.itemView.setOnClickListener {
+            val animations = ViewController.animation()
+            holder.imgProducts.startAnimation(animations)
+            val intent = Intent(context, ProductsDetailsActivity::class.java).apply {
+                putExtra("productsId", item.products_id)
+            }
+            context.startActivity(intent)
+            if (context is Activity) {
+                context.overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            }
         }
+
 
     }
 

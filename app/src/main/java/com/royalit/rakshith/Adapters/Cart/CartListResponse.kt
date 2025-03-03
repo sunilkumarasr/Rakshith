@@ -15,7 +15,7 @@ data class CartItems(
     @SerializedName("customer_id") val customer_id: String,
     @SerializedName("product_id") val product_id: String,
     @SerializedName("quantity") val quantity: String,
-    @SerializedName("cart_quantity") val cart_quantity: String,
+    @SerializedName("cart_quantity") var cart_quantity: String,
     @SerializedName("products_id") val products_id: String,
     @SerializedName("categories_id") val categories_id: String,
     @SerializedName("product_num") val product_num: String,

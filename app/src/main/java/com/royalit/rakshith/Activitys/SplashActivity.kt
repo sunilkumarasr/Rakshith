@@ -30,11 +30,11 @@ class SplashActivity : AppCompatActivity() {
             false
         )
 
-        inits()
+        inIts()
 
     }
 
-    private fun inits() {
+    private fun inIts() {
         
         //language
 //        val languageCode = Preferences.loadStringValue(applicationContext, Preferences.languageCode, "")

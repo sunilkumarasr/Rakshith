@@ -46,16 +46,17 @@ class ProductsDetailsActivity : AppCompatActivity() {
         productsId = intent.getStringExtra("productsId").toString()
         quantity = intArrayOf(binding.cartQty.text.toString().toInt())
 
-        inits()
+        inIts()
 
     }
 
 
-    private fun inits() {
+    private fun inIts() {
         binding.root.findViewById<LinearLayout>(R.id.imgBack).setOnClickListener {
             val animations = ViewController.animation()
             binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
             finish()
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
         
         binding.AddFavourite.setOnClickListener {
@@ -176,7 +177,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
         binding.txtQuantity.text = productResponse.quantity
         binding.txtDec.text = HtmlCompat.fromHtml(productResponse.product_information, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
-
     }
 
     private fun getCartApi() {
@@ -296,6 +296,12 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 Log.e("onFailure",t.message.toString())
             }
         })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 }

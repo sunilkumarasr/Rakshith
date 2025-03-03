@@ -6,19 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
-import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Adapters.FavouriteAdapter
-import com.royalit.rakshith.Adapters.HomeProductsAdapter
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.FavouriteModel
-import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.FragmentFavouriteBinding
-import com.royalit.rakshith.databinding.FragmentHomeBinding
 
 class FavouriteFragment : Fragment() {
 

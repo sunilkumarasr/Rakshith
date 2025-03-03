@@ -26,8 +26,10 @@ import com.royalit.rakshith.Adapters.Search.SearchItems
 import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CartModel
 import com.royalit.rakshith.Models.DeleteCartResponse
+import com.royalit.rakshith.Models.UpdateCartResponse
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityCartBinding
 import retrofit2.Call
@@ -47,6 +49,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     //Products list
     var cartItemsList: List<CartItems> = ArrayList()
 
+
     var TotalPrice: Double? = 0.0
     private var TotalFinalPrice: String = ""
 
@@ -59,11 +62,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         setContentView(binding.root)
         ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        inits()
+        inIts()
 
     }
 
-    private fun inits() {
+    private fun inIts() {
         cartItemQuantityChangeListener = this@CartActivity
         productItemClick = this@CartActivity
 
@@ -71,6 +74,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val animations = ViewController.animation()
             binding.root.findViewById<LinearLayout>(R.id.imgBack).startAnimation(animations)
             finish()
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
 
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
@@ -176,20 +180,115 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
     }
     override fun onAddToCartClicked(itemsData: CartItems?, cartQty: String?, isAdd: Int) {
-//        if (isAdd == 0) {
-//            addToCart(itemsData, cartQty)
-//        } else{
-//            updateCart(itemsData, cartQty)
-//        }
+        if (isAdd == 0) {
+            if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                ViewController.showToast(applicationContext, "Please check your connection ")
+            } else {
+                addToCart(itemsData, cartQty)
+            }
+        } else{
+            if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                ViewController.showToast(applicationContext, "Please check your connection ")
+            } else {
+                updateCart(itemsData, cartQty)
+            }
+        }
+    }
+
+    private fun addToCart(itemsData: CartItems?, cartQty: String?) {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.addToCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                itemsData?.products_id.toString(),
+                "1"
+            )
+        call.enqueue(object : Callback<AddtoCartResponse> {
+            override fun onResponse(
+                call: Call<AddtoCartResponse>,
+                response: Response<AddtoCartResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val res = response.body()
+                        getCartApi()
+                        if (res != null) {
+                            if (res.message.equals("Success")){
+                                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                                    ViewController.showToast(applicationContext, "Please check your connection ")
+                                } else {
+                                    getCartApi()
+                                }
+                            }else{
+                                ViewController.showToast(this@CartActivity,res.message)
+                            }
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+
+    }
+
+    private fun updateCart(itemsData: CartItems?, cartQty: String?) {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.upDateCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                itemsData?.products_id.toString(),
+                cartQty!!,
+            )
+        call.enqueue(object : Callback<UpdateCartResponse> {
+            override fun onResponse(
+                call: Call<UpdateCartResponse>,
+                response: Response<UpdateCartResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val res = response.body()
+                        if (res != null) {
+                            getCartApi()
+                            if (res.message.equals("Success")){
+                                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                                    ViewController.showToast(applicationContext, "Please check your connection ")
+                                } else {
+                                    getCartApi()
+                                }
+                            }else{
+                                ViewController.showToast(this@CartActivity,res.message)
+                            }
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+
     }
 
     override fun onQuantityChanged(cartItem: CartItems, newQuantity: Int) {
-//        val index = cartItemsList.indexOfFirst { it.product_id == cartItem.product_id }
-//        if (index != -1) {
-//            cartItemsList[index].setCartQty(newQuantity.toString())
-//            getTotalPrice(cartItemsList) // Recalculate and update the total price
-//        }
+        val index = cartItemsList.indexOfFirst { it.product_id == cartItem.product_id }
+        if (index != -1) {
+            cartItemsList[index].cart_quantity = newQuantity.toString() // Now it's mutable
+            getTotalPrice(cartItemsList)
+        }
     }
+
 
     //delete item in cart
     override fun onDeleteCartItem(cartItem: CartItems) {
@@ -262,6 +361,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 Log.e("onFailure",t.message.toString())
             }
         })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+        overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
 
 }

@@ -19,6 +19,7 @@ import com.royalit.rakshith.Activitys.CartActivity
 import com.royalit.rakshith.Activitys.CouponActivity
 import com.royalit.rakshith.Activitys.DashBoardActivity
 import com.royalit.rakshith.Activitys.EditProfileActivity
+import com.royalit.rakshith.Activitys.FaqActivity
 import com.royalit.rakshith.Activitys.HelpAndSupportActivity
 import com.royalit.rakshith.Activitys.MyOrdersActivity
 import com.royalit.rakshith.Activitys.MyWalletActivity
@@ -72,10 +73,10 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         binding.linearMyWallet.setOnClickListener(this)
         binding.linearReferAndEarn.setOnClickListener(this)
         binding.linearShare.setOnClickListener(this)
-        binding.linearHelpAndSupport.setOnClickListener(this)
         binding.linearAbout.setOnClickListener(this)
         binding.linearTermsAndConditions.setOnClickListener(this)
         binding.linearPrivacyPolicy.setOnClickListener(this)
+        binding.linearFaq.setOnClickListener(this)
         binding.linearRefundPolicy.setOnClickListener(this)
         binding.linearShippingPolicy.setOnClickListener(this)
         binding.linearLogout.setOnClickListener(this)
@@ -123,8 +124,8 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             R.id.linearReferAndEarn -> {
                 ReferAndEarnApp()
             }
-            R.id.linearHelpAndSupport -> {
-                val intent = Intent(requireActivity(), HelpAndSupportActivity::class.java)
+            R.id.linearFaq -> {
+                val intent = Intent(requireActivity(), FaqActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }

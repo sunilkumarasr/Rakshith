@@ -5,10 +5,13 @@ import com.royalit.rakshith.Adapters.FaqModel
 import com.royalit.rakshith.Adapters.ProductDetailsModel
 import com.royalit.rakshith.Adapters.Search.SearchModel
 import com.royalit.rakshith.Models.AddtoCartResponse
+import com.royalit.rakshith.Models.ContactUsModel
 import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
+import com.royalit.rakshith.Models.PrivacyPolicyModel
 import com.royalit.rakshith.Models.RegisterModel
+import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.Models.UpdateCartResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -111,6 +114,22 @@ interface ApiInterface {
         @Field("cart_id") cart_id: String,
     ): Call<DeleteCartResponse>
 
+    @FormUrlEncoded
+    @POST("terms")
+    fun termsAndConditionsApi(
+        @Field("api_key") api_key: String
+    ): Call<TermsAndConditionsModel>
 
+    @FormUrlEncoded
+    @POST("privacy")
+    fun privacyPolicyApi(
+        @Field("api_key") api_key: String
+    ): Call<PrivacyPolicyModel>
+
+    @FormUrlEncoded
+    @POST("contact")
+    fun contactUsApi(
+        @Field("api_key") api_key: String
+    ): Call<ContactUsModel>
 
 }

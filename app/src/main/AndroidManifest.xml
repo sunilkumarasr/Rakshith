@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Rakshith"
         tools:targetApi="31">
         <activity
+            android:name=".Activitys.ContactUsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activitys.IntroScreensActivity"
             android:exported="false" />
         <activity

@@ -34,11 +34,11 @@ class DashBoardActivity : AppCompatActivity() {
             false
         )
 
-        inits()
+        inIts()
 
     }
 
-    private fun inits() {
+    private fun inIts() {
 
         Preferences.saveStringValue(this@DashBoardActivity, Preferences.LOGINCHECK, "Login")
 

@@ -45,6 +45,15 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
+
+        binding.imgBack.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.loginLinear.startAnimation(animations)
+            val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_left, R.anim.to_right)
+        }
+
         binding.linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearSubmit.startAnimation(animations)
@@ -54,7 +63,6 @@ class RegisterActivity : AppCompatActivity() {
             } else {
                 registerApi()
             }
-
 
         }
     }

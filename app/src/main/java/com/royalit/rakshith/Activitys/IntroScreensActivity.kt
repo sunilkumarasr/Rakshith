@@ -57,13 +57,13 @@ class IntroScreensActivity : AppCompatActivity() {
             false
         )
 
-        inits()
+        inIts()
 
 
     }
 
 
-    private fun inits() {
+    private fun inIts() {
         binding.introSliderViewPager.adapter = introSliderAdapter
         setupIndicators()
         setCurrentIndicator(0)

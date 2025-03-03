@@ -22,7 +22,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/teachers_medium"
                 android:text="@string/general"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -32,17 +32,14 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="8dp"
-                android:outlineSpotShadowColor="@color/colorPrimary"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
                 app:strokeWidth="0dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="222dp"
-                    android:orientation="vertical"
-                    android:padding="5dp">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/linearProfile"
@@ -54,22 +51,30 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/profile_ic"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/profile_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/profile"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -87,22 +92,29 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/cart_ic"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/cart_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/cart"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -120,22 +132,29 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/address"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/marker_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/myaddress"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -153,22 +172,29 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/tremsandconditions"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/tremsandconditions"
+                                app:tint="@color/black" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/orders"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -186,16 +212,24 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/language"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/language"
+                                app:tint="@color/black" />
+                        </LinearLayout>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/language"
                             android:textColor="@color/black"
@@ -212,7 +246,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/teachers_medium"
                 android:text="@string/promotionalactivity"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -222,7 +256,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="8dp"
-                android:outlineSpotShadowColor="@color/colorPrimary"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
@@ -230,7 +263,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:orientation="vertical">
                     <LinearLayout
                         android:id="@+id/linearCoupon"
@@ -241,17 +273,25 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/coupon_ic"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/coupon_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/coupon"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -271,15 +311,23 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/wallet_ic"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/wallet_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/mywallet"
                             android:textColor="@color/black"
@@ -296,7 +344,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/teachers_medium"
                 android:text="@string/earnings"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -306,7 +354,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="8dp"
-                android:outlineSpotShadowColor="@color/colorPrimary"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
@@ -314,7 +361,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:orientation="vertical">
                     <LinearLayout
                         android:id="@+id/linearReferAndEarn"
@@ -325,21 +371,28 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/referafriend_ic"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/referafriend_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/refeandearn"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -356,22 +409,28 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/about"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/about"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/share"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
-
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -382,7 +441,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/teachers_medium"
                 android:text="@string/helpandsupport"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
@@ -392,7 +451,6 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="8dp"
-                android:outlineSpotShadowColor="@color/colorPrimary"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="5dp"
@@ -400,37 +458,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:orientation="vertical">
-                    <LinearLayout
-                        android:id="@+id/linearHelpAndSupport"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/helpandsupport"
-                            app:tint="@color/black" />
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:fontFamily="@font/teachers_regular"
-                            android:text="@string/helpandsupport"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@color/lightGray" />
 
                     <LinearLayout
                         android:id="@+id/linearAbout"
@@ -441,15 +469,23 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/about"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/about"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/about"
                             android:textColor="@color/black"
@@ -471,15 +507,23 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/tremsandconditions"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/tremsandconditions"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/termsandconditions"
                             android:textColor="@color/black"
@@ -501,17 +545,63 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/policy_privacy"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/policy_privacy"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/privacyPolicy"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/lightGray" />
+
+                    <LinearLayout
+                        android:id="@+id/linearFaq"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/faq_icon_ic"
+                                app:tint="@color/black" />
+                        </LinearLayout>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:fontFamily="@font/teachers_regular"
+                            android:text="@string/faq"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
@@ -531,15 +621,23 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/refund_policy"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/refund_policy"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/refundPolicy"
                             android:textColor="@color/black"
@@ -561,15 +659,23 @@
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
-                            android:src="@drawable/shipping_policy"
-                            app:tint="@color/black" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:background="@drawable/edge_items_light_gray">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/shipping_policy"
+                                app:tint="@color/black" />
+                        </LinearLayout>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/teachers_regular"
                             android:text="@string/shippingPolicy"
                             android:textColor="@color/black"
@@ -578,7 +684,6 @@
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
             <LinearLayout
                 android:id="@+id/linearLogout"

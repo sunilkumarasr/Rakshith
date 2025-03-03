@@ -15,13 +15,13 @@
     <string name="confirmpassword">Confirm password</string>
     <string name="entercpassword">Enter Confirm password</string>
     <string name="enteremailaddress">Enter email address</string>
-    <string name="enteryourname">Enter your name</string>
+    <string name="name">Name</string>
     <string name="yourName">Your name</string>
-    <string name="enterfullName">Enter your full name</string>
+    <string name="enteryourName">Enter your name</string>
     <string name="createAccount">Create Account</string>
     <string name="createAccountNote">Enter your personal information</string>
     <string name="signup">Sign Up</string>
-    <string name="signupNote">To get more advantages sign up your accounts by filling in some informations</string>
+    <string name="signupNote">To get more advantages sign up your accounts by filling in some information\'s</string>
     <string name="signin">Sign In</string>
     <string name="login">Login</string>
     <string name="signinNote">Enter your email address and password to continue the shopping</string>
@@ -47,7 +47,6 @@
     <string name="offerprice">₹0</string>
     <string name="products">Products</string>
     <string name="home">Home</string>
-    <string name="faq">Faq</string>
     <string name="favorite">Favorite</string>
     <string name="cart">Cart</string>
     <string name="orders">Orders</string>
@@ -59,22 +58,20 @@
     <string name="iAgreeWith">I Agree With</string>
 
     <string name="tab_all">All</string>
-    <string name="tab_upcoming">Upcomings</string>
+    <string name="tab_upcoming">Upcoming</string>
     <string name="tab_complete">Completed</string>
 
     <!--    address-->
     <string name="mobilenumber">Mobile Number</string>
-    <string name="entermobilenumber">10-dits mobile number without prefixes</string>
+    <string name="entermobilenumber">Enter mobile number</string>
     <string name="alternatemobilenumber">Alternate Mobile Number</string>
-    <string name="enteralternatemobilenumber">10-dits mobile number without prefixes</string>
+    <string name="enteralternatemobilenumber">Enter alternate mobile number</string>
     <string name="flataddress">Flat, House no, Building, Company, Apartment</string>
-    <string name="enterflataddress">Enter Flat, House no, Building, Company, Apartment</string>
-    <string name="areaaddress">Area, Street, Sector, Landmark</string>
-    <string name="enterareaaddress">Enter Area, Street, Sector, Landmark</string>
+    <string name="area">Area</string>
+    <string name="enterareaaddress">Enter Landmark, Apartment or Flat no</string>
     <string name="landmark">Landmark</string>
-    <string name="enterlandmark">Enetr Landmark</string>
-    <string name="pincode">Pincode</string>
-    <string name="enterpincode">6-digit Pincode</string>
+    <string name="enterlandmark">Enter Landmark</string>
+    <string name="pincode">Pin code</string>
     <string name="city">Town/City</string>
     <string name="addaddress">Add address</string>
     <string name="editaddress">Edit address</string>
@@ -94,16 +91,18 @@
     <string name="earnings">Earnings</string>
     <string name="refeandearn">Refer &amp; Earn</string>
     <string name="helpandsupport">Help &amp; Support</string>
-    <string name="about">about</string>
+    <string name="about">About</string>
     <string name="share">Share</string>
     <string name="termsandconditions">Terms &amp; Conditions</string>
     <string name="privacyPolicy">Privacy Policy</string>
+    <string name="contactUs">Contact Us</string>
+    <string name="faq">Faq\'s</string>
     <string name="refundPolicy">Refund Policy</string>
     <string name="shippingPolicy">Shipping Policy</string>
     <string name="logout">Logout</string>
     <string name="logout_note">Are you sure you want to logout?</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="checkout">CheckOut</string>
     <string name="proceedtocheckout">Proceed to CheckOut</string>
     <string name="placeorder">Place Order</string>
@@ -117,7 +116,7 @@
     <string name="payment">Payment</string>
     <string name="noData">No Data</string>
     <string name="title">Title</string>
-    <string name="orderSuccessfull">Order Successfull</string>
+    <string name="orderSuccessfull">Order Successful</string>
     <string name="orderNote">Your order #96454 is successfully placed</string>
     <string name="trackMyOrder">Track My Order</string>
     <string name="goBack">Go Back</string>
@@ -133,8 +132,10 @@
     <string name="chooseyourlanguagetoproceed">Choose your language to proceed</string>
     <string name="english">English</string>
     <string name="telugu">Telugu</string>
+    <string name="applycoupon">Apply coupon</string>
     <string name="enterpromocode">Enter Promo Code</string>
     <string name="apply">Apply</string>
+    <string name="select">Select</string>
 
     <string name="dummyNote">Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
      </string>
