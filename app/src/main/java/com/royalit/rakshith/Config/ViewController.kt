@@ -7,6 +7,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
@@ -15,14 +17,17 @@ import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.internal.ContextUtils
+import com.royalit.rakshith.R
 
 object ViewController {
 
     var mProgressDialog: ProgressDialog? = null
+    private var toast: Toast? = null
 
     fun changeStatusBarColor(activity: Activity, color: Int, isLight: Boolean) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -52,6 +57,26 @@ object ViewController {
 
     fun showToast(context: Context, message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun customToast(context: Context, message: String) {
+        if (toast == null) {
+            toast = Toast(context.applicationContext)
+            toast?.setGravity(Gravity.TOP or Gravity.FILL_HORIZONTAL, 0, 0)
+            val inflater = LayoutInflater.from(context)
+            val view = inflater.inflate(R.layout.toastlayout, null)
+
+            // Find the TextView inside the custom layout
+            val textView = view.findViewById<TextView>(R.id.txtNote)
+            textView.text = message
+
+            toast?.view = view
+            toast?.duration = Toast.LENGTH_LONG
+        } else {
+            val textView = toast?.view?.findViewById<TextView>(R.id.txtNote)
+            textView?.text = message
+        }
+        toast?.show()
     }
 
     fun showLoading(context: Context) {

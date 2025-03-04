@@ -196,6 +196,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     }
 
     private fun addToCart(itemsData: CartItems?, cartQty: String?) {
+        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -210,17 +211,18 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
+                binding.progressBar.visibility = View.GONE
+                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                    ViewController.showToast(applicationContext, "Please check your connection ")
+                } else {
+                    getCartApi()
+                }
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        getCartApi()
                         if (res != null) {
                             if (res.message.equals("Success")){
-                                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                                    ViewController.showToast(applicationContext, "Please check your connection ")
-                                } else {
-                                    getCartApi()
-                                }
+
                             }else{
                                 ViewController.showToast(this@CartActivity,res.message)
                             }
@@ -233,12 +235,19 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
+                binding.progressBar.visibility = View.GONE
+                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                    ViewController.showToast(applicationContext, "Please check your connection ")
+                } else {
+                    getCartApi()
+                }
             }
         })
 
     }
 
     private fun updateCart(itemsData: CartItems?, cartQty: String?) {
+        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -253,17 +262,19 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
+                binding.progressBar.visibility = View.GONE
+
+                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                    ViewController.showToast(applicationContext, "Please check your connection ")
+                } else {
+                    getCartApi()
+                }
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
                         if (res != null) {
-                            getCartApi()
                             if (res.message.equals("Success")){
-                                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                                    ViewController.showToast(applicationContext, "Please check your connection ")
-                                } else {
-                                    getCartApi()
-                                }
+
                             }else{
                                 ViewController.showToast(this@CartActivity,res.message)
                             }
@@ -276,6 +287,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
+                binding.progressBar.visibility = View.GONE
+                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                    ViewController.showToast(applicationContext, "Please check your connection ")
+                } else {
+                    getCartApi()
+                }
             }
         })
 

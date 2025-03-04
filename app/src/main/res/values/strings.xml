@@ -107,6 +107,7 @@
     <string name="proceedtocheckout">Proceed to CheckOut</string>
     <string name="placeorder">Place Order</string>
     <string name="addtocart">Add to Cart</string>
+    <string name="gotocart">Go to Cart</string>
     <string name="description">Description</string>
     <string name="totalAmount">Total Amount</string>
     <string name="Items">Items</string>

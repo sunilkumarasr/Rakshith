@@ -203,6 +203,7 @@
                                 android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="end"
+                                android:text="@string/offerprice"
                                 android:fontFamily="@font/teachers_medium"
                                 android:textColor="@color/black"
                                 android:textSize="13sp" />

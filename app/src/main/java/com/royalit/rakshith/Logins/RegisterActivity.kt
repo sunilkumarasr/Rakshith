@@ -59,7 +59,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.linearSubmit.startAnimation(animations)
 
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                ViewController.showToast(applicationContext, "Please check your connection ")
+                ViewController.customToast(applicationContext, "Please check your connection ")
             } else {
                 registerApi()
             }
@@ -77,24 +77,24 @@ class RegisterActivity : AppCompatActivity() {
         ViewController.hideKeyBoard(this@RegisterActivity )
 
         if (name.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter Your Name")
+            ViewController.customToast(applicationContext, "Enter Your Name")
             return
         }
         if (email.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter Email")
+            ViewController.customToast(applicationContext, "Enter Email")
             return
         }
         if (mobile.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter Email")
+            ViewController.customToast(applicationContext, "Enter Email")
             return
         }
         if (password.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter password")
+            ViewController.customToast(applicationContext, "Enter password")
             return
         }
 
         if (!ViewController.validateMobile(mobile)) {
-            ViewController.showToast(applicationContext, "Enter Valid mobile number")
+            ViewController.customToast(applicationContext, "Enter Valid mobile number")
         } else {
             ViewController.showLoading(this@RegisterActivity)
 
@@ -131,12 +131,12 @@ class RegisterActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                             }else {
-                                ViewController.showToast(applicationContext, "Register Failed")
+                                ViewController.customToast(applicationContext, "Register Failed")
                             }
 
 
                         } else {
-                            ViewController.showToast(applicationContext, "Register Failed")
+                            ViewController.customToast(applicationContext, "Register Failed")
                         }
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
@@ -147,7 +147,7 @@ class RegisterActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<RegisterModel>, t: Throwable) {
                     binding.progressBar.visibility = View.GONE
-                    ViewController.showToast(applicationContext, "Register Failed")
+                    ViewController.customToast(applicationContext, "Register Failed")
                 }
             })
 

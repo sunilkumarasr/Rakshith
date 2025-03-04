@@ -2,34 +2,32 @@ package com.royalit.rakshith.Fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
-import com.royalit.rakshith.Activitys.AboutUsActivity
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Activitys.SearchActivity
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
+import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.ViewController
-import com.royalit.rakshith.Logins.ForgotActivity
-import com.royalit.rakshith.Models.HomeCategoriesModel
+import com.royalit.rakshith.Models.CategoryModel
 import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.FragmentHomeBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
-
-    //Categories
-    private lateinit var homeCategoriesAdapter: HomeCategoriesAdapter
-    private lateinit var categoryList: ArrayList<HomeCategoriesModel>
 
     //Products
     private lateinit var homeProductsAdapter: HomeProductsAdapter
@@ -58,7 +56,7 @@ class HomeFragment : Fragment() {
             return
         } else {
             HomebannersApi()
-            HomeCategoriesApi()
+            getCategoriesApi()
             HomeProductsApi()
         }
 
@@ -89,20 +87,47 @@ class HomeFragment : Fragment() {
         binding.imageSlider.setImageList(imageList)
     }
 
-    private fun HomeCategoriesApi() {
+    private fun getCategoriesApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCategoriesApi(getString(R.string.api_key))
 
-        // Populate the static list with data
-        categoryList = ArrayList()
-        categoryList.add(HomeCategoriesModel(R.drawable.vegitable_ic, "Veggies"))
-        categoryList.add(HomeCategoriesModel(R.drawable.fruiots_ic, "Fruits"))
-        categoryList.add(HomeCategoriesModel(R.drawable.green_leafy_ic, "leafy"))
-        categoryList.add(HomeCategoriesModel(R.drawable.beets_ic, "beet"))
+        call.enqueue(object : Callback<CategoryModel> {
+            override fun onResponse(call: Call<CategoryModel>, response: Response<CategoryModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        val selectedServicesList = response.body()?.response
 
-        // Set the adapter
-        binding.recyclerViewCategories.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        homeCategoriesAdapter = HomeCategoriesAdapter(categoryList)
-        binding.recyclerViewCategories.adapter = homeCategoriesAdapter
-        binding.recyclerViewCategories.setHasFixedSize(true)
+                        //empty
+                        if (selectedServicesList.isNullOrEmpty()) {
+                            binding.txtCatHeader.visibility = View.GONE
+                            binding.recyclerViewCategories.visibility = View.GONE
+                            return
+                        }
+
+                        // Truncate the list to the first 6 items if needed
+                        val truncatedList = selectedServicesList.take(6)
+
+                        binding.recyclerViewCategories.apply {
+                            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+                            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(truncatedList) { item ->
+                                val intent = Intent(activity, ProductsListActivity::class.java).apply {
+                                    putExtra("categoriesId", item.categoriesId)
+                                }
+                                startActivity(intent)
+                                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<CategoryModel>, t: Throwable) {
+                Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
+            }
+        })
 
     }
 

@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
         }
         binding.linearSubmit.setOnClickListener {
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                ViewController.showToast(applicationContext, "Please check your connection ")
+                ViewController.customToast(applicationContext, "Please check your connection ")
             } else {
                 loginApi()
             }
@@ -74,16 +74,16 @@ class LoginActivity : AppCompatActivity() {
 
 
         if (phone.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter Email")
+            ViewController.customToast(applicationContext, "Enter Email")
             return
         }
         if (password.isEmpty()) {
-            ViewController.showToast(applicationContext, "Enter password")
+            ViewController.customToast(applicationContext, "Enter password")
             return
         }
 
         if (!ViewController.validateMobile(phone)) {
-            ViewController.showToast(applicationContext, "Enter Valid mobile number")
+            ViewController.customToast(applicationContext, "Enter Valid mobile number")
         } else {
             ViewController.showLoading(this@LoginActivity)
 
@@ -115,12 +115,12 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(intent)
                                 finish()
                             }else {
-                                ViewController.showToast(applicationContext, "Login Failed")
+                                ViewController.customToast(applicationContext, "Login Failed")
                             }
 
 
                         } else {
-                            ViewController.showToast(applicationContext, "Invalid Mobile Number")
+                            ViewController.customToast(applicationContext, "Invalid Mobile Number")
                         }
                     } catch (e: NullPointerException) {
                         e.printStackTrace()
@@ -129,7 +129,7 @@ class LoginActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<LoginModel>, t: Throwable) {
                     ViewController.hideLoading()
-                    ViewController.showToast(applicationContext, "Invalid Credentials")
+                    ViewController.customToast(applicationContext, "Invalid Credentials")
                 }
             })
 

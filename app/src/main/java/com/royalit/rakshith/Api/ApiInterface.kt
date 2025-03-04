@@ -5,6 +5,7 @@ import com.royalit.rakshith.Adapters.FaqModel
 import com.royalit.rakshith.Adapters.ProductDetailsModel
 import com.royalit.rakshith.Adapters.Search.SearchModel
 import com.royalit.rakshith.Models.AddtoCartResponse
+import com.royalit.rakshith.Models.CategoryModel
 import com.royalit.rakshith.Models.ContactUsModel
 import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.ForgotModel
@@ -62,6 +63,13 @@ interface ApiInterface {
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>
+
+
+    @FormUrlEncoded
+    @POST("categories_list")
+    fun getCategoriesApi(
+        @Field("api_key") apiKey: String
+    ): Call<CategoryModel>
 
     @FormUrlEncoded
     @POST("cart_list")

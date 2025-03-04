@@ -95,6 +95,7 @@ class CartAdapter(
         holder.linearIncrement.setOnClickListener {
             val animations = ViewController.animation()
             holder.linearIncrement.startAnimation(animations)
+
             val cartQty = holder.cartQty.text.toString()
             if (item.max_order_quantity.toInt()<=cartQty.toInt()){
                 ViewController.showToast(context,"Max Quantity only for "+item.max_order_quantity)
@@ -109,11 +110,22 @@ class CartAdapter(
                     return@setOnClickListener
                 }
                 holder.cartQty.text = cartQ[0].toString()
-
-                // Notify the quantity change to the listener
-                quantityChangeListener?.onQuantityChanged(item, cartQ[0])
+                val cartQty1 = holder.cartQty.text.toString()
                 holder.cartQty.text = "" + cartQ.get(0)
+
+
+                if (!ViewController.noInterNetConnectivity(context)) {
+                    ViewController.showToast(context, "Please check your connection ")
+                } else {
+                    if (cartQty1 == "1")
+                        click!!.onAddToCartClicked(item, cartQty1,1)
+                    else{
+                        click!!.onAddToCartClicked(item, cartQty1,1)
+                    }
+                }
+
                 // holder.binding.addToCartBtn.performClick()
+
             }
         }
 

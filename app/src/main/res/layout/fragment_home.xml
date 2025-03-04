@@ -44,6 +44,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtCatHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/categories"
@@ -58,8 +59,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewCategories"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"/>
+                android:layout_height="wrap_content"/>
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/imageSlider"

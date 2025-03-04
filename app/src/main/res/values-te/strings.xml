@@ -104,6 +104,7 @@
     <string name="proceedtocheckout">చెక్ అవుట్ కు వెళ్లండి</string>
     <string name="placeorder">ఆర్డర్ చేయండి</string>
     <string name="addtocart">కార్ట్‌లో చేర్చండి</string>
+    <string name="gotocart">కార్ట్‌కి వెళ్లండి</string>
     <string name="description">వివరణ</string>
     <string name="totalAmount">మొత్తం మొత్తం</string>
     <string name="Items">అంశాలు</string>

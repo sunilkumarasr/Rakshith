@@ -9,11 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whitebg">
+        android:background="@color/white">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="none"
             android:layout_above="@+id/linearBottom">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -23,6 +24,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -67,8 +69,8 @@
                         android:layout_height="250dp"
                         android:layout_marginTop="10dp"
                         android:src="@drawable/logo"/>
-
                 </FrameLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -83,7 +85,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="25dp"
-                        android:fontFamily="@font/teachers_bold"
+                        android:fontFamily="@font/teachers_medium"
                         android:text="Fresh Tomato"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
@@ -100,7 +102,7 @@
                             android:id="@+id/txtOfferPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
                             android:text="@string/actuleprice"
                             android:textColor="@color/colorPrimary"
                             android:textSize="23sp" />
@@ -110,7 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_regular"
                             android:text="@string/actuleprice"
                             android:textColor="@color/gray"
                             android:textSize="20sp" />
@@ -159,7 +161,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginEnd="5dp"
-                                    android:fontFamily="@font/teachers_semibold"
+                                    android:fontFamily="@font/teachers_medium"
                                     android:padding="5dp"
                                     android:text="@string/instock"
                                     android:textColor="@color/colorPrimary"
@@ -176,7 +178,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="5dp"
                                     android:layout_marginEnd="5dp"
-                                    android:fontFamily="@font/teachers_semibold"
+                                    android:fontFamily="@font/teachers_medium"
                                     android:padding="5dp"
                                     android:text="@string/outofstock"
                                     android:textColor="@color/white"
@@ -200,7 +202,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/round_light_green"
-                            android:fontFamily="@font/teachers_semibold"
+                            android:fontFamily="@font/teachers_medium"
                             android:padding="8dp"
                             android:text="Gm"
                             android:textColor="@color/colorPrimary"
@@ -230,7 +232,7 @@
                                 android:id="@+id/cartQty"
                                 android:layout_width="35dp"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/teachers_semibold"
+                                android:fontFamily="@font/teachers_medium"
                                 android:gravity="center"
                                 android:layout_gravity="center_vertical"
                                 android:text="0"
@@ -260,7 +262,7 @@
                         android:layout_marginStart="25dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="25dp"
-                        android:fontFamily="@font/teachers_semibold"
+                        android:fontFamily="@font/teachers_medium"
                         android:text="@string/description"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
@@ -273,7 +275,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginEnd="25dp"
                         android:layout_marginBottom="15dp"
-                        android:fontFamily="@font/teachers_medium"
+                        android:fontFamily="@font/teachers_regular"
                         android:text="@string/dummyNote"
                         android:textColor="@color/txtdes"
                         android:textSize="13sp" />
@@ -289,7 +291,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/bg"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -306,7 +307,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/teachers_bold"
+                    android:fontFamily="@font/teachers_semibold"
                     android:text="@string/totalAmount"
                     android:textColor="@color/txtHeader"
                     android:textSize="14sp" />
@@ -316,14 +317,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/teachers_bold"
+                    android:fontFamily="@font/teachers_semibold"
                     android:text="@string/actuleprice"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearAddToCart"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="5dp"
@@ -333,11 +333,11 @@
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
                 android:orientation="horizontal">
-
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtAddToCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/teachers_bold"
+                    android:fontFamily="@font/teachers_medium"
                     android:gravity="center"
                     android:text="@string/addtocart"
                     android:textColor="@color/white"
