@@ -6,6 +6,7 @@ import com.royalit.rakshith.Adapters.ProductDetailsModel
 import com.royalit.rakshith.Adapters.Search.SearchModel
 import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CategoryModel
+import com.royalit.rakshith.Models.CategoryWiseModel
 import com.royalit.rakshith.Models.ContactUsModel
 import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.ForgotModel
@@ -61,15 +62,18 @@ interface ApiInterface {
     ): Call<ForgotModel>
 
 
-    @GET("faq")
-    fun faqListApi(): Call<List<FaqModel>>
-
-
     @FormUrlEncoded
     @POST("categories_list")
     fun getCategoriesApi(
         @Field("api_key") apiKey: String
     ): Call<CategoryModel>
+
+    @FormUrlEncoded
+    @POST("category_wise_products_list")
+    fun getCategoryWiseProductsListApi(
+        @Field("api_key") apiKey: String,
+        @Field("categories_id") categoriesId: String
+    ): Call<CategoryWiseModel>
 
     @FormUrlEncoded
     @POST("cart_list")
@@ -121,6 +125,9 @@ interface ApiInterface {
         @Field("product_id") product_id: String,
         @Field("cart_id") cart_id: String,
     ): Call<DeleteCartResponse>
+
+    @GET("faq")
+    fun faqListApi(): Call<List<FaqModel>>
 
     @FormUrlEncoded
     @POST("terms")

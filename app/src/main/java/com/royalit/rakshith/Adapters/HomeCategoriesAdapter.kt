@@ -25,7 +25,6 @@ class HomeCategoriesAdapter(
             itemView.setOnClickListener {
                 val animations = ViewController.animation()
                 itemView.startAnimation(animations)
-
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     onItemClick(items[position])

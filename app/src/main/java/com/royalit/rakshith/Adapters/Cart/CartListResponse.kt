@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class CartListResponse(
     @SerializedName("Status") val status: Boolean,
     @SerializedName("Message") val message: String,
-    @SerializedName("Response") val ResponseCartList: List<CartItems>?,
+    @SerializedName("Response") val ResponseCartList: List<CartItems>,
     @SerializedName("code") val code: Int,
-    @SerializedName("customer_category") val customer_category: Int?
+    @SerializedName("customer_category") val customer_category: Int
 )
 
 data class CartItems(

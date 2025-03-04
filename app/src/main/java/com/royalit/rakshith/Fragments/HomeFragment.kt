@@ -17,6 +17,7 @@ import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
 import com.royalit.rakshith.Adapters.HomeProductsAdapter
 import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Models.CategoryListResponse
 import com.royalit.rakshith.Models.CategoryModel
 import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
@@ -90,45 +91,44 @@ class HomeFragment : Fragment() {
     private fun getCategoriesApi() {
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCategoriesApi(getString(R.string.api_key))
-
         call.enqueue(object : Callback<CategoryModel> {
             override fun onResponse(call: Call<CategoryModel>, response: Response<CategoryModel>) {
                 try {
                     if (response.isSuccessful) {
                         val selectedServicesList = response.body()?.response
-
                         //empty
                         if (selectedServicesList.isNullOrEmpty()) {
                             binding.txtCatHeader.visibility = View.GONE
                             binding.recyclerViewCategories.visibility = View.GONE
                             return
                         }
+                        DataSet(selectedServicesList)
 
-                        // Truncate the list to the first 6 items if needed
-                        val truncatedList = selectedServicesList.take(6)
-
-                        binding.recyclerViewCategories.apply {
-                            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-                            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(truncatedList) { item ->
-                                val intent = Intent(activity, ProductsListActivity::class.java).apply {
-                                    putExtra("categoriesId", item.categoriesId)
-                                }
-                                startActivity(intent)
-                                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
-                            }
-                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.e("onResponseException", e.message.toString())
                 }
             }
-
             override fun onFailure(call: Call<CategoryModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
         })
-
+    }
+    private fun DataSet(selectedServicesList: List<CategoryListResponse>) {
+        // Truncate the list to the first 6 items if needed
+       // val truncatedList = selectedServicesList.take(6)
+        binding.recyclerViewCategories.apply {
+            layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(selectedServicesList) { item ->
+                val intent = Intent(activity, ProductsListActivity::class.java).apply {
+                    putExtra("categoriesId", item.categoriesId)
+                    putExtra("categoryName", item.categoryName)
+                }
+                startActivity(intent)
+                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            }
+        }
     }
 
     private fun HomeProductsApi() {

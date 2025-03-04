@@ -135,6 +135,7 @@
     <string name="enterpromocode">ప్రోమో కోడ్ నమోదు చేయండి</string>
     <string name="apply">అప్లై</string>
     <string name="select">ఎంచుకోండి</string>
+    <string name="nodatafound">డేటా కనబడలేదు</string>
 
 
     <string name="dummyNote">Lorem Ipsum అనేది 1500ల నుండి పరిశ్రమలలోని ప్రామాణిక డమ్మీ టెక్స్ట్‌గా ఉంటుంది, ఒక అజ్ఞాతమైన ప్రింటర్ గ్యాలీ యొక్క టైప్‌ని తీసుకుని దానిని ఒక టైప్ స్పెసిమెన్ బుక్ తయారు</string>
