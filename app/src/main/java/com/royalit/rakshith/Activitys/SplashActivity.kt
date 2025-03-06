@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewController.changeStatusBarColor(
             this,
-            ContextCompat.getColor(this, R.color.splashcolor),
+            ContextCompat.getColor(this, R.color.white),
             false
         )
 
@@ -37,10 +37,10 @@ class SplashActivity : AppCompatActivity() {
     private fun inIts() {
         
         //language
-//        val languageCode = Preferences.loadStringValue(applicationContext, Preferences.languageCode, "")
-//        if (languageCode != null) {
-//            setLocale(languageCode)
-//        }
+        val languageCode = Preferences.loadStringValue(applicationContext, Preferences.languageCode, "")
+        if (languageCode != null) {
+            setLocale(languageCode)
+        }
 
         val loginCheck = Preferences.loadStringValue(applicationContext, Preferences.LOGINCHECK, "")
         Handler(Looper.getMainLooper()).postDelayed({

@@ -10,8 +10,8 @@ data class ProductDetailsModel(
 )
 
 data class ProductDetailsResponse(
-    @SerializedName("products_id") val products_id : Int,
-    @SerializedName("categories_id") val categories_id : Int,
+    @SerializedName("products_id") val products_id : String,
+    @SerializedName("categories_id") val categories_id : String,
     @SerializedName("product_num") val product_num : String,
     @SerializedName("product_name") val product_name : String,
     @SerializedName("product_title") val product_title : String,
@@ -21,8 +21,8 @@ data class ProductDetailsResponse(
     @SerializedName("sales_price") val sales_price : String,
     @SerializedName("offer_price") val offer_price : String,
     @SerializedName("stock") val stock : String,
-    @SerializedName("status") val status : Int,
-    @SerializedName("order_by") val order_by : Int,
+    @SerializedName("status") val status : String,
+    @SerializedName("order_by") val order_by : String,
     @SerializedName("created_date") val created_date : String,
     @SerializedName("updated_date") val updated_date : String,
     @SerializedName("final_amount") val final_amount : String,
@@ -32,8 +32,8 @@ data class ProductDetailsResponse(
 )
 
 data class ProductImage(
-    @SerializedName("products_id") val products_id : Int,
-    @SerializedName("id") val id : Int,
+    @SerializedName("products_id") val products_id : String,
+    @SerializedName("id") val id : String,
     @SerializedName("image") val image : String,
     @SerializedName("fullPath") val fullPath : String,
 )

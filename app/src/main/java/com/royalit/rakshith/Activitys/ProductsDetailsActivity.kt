@@ -1,6 +1,7 @@
 package com.royalit.rakshith.Activitys
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
@@ -40,12 +41,11 @@ class ProductsDetailsActivity : AppCompatActivity() {
     var isFavorite = false
     var productCartStatus: String = ""
     var TotalPrice: Double? = 0.0
-    private var TotalFinalPrice: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
+
 
         productsId = intent.getStringExtra("productsId").toString()
         quantity = intArrayOf(binding.cartQty.text.toString().toInt())
@@ -53,7 +53,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
         inIts()
 
     }
-
 
     private fun inIts() {
         binding.imgBack.setOnClickListener {
@@ -128,14 +127,14 @@ class ProductsDetailsActivity : AppCompatActivity() {
             }
             if (productResponseDetails?.stock == cartQty1) {
                 ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
-            } else {
+            }else if (productCartStatus.equals("0")){
                 if ((productResponseDetails?.max_order_quantity!=null)&& (productResponseDetails?.max_order_quantity!!.toInt()<=cartQty1.toInt())){
                     ViewController.customToast(this@ProductsDetailsActivity,"Max Quantity only for "+productResponseDetails?.max_order_quantity)
                     return@setOnClickListener
                 }
                 try {
                     quantity[0]++
-                    binding.cartQty.text = "" + quantity[0]
+                    binding.cartQty.text = quantity[0].toString()
                     val cQty = binding.cartQty.text.toString()
                     if (cQty == "1"){
                         addToCartApi()
@@ -143,6 +142,11 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 } catch (e: NumberFormatException) {
                     e.printStackTrace()
                 }
+            }
+            else {
+                val intent = Intent(this@ProductsDetailsActivity, CartActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
 
         }
@@ -230,22 +234,28 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 try {
                     if (response.isSuccessful) {
                         if (response.body()?.ResponseCartList?.size!! > 0) {
-                            //total amount showing
-                            getTotalPrice(response.body()?.ResponseCartList!!)
                             binding.cartQty.text = "0"
                             for (j in response.body()?.ResponseCartList!!.indices) {
                                 if (response.body()?.ResponseCartList!!.get(j).product_id.toInt() == (productsId.toInt())) {
                                     binding.cartQty.text=response.body()?.ResponseCartList!!.get(j).cart_quantity
                                     quantity[0]=response.body()?.ResponseCartList!!.get(j).cart_quantity.toInt()
-                                    if (!response.body()?.ResponseCartList!!.get(j).cart_quantity.equals("0")){
-                                        productCartStatus = "1";
-                                        binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.gotocart)
-                                    }else{
-                                        productCartStatus = "0";
-                                        binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.addtocart)
-                                    }
                                 }
                             }
+
+                            if (binding.cartQty.text.toString() == "0"){
+                                productCartStatus = "0";
+                                binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.addtocart)
+                            }else{
+                                productCartStatus = "1";
+                                binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.gotocart)
+                            }
+
+                            //total amount showing
+                            val offerPrice = productResponseDetails?.offer_price?.toDoubleOrNull() ?: 0.0
+                            val cartQty = binding.cartQty.text.toString().toDoubleOrNull() ?: 0.0
+                            TotalPrice = offerPrice * cartQty
+                            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
+
                         } else {
                             binding.cartQty.text = "0"
                         }
@@ -365,28 +375,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    //total amount
-    @SuppressLint("SetTextI18n")
-    private fun getTotalPrice(cartItemsList: List<CartItems>) {
-        try {
-            TotalPrice = 0.0
-            for (i in cartItemsList.indices) {
-                try {
-                    TotalPrice = TotalPrice!! + cartItemsList[i].offer_price
-                        .toDouble() * cartItemsList[i].cart_quantity.toDouble()
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
-            TotalFinalPrice = TotalPrice.toString()
-        } catch (e: NumberFormatException) {
-            e.printStackTrace()
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        }
     }
 
 

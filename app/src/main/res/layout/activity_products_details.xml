@@ -2,9 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Activitys.ProductsDetailsActivity"
-    android:id="@+id/main">
-
+    tools:context=".Activitys.ProductsDetailsActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -226,7 +224,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@drawable/minimize_ic"
-                                    app:tint="@color/colorPrimary" />
+                                    app:tint="@color/white" />
                             </LinearLayout>
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/cartQty"
@@ -250,7 +248,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:src="@drawable/plus_ic"
-                                    app:tint="@color/colorPrimary" />
+                                    app:tint="@color/white" />
                             </LinearLayout>
                         </LinearLayout>
 

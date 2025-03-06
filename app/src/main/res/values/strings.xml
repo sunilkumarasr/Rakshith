@@ -108,6 +108,7 @@
     <string name="placeorder">Place Order</string>
     <string name="addtocart">Add to Cart</string>
     <string name="gotocart">Go to Cart</string>
+    <string name="add">Add</string>
     <string name="description">Description</string>
     <string name="totalAmount">Total Amount</string>
     <string name="Items">Items</string>

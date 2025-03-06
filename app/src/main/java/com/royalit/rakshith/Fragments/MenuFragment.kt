@@ -188,38 +188,51 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         // Launch the share chooser
         startActivity(Intent.createChooser(shareIntent, "Share via"))
     }
-
     private fun LanguageDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireActivity())
         val view = layoutInflater.inflate(R.layout.bottom_sheet_languagedialog, null)
         bottomSheetDialog.setContentView(view)
-        val radioGroupLanguage = view.findViewById<RadioGroup>(R.id.radioGroupLanguage) // Corrected this line
+
+        val radioGroupLanguage = view.findViewById<RadioGroup>(R.id.radioGroupLanguage)
         val buttonOk = view.findViewById<Button>(R.id.buttonOk)
+
         buttonOk.setOnClickListener {
             val selectedRadioButtonId: Int = radioGroupLanguage.checkedRadioButtonId
             if (selectedRadioButtonId != -1) {
                 val selectedRadioButton: RadioButton = view.findViewById(selectedRadioButtonId)
-                val selectedLanguage = selectedRadioButton.text.toString()
-                when (selectedLanguage) {
-                    "English" -> setLocale("en")
-                    "Telugu" -> setLocale("te")
+                val selectedLanguage = when (selectedRadioButton.text.toString()) {
+                    "English" -> "en"
+                    "Telugu" -> "te"
+                    else -> "en"
                 }
+
+                // Save selected language and apply changes
+                setLocale(selectedLanguage)
             }
             bottomSheetDialog.dismiss()
         }
         bottomSheetDialog.show()
     }
+
     private fun setLocale(languageCode: String) {
-        Preferences.saveStringValue(requireActivity(), Preferences.languageCode,
-            languageCode.toString()
-        )
+        // Save the language preference
+        Preferences.saveStringValue(requireActivity(), Preferences.languageCode, languageCode)
+
+        // Set the new locale
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
-        val config = Configuration()
-        config.locale = locale
-        requireActivity().resources.updateConfiguration(config, requireActivity().resources.displayMetrics)
 
+        val config = Configuration()
+        config.setLocale(locale)
+
+        requireActivity().baseContext.resources.updateConfiguration(
+            config,
+            requireActivity().baseContext.resources.displayMetrics
+        )
+
+        // Restart the activity to apply changes
         val intent = Intent(requireActivity(), DashBoardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }
 

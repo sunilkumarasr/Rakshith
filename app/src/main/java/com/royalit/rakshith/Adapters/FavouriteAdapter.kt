@@ -11,7 +11,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.royalit.rakshith.Models.FavouriteModel
-import com.royalit.rakshith.Models.HomeProductsModel
 import com.royalit.rakshith.R
 
 class FavouriteAdapter(private val itemList: ArrayList<FavouriteModel>, private val onClick: (FavouriteModel) -> Unit) : RecyclerView.Adapter<FavouriteAdapter.ItemViewHolder>() {

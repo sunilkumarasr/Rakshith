@@ -17,7 +17,7 @@
 
         <RelativeLayout
             android:id="@+id/relative"
-            android:layout_width="95dp"
+            android:layout_width="100dp"
             android:layout_height="95dp"
             android:layout_gravity="center_vertical">
             <androidx.appcompat.widget.AppCompatImageView
@@ -26,14 +26,13 @@
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_launcher_background" />
+                android:src="@drawable/logo" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_gravity="center_vertical"
+            android:padding="5dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -42,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="@font/teachers_semibold"
-                android:text="@string/dummyNote"
+                android:fontFamily="@font/teachers_medium"
+                android:text="@string/title"
                 android:textColor="@color/txtHeader"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:maxLines="2"/>
 
 
@@ -54,32 +53,40 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/teachers_medium"
-                    android:text="0 g"
-                    android:textColor="@color/txtdes"
-                    android:textSize="14sp" />
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtOfferPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/teachers_medium"
                     android:text="@string/actuleprice"
-                    android:textColor="@color/txtdes"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtActualPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/teachers_regular"
+                    android:text="@string/actuleprice"
+                    android:textColor="@color/txtdes"
+                    android:textSize="13sp" />
             </LinearLayout>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/teachers_medium"
+                android:text="0 g"
+                android:textColor="@color/txtdes"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp">
+                android:layout_height="wrap_content">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:visibility="invisible"
                     android:id="@+id/txtTotalPrice"
@@ -92,6 +99,8 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp" />
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -109,7 +118,7 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:src="@drawable/minimize_ic"
-                            app:tint="@color/colorPrimary"/>
+                            app:tint="@color/white"/>
                     </LinearLayout>
                     <TextView
                         android:id="@+id/cartQty"
@@ -132,12 +141,30 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:src="@drawable/plus_ic"
-                            app:tint="@color/colorPrimary"/>
+                            app:tint="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/addToCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:background="@drawable/add_cart_round"
+                    android:gravity="center">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/teachers_medium"
+                        android:text="@string/add"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                </LinearLayout>
             </LinearLayout>
-
-
 
 
         </LinearLayout>

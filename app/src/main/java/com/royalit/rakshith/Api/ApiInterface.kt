@@ -12,6 +12,7 @@ import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
 import com.royalit.rakshith.Models.PrivacyPolicyModel
+import com.royalit.rakshith.Models.ProductModel
 import com.royalit.rakshith.Models.RegisterModel
 import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.Models.UpdateCartResponse
@@ -81,6 +82,12 @@ interface ApiInterface {
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String
     ): Call<CartListResponse>
+
+    @FormUrlEncoded
+    @POST("all_products_list")
+    fun getProductsApi(
+        @Field("api_key") apiKey: String
+    ): Call<ProductModel>
 
 
     @FormUrlEncoded

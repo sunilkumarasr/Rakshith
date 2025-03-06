@@ -10,16 +10,25 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
+import com.royalit.rakshith.Activitys.AllProductsListActivity
+import com.royalit.rakshith.Activitys.CategoriesWiseProductsListActivity
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
-import com.royalit.rakshith.Activitys.ProductsListActivity
 import com.royalit.rakshith.Activitys.SearchActivity
+import com.royalit.rakshith.Adapters.AllProductsAdapter
+import com.royalit.rakshith.Adapters.Cart.CartItems
+import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
-import com.royalit.rakshith.Adapters.HomeProductsAdapter
+import com.royalit.rakshith.Adapters.HomeFeatureProductsAdapter
+import com.royalit.rakshith.Adapters.Search.SearchAdapter
 import com.royalit.rakshith.Api.RetrofitClient
+import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CategoryListResponse
 import com.royalit.rakshith.Models.CategoryModel
-import com.royalit.rakshith.Models.HomeProductsModel
+import com.royalit.rakshith.Models.ProductListResponse
+import com.royalit.rakshith.Models.ProductModel
+import com.royalit.rakshith.Models.UpdateCartResponse
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.FragmentHomeBinding
 import retrofit2.Call
@@ -30,9 +39,9 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
-    //Products
-    private lateinit var homeProductsAdapter: HomeProductsAdapter
-    private lateinit var productsList: ArrayList<HomeProductsModel>
+    //Products list
+    var productList: List<ProductListResponse> = ArrayList()
+    var cartItemsList: List<CartItems> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,13 +67,13 @@ class HomeFragment : Fragment() {
         } else {
             HomebannersApi()
             getCategoriesApi()
-            HomeProductsApi()
+            getProductsApi()
         }
 
         binding.viewMoreProducts.setOnClickListener {
             val animations = ViewController.animation()
             binding.viewMoreProducts.startAnimation(animations)
-            val intent = Intent(activity, ProductsListActivity::class.java)
+            val intent = Intent(activity, AllProductsListActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
@@ -82,6 +91,8 @@ class HomeFragment : Fragment() {
 
     private fun HomebannersApi() {
         val imageList = mutableListOf<SlideModel>()
+        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
+        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
         imageList.add(SlideModel(R.drawable.dummy_banner, ""))
         imageList.add(SlideModel(R.drawable.dummy_banner, ""))
         imageList.add(SlideModel(R.drawable.dummy_banner, ""))
@@ -121,7 +132,7 @@ class HomeFragment : Fragment() {
         binding.recyclerViewCategories.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(selectedServicesList) { item ->
-                val intent = Intent(activity, ProductsListActivity::class.java).apply {
+                val intent = Intent(activity, CategoriesWiseProductsListActivity::class.java).apply {
                     putExtra("categoriesId", item.categoriesId)
                     putExtra("categoryName", item.categoryName)
                 }
@@ -131,30 +142,36 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun HomeProductsApi() {
+    private fun getProductsApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getProductsApi(getString(R.string.api_key))
+        call.enqueue(object : Callback<ProductModel> {
+            override fun onResponse(call: Call<ProductModel>, response: Response<ProductModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        productList = response.body()?.response!!
+                        DataProductSet()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
 
-        // Populate the static list with data
-        productsList = ArrayList()
-        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Tomato", "₹800","",4))
-        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Cabbage", "₹400","",4))
-        productsList.add(HomeProductsModel(R.drawable.green_leafy_ic, "Bangala", "₹500","",4))
-        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Capsicum", "₹800","",4))
-        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Mirchi", "₹200","",4))
-        productsList.add(HomeProductsModel(R.drawable.beets_ic, "Onion", "₹900","",4))
-        productsList.add(HomeProductsModel(R.drawable.califlower_ic, "Carrot", "₹300","",4))
-
-        // Set the adapter
-        binding.recyclerViewProducts.layoutManager = GridLayoutManager(activity, 2)
-        homeProductsAdapter = HomeProductsAdapter(productsList){ selectedItem ->
-            val intent = Intent(requireActivity(), ProductsDetailsActivity::class.java)
-            startActivity(intent)
-            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
-        }
-
-        binding.recyclerViewProducts.adapter = homeProductsAdapter
-        binding.recyclerViewProducts.setHasFixedSize(true)
-
+            override fun onFailure(call: Call<ProductModel>, t: Throwable) {
+                Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
+                binding.recyclerViewProducts.visibility = View.GONE
+            }
+        })
     }
-
+    private fun DataProductSet() {
+        binding.recyclerViewProducts.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerViewProducts.adapter = HomeFeatureProductsAdapter(productList) { item ->
+            val intent = Intent(requireActivity(), ProductsDetailsActivity::class.java).apply {
+                putExtra("productsId", item.productsId)
+            }
+            startActivity(intent)
+        }
+    }
 
 }

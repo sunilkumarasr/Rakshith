@@ -10,7 +10,7 @@ data class CategoryWiseModel(
 )
 
 data class CategoryWiseResponse(
-    @SerializedName("products_id") val productsId : Int,
+    @SerializedName("products_id") val productsId : String,
     @SerializedName("product_num") val productNum : String,
     @SerializedName("product_name") val productName : String,
     @SerializedName("product_title") val productTitle : String,

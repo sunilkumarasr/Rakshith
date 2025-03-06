@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -17,11 +19,17 @@ class SearchAdapter(
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val relative: RelativeLayout = itemView.findViewById(R.id.relative)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
-        val txtQuantity: TextView = itemView.findViewById(R.id.txtQuantity)
         val txtOfferPrice: TextView = itemView.findViewById(R.id.txtOfferPrice)
         val txtActualPrice: TextView = itemView.findViewById(R.id.txtActualPrice)
+        val txtQuantity: TextView = itemView.findViewById(R.id.txtQuantity)
+        val linearCount: LinearLayout = itemView.findViewById(R.id.linearCount)
+        val linearDecrement: LinearLayout = itemView.findViewById(R.id.linearDecrement)
+        val linearIncrement: LinearLayout = itemView.findViewById(R.id.linearIncrement)
+        val cartQty: TextView = itemView.findViewById(R.id.cartQty)
+        val addToCart: LinearLayout = itemView.findViewById(R.id.addToCart)
 
         init {
             itemView.setOnClickListener {
