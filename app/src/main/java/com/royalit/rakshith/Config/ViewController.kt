@@ -1,5 +1,7 @@
 package com.royalit.rakshith.Config
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ProgressDialog
@@ -155,6 +157,43 @@ object ViewController {
 //             addAnimation(fadeOut)
         }
     }
+
+    private fun animateNumberScrollTopToBottom(textView: TextView, oldValue: Int, newValue: Int) {
+        val animator = ValueAnimator.ofInt(oldValue, newValue)
+        animator.duration = 300 // Number change duration
+
+        // Update number during animation
+        animator.addUpdateListener { animation ->
+            textView.text = (animation.animatedValue as Int).toString()
+        }
+
+        // Move text from the top (-100px) to the center (0px)
+        val moveDown = ObjectAnimator.ofFloat(textView, "translationY", -60f, 0f)
+        moveDown.duration = 300
+        moveDown.interpolator = DecelerateInterpolator()
+
+        animator.start()
+        moveDown.start()
+    }
+
+    private fun animateNumberScrollBottomToTop(textView: TextView, oldValue: Int, newValue: Int) {
+        val animator = ValueAnimator.ofInt(oldValue, newValue)
+        animator.duration = 300 // Number change duration
+
+        // Update number during animation
+        animator.addUpdateListener { animation ->
+            textView.text = (animation.animatedValue as Int).toString()
+        }
+
+        // Move text from the top (-100px) to the center (0px)
+        val moveDown = ObjectAnimator.ofFloat(textView, "translationY", +60f, 0f)
+        moveDown.duration = 300
+        moveDown.interpolator = DecelerateInterpolator()
+
+        animator.start()
+        moveDown.start()
+    }
+
 
 
 }

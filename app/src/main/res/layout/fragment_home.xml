@@ -74,7 +74,7 @@
                 app:iss_indicator_align="BOTTOM"
                 app:iss_period="2000"
                 app:iss_text_color="@color/black"
-                app:iss_title_background="@color/trance" />
+                app:iss_title_background="@color/trance"/>
 
             <LinearLayout
                 android:id="@+id/linearProductHeader"
@@ -82,8 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"

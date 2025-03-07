@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import com.royalit.rakshith.Adapters.AllProductsAdapter
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
@@ -44,6 +45,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     //Products list
     var productList: List<ProductListResponse> = ArrayList()
     var cartItemsList: List<CartItems> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,7 +143,6 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
         binding.recyclerview.adapter = AllProductsAdapter(this@AllProductsListActivity, productList,cartListToPass, this@AllProductsListActivity, cartItemQuantityChangeListener)
 
     }
-
 
     override fun onProductItemClick(itemsData: ProductListResponse?) {
 

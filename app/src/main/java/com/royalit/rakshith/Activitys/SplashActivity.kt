@@ -64,6 +64,9 @@ class SplashActivity : AppCompatActivity() {
         resources.updateConfiguration(config, resources.displayMetrics)
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        inIts()
+    }
 
 }
