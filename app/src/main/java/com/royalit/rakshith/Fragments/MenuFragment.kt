@@ -10,26 +10,22 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.recreate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.royalit.rakshith.Activitys.AboutUsActivity
 import com.royalit.rakshith.Activitys.MyAddressActivity
 import com.royalit.rakshith.Activitys.CartActivity
-import com.royalit.rakshith.Activitys.CouponActivity
 import com.royalit.rakshith.Activitys.DashBoardActivity
 import com.royalit.rakshith.Activitys.EditProfileActivity
 import com.royalit.rakshith.Activitys.FaqActivity
-import com.royalit.rakshith.Activitys.HelpAndSupportActivity
 import com.royalit.rakshith.Activitys.MyOrdersActivity
 import com.royalit.rakshith.Activitys.MyWalletActivity
 import com.royalit.rakshith.Activitys.PrivacyPolicyActivity
-import com.royalit.rakshith.Activitys.ProductsDetailsActivity
 import com.royalit.rakshith.Activitys.RefundPolicyActivity
 import com.royalit.rakshith.Activitys.ShippingPolicyActivity
 import com.royalit.rakshith.Activitys.TermsAndConditionsActivity
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Logins.LoginActivity
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.FragmentMenuBinding
 import java.util.Locale
@@ -69,7 +65,6 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         binding.linearMyAddress.setOnClickListener(this)
         binding.linearOrder.setOnClickListener(this)
         binding.linearLanguage.setOnClickListener(this)
-        binding.linearCoupon.setOnClickListener(this)
         binding.linearMyWallet.setOnClickListener(this)
         binding.linearReferAndEarn.setOnClickListener(this)
         binding.linearShare.setOnClickListener(this)
@@ -80,81 +75,106 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         binding.linearRefundPolicy.setOnClickListener(this)
         binding.linearShippingPolicy.setOnClickListener(this)
         binding.linearLogout.setOnClickListener(this)
-
     }
 
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.linearProfile -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
+
                 val intent = Intent(requireActivity(), EditProfileActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearCart -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), CartActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearMyAddress -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), MyAddressActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearOrder -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), MyOrdersActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearLanguage -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 LanguageDialog()
             }
-            R.id.linearCoupon -> {
-                val intent = Intent(requireActivity(), CouponActivity::class.java)
-                startActivity(intent)
-                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
-            }
             R.id.linearMyWallet -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), MyWalletActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearShare -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 shareApp()
             }
             R.id.linearReferAndEarn -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 ReferAndEarnApp()
             }
             R.id.linearFaq -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), FaqActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearAbout -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), AboutUsActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearTermsAndConditions -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), TermsAndConditionsActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearPrivacyPolicy -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), PrivacyPolicyActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearRefundPolicy -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), RefundPolicyActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearShippingPolicy -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 val intent = Intent(requireActivity(), ShippingPolicyActivity::class.java)
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearLogout -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
                 LogoutDialog()
             }
         }
@@ -197,6 +217,8 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         val buttonOk = view.findViewById<Button>(R.id.buttonOk)
 
         buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
             val selectedRadioButtonId: Int = radioGroupLanguage.checkedRadioButtonId
             if (selectedRadioButtonId != -1) {
                 val selectedRadioButton: RadioButton = view.findViewById(selectedRadioButtonId)
@@ -237,18 +259,27 @@ class MenuFragment : Fragment() ,View.OnClickListener{
     }
 
     private fun LogoutDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireActivity())
+        val bottomSheetDialog = BottomSheetDialog(requireActivity(), R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_logout, null)
         bottomSheetDialog.setContentView(view)
+
         val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
         val buttonOk = view.findViewById<Button>(R.id.buttonOk)
         buttonCancel.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
             bottomSheetDialog.dismiss()
         }
         buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
             bottomSheetDialog.dismiss()
+            Preferences.deleteSharedPreferences(requireActivity())
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finishAffinity()
         }
         bottomSheetDialog.show()
+
     }
 
 }

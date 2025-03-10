@@ -64,16 +64,55 @@ object ViewController {
     fun customToast(context: Context, message: String) {
         if (toast == null) {
             toast = Toast(context.applicationContext)
-            toast?.setGravity(Gravity.TOP or Gravity.FILL_HORIZONTAL, 0, 0)
+            toast?.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 0)
+
             val inflater = LayoutInflater.from(context)
             val view = inflater.inflate(R.layout.toastlayout, null)
 
-            // Find the TextView inside the custom layout
             val textView = view.findViewById<TextView>(R.id.txtNote)
             textView.text = message
 
             toast?.view = view
             toast?.duration = Toast.LENGTH_LONG
+
+            // Apply animations
+            val window = toast?.view?.windowToken
+            if (window != null) {
+                val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                val params = WindowManager.LayoutParams()
+                params.windowAnimations = R.style.CustomToastAnimation
+                wm.updateViewLayout(toast?.view, params)
+            }
+        } else {
+            val textView = toast?.view?.findViewById<TextView>(R.id.txtNote)
+            textView?.text = message
+        }
+        toast?.show()
+    }
+
+
+    fun customToastBottom(context: Context, message: String) {
+        if (toast == null) {
+            toast = Toast(context.applicationContext)
+            toast?.setGravity(Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL, 0, 0)
+
+            val inflater = LayoutInflater.from(context)
+            val view = inflater.inflate(R.layout.toastlayout, null)
+
+            val textView = view.findViewById<TextView>(R.id.txtNote)
+            textView.text = message
+
+            toast?.view = view
+            toast?.duration = Toast.LENGTH_LONG
+
+            // Apply animations
+            val window = toast?.view?.windowToken
+            if (window != null) {
+                val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+                val params = WindowManager.LayoutParams()
+                params.windowAnimations = R.style.CustomToastAnimation
+                wm.updateViewLayout(toast?.view, params)
+            }
         } else {
             val textView = toast?.view?.findViewById<TextView>(R.id.txtNote)
             textView?.text = message

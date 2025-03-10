@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activitys.CategoriesWiseProductsListActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/whitebg"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/relativeTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -67,40 +66,86 @@
 
         </RelativeLayout>
 
-
-        <RelativeLayout
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerLoading"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/relativeTop">
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="gone" />
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+                <include layout="@layout/categories_wise_product_items_list_shimmer"/>
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:visibility="gone"
             android:id="@+id/linearNoData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical">
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/no_data"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/nodatafound"
-                android:textSize="17sp"
-                android:textColor="@color/black"/>
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/teachers_medium"
+                android:layout_marginTop="10dp"
+                android:text="Categories are empty! "
+                android:textColor="#cdcdcd"
+                android:textSize="18sp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/teachers_regular"
+                android:layout_marginTop="8dp"
+                android:text="We will update it soon!"
+                android:textColor="#cdcdcd"
+                android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/linearSubmitGotoHome"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/round_button">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/continueShopping"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/teachers_medium"/>
+            </LinearLayout>
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </layout>

@@ -3,6 +3,7 @@ package com.royalit.rakshith.Adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,16 +31,19 @@ class CategoriesWiseProductsAdapter(
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
         val txtOfferPrice: TextView = itemView.findViewById(R.id.txtOfferPrice)
+        val txtActualPrice: TextView = itemView.findViewById(R.id.txtActualPrice)
         val txtTotalPrice: TextView = itemView.findViewById(R.id.txtTotalPrice)
         val txtQuantity: TextView = itemView.findViewById(R.id.txtQuantity)
-        val cartQty: TextView = itemView.findViewById(R.id.cartQty)
+        val linearCount: LinearLayout = itemView.findViewById(R.id.linearCount)
         val linearDecrement: LinearLayout = itemView.findViewById(R.id.linearDecrement)
         val linearIncrement: LinearLayout = itemView.findViewById(R.id.linearIncrement)
+        val cartQty: TextView = itemView.findViewById(R.id.cartQty)
+        val addToCart: LinearLayout = itemView.findViewById(R.id.addToCart)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.product_items_list, parent, false)
+            .inflate(R.layout.categories_wise_product_items_list, parent, false)
         return ViewHolder(view)
     }
 
@@ -53,15 +57,24 @@ class CategoriesWiseProductsAdapter(
             .into(holder.imgProducts)
         holder.txtTitle.text = item.productTitle
         holder.txtQuantity.text = item.quantity
-        holder.txtOfferPrice.text =  "(Price : ₹"+item.offerPrice+" )"
+        holder.txtOfferPrice.text =  "₹"+item.offerPrice
+        holder.txtActualPrice.text = "₹"+item.salesPrice
+        holder.txtActualPrice.paintFlags = holder.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
         holder.cartQty.text = "0"
         for (j in cartList.indices) {
             if (cartList[j].product_id.toInt() == item.productsId.toInt()) {
 
                 holder.cartQty.text = cartList[j].cart_quantity.toString()
+
+                if (cartList[j].cart_quantity.toInt() > 0){
+                    holder.linearCount.visibility = View.VISIBLE
+                    holder.addToCart.visibility = View.GONE
+                }
+
                 val finalAmount: Int = item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
                 holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total Price : ₹ "+finalAmount
+                holder.txtTotalPrice.text = "Total Price : ₹"+finalAmount
 
                 //setCartId
                 item.cartId= cartList[j].id.toString()
@@ -77,11 +90,11 @@ class CategoriesWiseProductsAdapter(
                 cartQ[0]--
                 holder.cartQty.text = "" + cartQ[0]
                 holder.cartQty.text = cartQ[0].toString()
-                val carstQty = holder.cartQty.text.toString()
+                val cartQty1 = holder.cartQty.text.toString()
                 if(cartQ[0]==1){
-                    click!!.onAddToCartClicked(item, carstQty,1)
+                    click!!.onAddToCartClicked(item, cartQty1,1)
                 }else{
-                    click!!.onAddToCartClicked(item, carstQty,1)
+                    click!!.onAddToCartClicked(item, cartQty1,1)
                 }
                 // holder.binding.addToCartBtn.performClick()
             }
@@ -91,37 +104,36 @@ class CategoriesWiseProductsAdapter(
             val animations = ViewController.animation()
             holder.linearIncrement.startAnimation(animations)
 
-            val cartQty = holder.cartQty.text.toString()
-            if (item.maxOrderQuantity.toInt()<=cartQty.toInt()){
-                ViewController.showToast(context,"Max Quantity only for "+item.maxOrderQuantity)
+            val cartQty = holder.cartQty.text.toString().toInt()
+
+            if (item.maxOrderQuantity.toInt() <= cartQty) {
+                ViewController.showToast(context, "Max Quantity only for " + item.maxOrderQuantity)
                 return@setOnClickListener
             }
-            if (item.stock == cartQty) {
-                ViewController.showToast(context,"Stock Limit only " + item.stock)
+
+            if (item.stock.toInt() <= cartQty) {
+                ViewController.showToast(context, "Stock Limit only " + item.stock)
+                return@setOnClickListener
             }else{
-                cartQ[0]++
-                if (item.maxOrderQuantity.toInt()<=cartQty.toInt()){
-                    Toast.makeText(context, "Can't add Max Quantity for this Product", Toast.LENGTH_LONG).show()
+                if ((item.maxOrderQuantity!=null)&& (item.maxOrderQuantity!!.toInt()<=cartQty.toInt())){
+                    ViewController.customToast(context,"Can't add Max Quantity for this Product" + item.maxOrderQuantity)
                     return@setOnClickListener
-                }
-                holder.cartQty.text = cartQ[0].toString()
-                val cartQty1 = holder.cartQty.text.toString()
-                holder.cartQty.text = "" + cartQ.get(0)
-
-
-                if (!ViewController.noInterNetConnectivity(context)) {
-                    ViewController.showToast(context, "Please check your connection ")
-                } else {
-                    if (cartQty1 == "1")
-                        click!!.onAddToCartClicked(item, cartQty1,0)
-                    else{
-                        click!!.onAddToCartClicked(item, cartQty1,1)
+                }else{
+                    cartQ[0]++
+                    holder.cartQty.text = cartQ[0].toString()
+                    val cartQty1 = holder.cartQty.text.toString()
+                    if (!ViewController.noInterNetConnectivity(context)) {
+                        ViewController.showToast(context, "Please check your connection ")
+                    } else {
+                        if (cartQ[0] == 1)
+                            click!!.onAddToCartClicked(item, cartQty1, 0)
+                        else{
+                            click!!.onAddToCartClicked(item, cartQty1, 1)
+                        }
                     }
                 }
-
-                // holder.binding.addToCartBtn.performClick()
-
             }
+
         }
 
         holder.itemView.setOnClickListener {
@@ -135,7 +147,6 @@ class CategoriesWiseProductsAdapter(
                 context.overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
         }
-
 
     }
 

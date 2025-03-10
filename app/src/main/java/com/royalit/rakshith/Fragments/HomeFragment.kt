@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.denzcoskun.imageslider.models.SlideModel
 import com.royalit.rakshith.Activitys.AllProductsListActivity
+import com.royalit.rakshith.Activitys.CategoriesActivity
 import com.royalit.rakshith.Activitys.CategoriesWiseProductsListActivity
 import com.royalit.rakshith.Activitys.SearchActivity
-import com.royalit.rakshith.Adapters.AllProductsAdapter
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.HomeCategoriesAdapter
@@ -24,6 +24,7 @@ import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CategoryListResponse
 import com.royalit.rakshith.Models.CategoryModel
+import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.ProductListResponse
 import com.royalit.rakshith.Models.ProductModel
 import com.royalit.rakshith.Models.UpdateCartResponse
@@ -43,7 +44,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
 
     //Products list
-    var productList: List<ProductListResponse> = ArrayList()
+    var productList: MutableList<ProductListResponse> = ArrayList()
     var cartItemsList: List<CartItems> = ArrayList()
 
     override fun onCreateView(
@@ -84,14 +85,13 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
-        binding.linearSearch.setOnClickListener {
+        binding.viewMoreCategories.setOnClickListener {
             val animations = ViewController.animation()
-            binding.linearSearch.startAnimation(animations)
-            val intent = Intent(activity, SearchActivity::class.java)
+            binding.viewMoreCategories.startAnimation(animations)
+            val intent = Intent(activity, CategoriesActivity::class.java)
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
-
 
     }
 
@@ -115,12 +115,11 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                         val selectedServicesList = response.body()?.response
                         //empty
                         if (selectedServicesList.isNullOrEmpty()) {
-                            binding.txtCatHeader.visibility = View.GONE
+                            binding.linearCategoriesHeader.visibility = View.GONE
                             binding.recyclerViewCategories.visibility = View.GONE
                             return
                         }
                         DataSet(selectedServicesList)
-
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -149,6 +148,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
 
     private fun getProductsApi() {
+        binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getProductsApi(getString(R.string.api_key))
         call.enqueue(object : Callback<ProductModel> {
@@ -161,12 +161,15 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.e("onResponseException", e.message.toString())
+                    binding.shimmerLoading.visibility = View.GONE
                 }
             }
 
             override fun onFailure(call: Call<ProductModel>, t: Throwable) {
                 Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
                 binding.recyclerViewProducts.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
+
             }
         })
     }
@@ -182,6 +185,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
@@ -198,6 +202,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
                 DataProductSet()
+                binding.shimmerLoading.visibility = View.GONE
             }
         })
     }
@@ -230,7 +235,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
 
     private fun addToCart(itemsData: ProductListResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -245,11 +249,10 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                    getProductsApi()
+                   // getProductsApi()
                 }
                 try {
                     if (response.isSuccessful) {
@@ -257,8 +260,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                         if (res != null) {
                             if (res.message.equals("Success")){
 
-                            }else{
-                                ViewController.showToast(requireActivity(),res.message)
                             }
                         }
                     }
@@ -269,11 +270,10 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                    getProductsApi()
+                   // getProductsApi()
                 }
             }
         })
@@ -281,7 +281,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
 
     private fun updateCart(itemsData: ProductListResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -296,12 +295,10 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                    getProductsApi()
+                    //getProductsApi()
                 }
                 try {
                     if (response.isSuccessful) {
@@ -309,8 +306,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                         if (res != null) {
                             if (res.message.equals("Success")){
 
-                            }else{
-                                ViewController.showToast(requireActivity(),res.message)
                             }
                         }
                     }
@@ -321,11 +316,10 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                    getProductsApi()
+                   // getProductsApi()
                 }
             }
         })
@@ -342,7 +336,43 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     //delete item in cart
     override fun onDeleteCartItem(cartItem: ProductListResponse) {
+        removeFromCartApi(cartItem)
+    }
+    private fun removeFromCartApi(cartItem: ProductListResponse) {
+        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.removeFromCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                cartItem.productsId,
+                cartItem.cartId
+            )
+        call.enqueue(object : Callback<DeleteCartResponse> {
+            override fun onResponse(
+                call: Call<DeleteCartResponse>,
+                response: Response<DeleteCartResponse>
+            ) {
+                try {
+                    if(response.isSuccessful) {
 
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
+                getCartApi()
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        getProductsApi()
     }
 
 }

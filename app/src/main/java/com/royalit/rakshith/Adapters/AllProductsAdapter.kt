@@ -1,9 +1,5 @@
 package com.royalit.rakshith.Adapters
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,12 +7,10 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
@@ -34,13 +28,13 @@ class AllProductsAdapter(
 ) : RecyclerView.Adapter<AllProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val relative: RelativeLayout = itemView.findViewById(R.id.relative)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
+        val txtLabelOffer: TextView = itemView.findViewById(R.id.txtLabelOffer)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
         val txtOfferPrice: TextView = itemView.findViewById(R.id.txtOfferPrice)
         val txtActualPrice: TextView = itemView.findViewById(R.id.txtActualPrice)
+        val txtItemType: TextView = itemView.findViewById(R.id.txtItemType)
         val txtTotalPrice: TextView = itemView.findViewById(R.id.txtTotalPrice)
-        val txtQuantity: TextView = itemView.findViewById(R.id.txtQuantity)
         val linearCount: LinearLayout = itemView.findViewById(R.id.linearCount)
         val linearDecrement: LinearLayout = itemView.findViewById(R.id.linearDecrement)
         val linearIncrement: LinearLayout = itemView.findViewById(R.id.linearIncrement)
@@ -51,7 +45,7 @@ class AllProductsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.product_items_list, parent, false)
+            .inflate(R.layout.all_product_items_list, parent, false)
         return ViewHolder(view)
     }
 
@@ -64,27 +58,29 @@ class AllProductsAdapter(
             .error(R.drawable.logo)
             .into(holder.imgProducts)
         holder.txtTitle.text = item.productTitle
-        holder.txtQuantity.text = item.quantity
-        holder.txtOfferPrice.text =  "₹"+item.offerPrice
-        holder.txtActualPrice.text = "₹"+item.salesPrice
-        holder.txtActualPrice.paintFlags = holder.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        holder.txtItemType.text = item.quantity
+        holder.txtOfferPrice.text = "₹" + item.offerPrice
+        holder.txtActualPrice.text = "₹" + item.salesPrice
+        holder.txtActualPrice.paintFlags =
+            holder.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         holder.cartQty.text = "0"
         for (j in cartList.indices) {
             if (cartList[j].product_id.toInt() == item.productsId.toInt()) {
 
                 holder.cartQty.text = cartList[j].cart_quantity.toString()
 
-                if (cartList[j].cart_quantity.toInt() > 0){
+                if (cartList[j].cart_quantity.toInt() > 0) {
                     holder.linearCount.visibility = View.VISIBLE
                     holder.addToCart.visibility = View.GONE
                 }
 
-                val finalAmount: Int = item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total Price : ₹"+finalAmount
+                val finalAmount: Int =
+                    item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+//                holder.txtTotalPrice.visibility = View.VISIBLE
+//                holder.txtTotalPrice.text = "Total Price : ₹ "+finalAmount
 
                 //setCartId
-                item.cartId= cartList[j].id.toString()
+                item.cartId = cartList[j].id.toString()
             }
         }
 
@@ -98,12 +94,19 @@ class AllProductsAdapter(
                 holder.cartQty.text = "" + cartQ[0]
                 holder.cartQty.text = cartQ[0].toString()
                 val cartQty1 = holder.cartQty.text.toString()
-                if(cartQ[0]==1){
-                    click!!.onAddToCartClicked(item, cartQty1,1)
-                }else{
-                    click!!.onAddToCartClicked(item, cartQty1,1)
+                if (cartQ[0] == 1) {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
+                } else {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
                 }
                 // holder.binding.addToCartBtn.performClick()
+            } else if (cartQ[0] == 1) {
+                //delete
+                quantityChangeListener?.onDeleteCartItem(item)
+                //without api load
+                holder.cartQty.text = "0"
+                holder.addToCart.visibility = View.VISIBLE
+                holder.linearCount.visibility = View.GONE
             }
         }
 
@@ -114,34 +117,46 @@ class AllProductsAdapter(
             val cartQty = holder.cartQty.text.toString().toInt()
 
             if (item.maxOrderQuantity.toInt() <= cartQty) {
-                ViewController.showToast(context, "Max Quantity only for " + item.maxOrderQuantity)
+                ViewController.customToastBottom(context,"Max Quantity only for " + item.maxOrderQuantity)
                 return@setOnClickListener
             }
 
             if (item.stock.toInt() <= cartQty) {
-                ViewController.showToast(context, "Stock Limit only " + item.stock)
+                ViewController.customToastBottom(context,"Stock Limit only " + item.stock)
                 return@setOnClickListener
-            }else{
-                if ((item.maxOrderQuantity!=null)&& (item.maxOrderQuantity!!.toInt()<=cartQty.toInt())){
-                    ViewController.customToast(context,"Can't add Max Quantity for this Product" + item.maxOrderQuantity)
+            } else {
+                if (item.maxOrderQuantity.toInt() <= cartQty.toInt()) {
+                    ViewController.customToastBottom(
+                        context,
+                        "Can't add Max Quantity for this Product" + item.maxOrderQuantity
+                    )
                     return@setOnClickListener
-                }else{
+                } else {
                     cartQ[0]++
                     holder.cartQty.text = cartQ[0].toString()
                     val cartQty1 = holder.cartQty.text.toString()
                     if (!ViewController.noInterNetConnectivity(context)) {
-                        ViewController.showToast(context, "Please check your connection ")
+                        ViewController.customToastBottom(context,"Please check your connection ")
                     } else {
                         if (cartQ[0] == 1)
                             click!!.onAddToCartClicked(item, cartQty1, 0)
-                        else{
+                        else {
                             click!!.onAddToCartClicked(item, cartQty1, 1)
                         }
                     }
                 }
             }
 
+        }
 
+        holder.addToCart.setOnClickListener {
+//            val animations = ViewController.animation()
+//            holder.addToCart.startAnimation(animations)
+
+            click!!.onAddToCartClicked(item, "1", 0)
+            holder.addToCart.visibility = View.GONE
+            holder.linearCount.visibility = View.VISIBLE
+            holder.cartQty.text = "1"
         }
 
         holder.itemView.setOnClickListener {
@@ -155,6 +170,10 @@ class AllProductsAdapter(
                 context.overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
         }
+
+        //label value
+        val labelValue = item.salesPrice.toDouble() - item.offerPrice.toDouble()
+        holder.txtLabelOffer.text = "₹" + labelValue.toInt()
 
     }
 

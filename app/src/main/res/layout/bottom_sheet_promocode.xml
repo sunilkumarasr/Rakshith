@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="25dp"
+        android:layout_height="2.5dp"
+        app:cardBackgroundColor="@color/gray"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20sp"
+        android:layout_marginTop="20sp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="1dp"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewPromo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/promocode_items_list"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearNoData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/promo_code"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/noPromoAvailable"
+            android:fontFamily="@font/teachers_semibold"
+            android:textSize="13sp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/PromoCodesAddedSoon"
+            android:fontFamily="@font/teachers_medium"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonOk"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:textAllCaps="false"
+            android:background="@drawable/round_button"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/ok" />
+    </LinearLayout>
+
+
+</LinearLayout>

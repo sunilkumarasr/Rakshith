@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_vertical"
-    android:background="@color/lightRed"
-    android:padding="10dp"
-    android:orientation="horizontal">
+    app:cardCornerRadius="15dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/logo" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtNote"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:fontFamily="@font/teachers_medium"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:background="@color/colorPrimary"
+        android:padding="10dp"
+        android:orientation="horizontal">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/sorry"
+            android:scaleType="fitXY"/>
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/teachers_medium"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>

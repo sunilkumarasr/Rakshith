@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class ProductModel(
     @SerializedName("Status") val status: Boolean,
     @SerializedName("Message") val message: String,
-    @SerializedName("Response") val response: List<ProductListResponse>,
+    @SerializedName("Response") val response: MutableList<ProductListResponse>,
     @SerializedName("code") val code: Int
 )
 

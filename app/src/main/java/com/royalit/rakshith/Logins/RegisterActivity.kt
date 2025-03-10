@@ -32,12 +32,11 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-        inits()
+        inIts()
     }
 
-    private fun inits() {
+    private fun inIts() {
         binding.loginLinear.setOnClickListener {
             val animations = ViewController.animation()
             binding.loginLinear.startAnimation(animations)
@@ -85,7 +84,7 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
         if (mobile.isEmpty()) {
-            ViewController.customToast(applicationContext, "Enter Email")
+            ViewController.customToast(applicationContext, "Enter Mobile Number")
             return
         }
         if (password.isEmpty()) {
@@ -139,8 +138,6 @@ class RegisterActivity : AppCompatActivity() {
                             ViewController.customToast(applicationContext, "Register Failed")
                         }
                     } catch (e: NullPointerException) {
-                        e.printStackTrace()
-                    } catch (e: TypeCastException) {
                         e.printStackTrace()
                     }
                 }

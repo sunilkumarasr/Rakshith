@@ -1,5 +1,6 @@
 package com.royalit.rakshith.Activitys
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -23,6 +24,11 @@ class MyWalletActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        ViewController.changeStatusBarColor(
+            this,
+            ContextCompat.getColor(this, R.color.colorPrimary),
+            false
+        )
 
         inIts()
 
@@ -35,6 +41,14 @@ class MyWalletActivity : AppCompatActivity() {
             binding.imgBack.startAnimation(animations)
             finish()
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
+        }
+
+        binding.linearSubmitGotoHome.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmitGotoHome.startAnimation(animations)
+            val intent = Intent(this@MyWalletActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
         }
 
         //myWalletApi()

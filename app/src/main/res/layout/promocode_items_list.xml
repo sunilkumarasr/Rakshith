@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edge_items_light_gray"
+    android:orientation="vertical"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="25sp"
+            android:layout_height="25sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/promo_code"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/title"
+                android:fontFamily="@font/teachers_medium"
+                android:textSize="15dp"
+                android:textColor="@color/txtHeader"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtDec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:layout_marginTop="2dp"
+                android:text="@string/title"
+                android:fontFamily="@font/teachers_regular"
+                android:textSize="13sp"
+                android:textColor="@color/txtdes"/>
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/apply"
+            android:fontFamily="@font/teachers_semibold"
+            android:textSize="12sp"
+            android:textColor="@color/green"/>
+    </LinearLayout>
+
+</LinearLayout>

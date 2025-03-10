@@ -70,6 +70,14 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+        binding.linearSubmitGotoHome.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmitGotoHome.startAnimation(animations)
+            val intent = Intent(this@CategoriesWiseProductsListActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+        }
+
         binding.txtTitle.text = categoryName
 
 
@@ -84,7 +92,7 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
     //list
     private fun getCategoryWiseProductsListApi() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.getCategoryWiseProductsListApi(
@@ -96,33 +104,27 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<CategoryWiseModel>,
                 response: Response<CategoryWiseModel>
             ) {
-                binding.progressBar.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         productList = response.body()?.response!!
                         if (productList.size > 0) {
-                            binding.recyclerview.visibility = View.VISIBLE
                             binding.linearNoData.visibility = View.GONE
-
                             getCartApi()
                         } else {
-                            binding.recyclerview.visibility = View.GONE
                             binding.linearNoData.visibility = View.VISIBLE
                         }
                     } else {
-                        binding.recyclerview.visibility = View.GONE
-                        binding.linearNoData.visibility = View.VISIBLE
+                        binding.linearNoData.visibility = View.GONE
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
-                    binding.recyclerview.visibility = View.GONE
-                    binding.linearNoData.visibility = View.VISIBLE
+                    binding.linearNoData.visibility = View.GONE
                 }
             }
             override fun onFailure(call: Call<CategoryWiseModel>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
-                binding.recyclerview.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
                 binding.linearNoData.visibility = View.VISIBLE
                 Log.e("onFailure",t.message.toString())
             }
@@ -130,7 +132,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
     }
     private fun getCartApi() {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCartApi(
@@ -142,7 +143,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
@@ -192,7 +192,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
     }
 
     private fun addToCart(itemsData: CategoryWiseResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -207,7 +206,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -231,7 +229,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -243,7 +240,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
     }
 
     private fun updateCart(itemsData: CategoryWiseResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -258,8 +254,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -283,7 +277,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -308,6 +301,14 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            getCategoryWiseProductsListApi()
+        }
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

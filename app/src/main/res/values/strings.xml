@@ -111,6 +111,7 @@
     <string name="add">Add</string>
     <string name="description">Description</string>
     <string name="totalAmount">Total Amount</string>
+    <string name="orderAmount">Order Amount</string>
     <string name="Items">Items</string>
     <string name="discount">Discount</string>
     <string name="deliveryCharges">Delivery Charges</string>
@@ -119,7 +120,7 @@
     <string name="noData">No Data</string>
     <string name="title">Title</string>
     <string name="orderSuccessfull">Order Successful</string>
-    <string name="orderNote">Your order #96454 is successfully placed</string>
+    <string name="orderStatus">Your order #96454 is successfully placed</string>
     <string name="trackMyOrder">Track My Order</string>
     <string name="goBack">Go Back</string>
     <string name="orderFailed">Order Failed</string>
@@ -139,6 +140,15 @@
     <string name="apply">Apply</string>
     <string name="select">Select</string>
     <string name="nodatafound">No Data Found</string>
+    <string name="continueShopping">Continue Shopping</string>
+    <string name="transactions">Transactions</string>
+    <string name="noPromoAvailable">No Promo Available</string>
+    <string name="PromoCodesAddedSoon">Promo codes added soon</string>
+    <string name="addNote">Add Note</string>
+    <string name="editNote">Edit Note</string>
+    <string name="orderNote">Order Note</string>
+    <string name="addaNotetoYourOrder">Add a note to your order</string>
+    <string name="save">Save</string>
 
     <string name="dummyNote">Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
      </string>

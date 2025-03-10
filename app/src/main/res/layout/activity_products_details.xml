@@ -50,14 +50,12 @@
                             android:layout_height="30dp"
                             android:gravity="center"
                             android:layout_centerVertical="true"
-                            android:layout_alignParentEnd="true"
-                            android:background="@drawable/circle_fav">
+                            android:layout_alignParentEnd="true">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imgFav"
-                                android:layout_width="15dp"
-                                android:layout_height="15dp"
-                                android:src="@drawable/favorite_ic"
-                                app:tint="@color/colorPrimary" />
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/favorite_ic"/>
                         </LinearLayout>
                     </RelativeLayout>
 

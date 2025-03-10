@@ -98,15 +98,16 @@ class CartAdapter(
 
             val cartQty = holder.cartQty.text.toString()
             if (item.max_order_quantity.toInt()<=cartQty.toInt()){
-                ViewController.showToast(context,"Max Quantity only for "+item.max_order_quantity)
+                ViewController.customToast(context,"Max Quantity only for "+item.max_order_quantity)
                 return@setOnClickListener
             }
             if (item.stock == cartQty) {
-                ViewController.showToast(context,"Stock Limit only " + item.stock)
+                ViewController.customToast(context,"Stock Limit only " + item.stock)
             }else{
                 cartQ[0]++
                 if (item.max_order_quantity.toInt()<=cartQty.toInt()){
                     Toast.makeText(context, "Can't add Max Quantity for this Product", Toast.LENGTH_LONG).show()
+                    ViewController.customToast(context,"Can't add Max Quantity for this Product")
                     return@setOnClickListener
                 }
                 holder.cartQty.text = cartQ[0].toString()
@@ -115,7 +116,7 @@ class CartAdapter(
 
 
                 if (!ViewController.noInterNetConnectivity(context)) {
-                    ViewController.showToast(context, "Please check your connection ")
+                    ViewController.customToast(context, "Please check your connection ")
                 } else {
                     if (cartQty1 == "1")
                         click!!.onAddToCartClicked(item, cartQty1,1)

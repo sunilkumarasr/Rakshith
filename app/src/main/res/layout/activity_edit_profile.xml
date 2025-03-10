@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -42,13 +43,116 @@
                 android:layout_marginEnd="10dp"
                 android:background="@null"
                 android:fontFamily="@font/teachers_semibold"
-                android:hint="@string/editProfile"
+                android:hint="@string/profile"
                 android:textColor="@color/colorPrimary"
                 android:textColorHint="@color/colorPrimary"
                 android:textSize="15sp" />
 
         </RelativeLayout>
 
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profileImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/dummy_profile" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/editbox_round">
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/nameEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@null"
+                        android:textSize="15sp"
+                        android:singleLine="true"
+                        android:hint="@string/enteryourName"
+                        android:fontFamily="@font/teachers_regular"
+                        android:textColorHint="@color/hintcolor"
+                        android:inputType="phone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/editbox_round">
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/emailEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@null"
+                        android:textSize="15sp"
+                        android:singleLine="true"
+                        android:hint="@string/enteremailaddress"
+                        android:fontFamily="@font/teachers_regular"
+                        android:textColorHint="@color/hintcolor"
+                        android:inputType="textEmailAddress"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/editbox_round">
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/mobileEdit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@null"
+                        android:textSize="15sp"
+                        android:singleLine="true"
+                        android:maxLength="10"
+                        android:hint="@string/entermobilenumber"
+                        android:fontFamily="@font/teachers_regular"
+                        android:textColorHint="@color/hintcolor"
+                        android:inputType="textEmailAddress"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearSubmit"
+                    android:layout_width="200dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/round_button">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/update"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/teachers_bold"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
 
 
     </LinearLayout>

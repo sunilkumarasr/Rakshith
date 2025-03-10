@@ -9,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.royalit.rakshith.Activitys.ProductsDetailsActivity
-import com.royalit.rakshith.Adapters.AllProductsAdapter.CartItemQuantityChangeListener
-import com.royalit.rakshith.Adapters.AllProductsAdapter.ProductItemClick
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.ProductListResponse
@@ -23,14 +20,13 @@ import com.royalit.rakshith.R
 
 class HomeFeatureProductsAdapter(
     val context: Context,
-    private val items: List<ProductListResponse>,
+    private val items: MutableList<ProductListResponse>,
     private val cartList: List<CartItems>,
     var click: ProductItemClick?,
     var quantityChangeListener: CartItemQuantityChangeListener?
 ) : RecyclerView.Adapter<HomeFeatureProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val relative: RelativeLayout = itemView.findViewById(R.id.relative)
         val imgProducts: ImageView = itemView.findViewById(R.id.imgProducts)
         val txtLabelOffer: TextView = itemView.findViewById(R.id.txtLabelOffer)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
@@ -60,26 +56,28 @@ class HomeFeatureProductsAdapter(
             .into(holder.imgProducts)
         holder.txtTitle.text = item.productTitle
         holder.txtItemType.text = item.quantity
-        holder.txtOfferPrice.text =  "₹"+item.offerPrice
-        holder.txtActualPrice.text = "₹"+item.salesPrice
-        holder.txtActualPrice.paintFlags = holder.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        holder.txtOfferPrice.text = "₹" + item.offerPrice
+        holder.txtActualPrice.text = "₹" + item.salesPrice
+        holder.txtActualPrice.paintFlags =
+        holder.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         holder.cartQty.text = "0"
         for (j in cartList.indices) {
             if (cartList[j].product_id.toInt() == item.productsId.toInt()) {
 
                 holder.cartQty.text = cartList[j].cart_quantity.toString()
 
-                if (cartList[j].cart_quantity.toInt() > 0){
+                if (cartList[j].cart_quantity.toInt() > 0) {
                     holder.linearCount.visibility = View.VISIBLE
                     holder.addToCart.visibility = View.GONE
                 }
 
-                val finalAmount: Int = item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+                val finalAmount: Int =
+                    item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
 //                holder.txtTotalPrice.visibility = View.VISIBLE
 //                holder.txtTotalPrice.text = "Total Price : ₹ "+finalAmount
 
                 //setCartId
-                item.cartId= cartList[j].id.toString()
+                item.cartId = cartList[j].id.toString()
             }
         }
 
@@ -93,12 +91,19 @@ class HomeFeatureProductsAdapter(
                 holder.cartQty.text = "" + cartQ[0]
                 holder.cartQty.text = cartQ[0].toString()
                 val cartQty1 = holder.cartQty.text.toString()
-                if(cartQ[0]==1){
-                    click!!.onAddToCartClicked(item, cartQty1,1)
-                }else{
-                    click!!.onAddToCartClicked(item, cartQty1,1)
+                if (cartQ[0] == 1) {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
+                } else {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
                 }
                 // holder.binding.addToCartBtn.performClick()
+            } else if (cartQ[0] == 1) {
+                //delete
+                quantityChangeListener?.onDeleteCartItem(item)
+                //without api load
+                holder.cartQty.text = "0"
+                holder.addToCart.visibility = View.VISIBLE
+                holder.linearCount.visibility = View.GONE
             }
         }
 
@@ -109,34 +114,46 @@ class HomeFeatureProductsAdapter(
             val cartQty = holder.cartQty.text.toString().toInt()
 
             if (item.maxOrderQuantity.toInt() <= cartQty) {
-                ViewController.showToast(context, "Max Quantity only for " + item.maxOrderQuantity)
+                ViewController.customToastBottom(context,"Max Quantity only for " + item.maxOrderQuantity)
                 return@setOnClickListener
             }
 
             if (item.stock.toInt() <= cartQty) {
-                ViewController.showToast(context, "Stock Limit only " + item.stock)
+                ViewController.customToastBottom(context,"Stock Limit only " + item.stock)
                 return@setOnClickListener
-            }else{
-                if ((item.maxOrderQuantity!=null)&& (item.maxOrderQuantity!!.toInt()<=cartQty.toInt())){
-                    ViewController.customToast(context,"Can't add Max Quantity for this Product" + item.maxOrderQuantity)
+            } else {
+                if (item.maxOrderQuantity.toInt() <= cartQty.toInt()) {
+                    ViewController.customToastBottom(
+                        context,
+                        "Can't add Max Quantity for this Product" + item.maxOrderQuantity
+                    )
                     return@setOnClickListener
-                }else{
+                } else {
                     cartQ[0]++
                     holder.cartQty.text = cartQ[0].toString()
                     val cartQty1 = holder.cartQty.text.toString()
                     if (!ViewController.noInterNetConnectivity(context)) {
-                        ViewController.showToast(context, "Please check your connection ")
+                        ViewController.customToastBottom(context,"Please check your connection ")
                     } else {
                         if (cartQ[0] == 1)
                             click!!.onAddToCartClicked(item, cartQty1, 0)
-                        else{
+                        else {
                             click!!.onAddToCartClicked(item, cartQty1, 1)
                         }
                     }
                 }
             }
 
+        }
 
+        holder.addToCart.setOnClickListener {
+//            val animations = ViewController.animation()
+//            holder.addToCart.startAnimation(animations)
+
+            click!!.onAddToCartClicked(item, "1", 0)
+            holder.addToCart.visibility = View.GONE
+            holder.linearCount.visibility = View.VISIBLE
+            holder.cartQty.text = "1"
         }
 
         holder.itemView.setOnClickListener {
@@ -157,12 +174,12 @@ class HomeFeatureProductsAdapter(
     }
 
     override fun getItemCount(): Int {
-        return items.size
+        return 4
     }
 
     interface ProductItemClick {
         fun onProductItemClick(itemsData: ProductListResponse?)
-        fun onAddToCartClicked(itemsData: ProductListResponse?, cartQty: String?, isAdd:Int)
+        fun onAddToCartClicked(itemsData: ProductListResponse?, cartQty: String?, isAdd: Int)
     }
 
     interface CartItemQuantityChangeListener {

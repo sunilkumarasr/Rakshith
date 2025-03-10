@@ -5,19 +5,25 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.CartAdapter
@@ -26,6 +32,7 @@ import com.royalit.rakshith.Adapters.Search.SearchItems
 import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Logins.LoginActivity
 import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CartModel
 import com.royalit.rakshith.Models.DeleteCartResponse
@@ -61,7 +68,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         inIts()
 
     }
@@ -89,6 +95,26 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        }
+
+        binding.linearSubmitGotoHome.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmitGotoHome.startAnimation(animations)
+            val intent = Intent(this@CartActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+        }
+
+        binding.txtSelectPromoCode.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.txtSelectPromoCode.startAnimation(animations)
+            promoCodeDialog()
+        }
+
+        binding.linearOrderNote.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearOrderNote.startAnimation(animations)
+            orderNoteDialog()
         }
 
     }
@@ -166,6 +192,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 }
             }
             binding.txtItemsPrice.text = "\u20b9 $TotalPrice"
+            binding.txtOrderAmount.text = "\u20b9 $TotalPrice"
             binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
             TotalFinalPrice = TotalPrice.toString()
         } catch (e: NumberFormatException) {
@@ -378,6 +405,63 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 Log.e("onFailure",t.message.toString())
             }
         })
+    }
+
+
+    //note Order
+    private fun orderNoteDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.add_note_dialog, null)
+        val dialog = AlertDialog.Builder(this@CartActivity)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        // Get Views
+        val editNote = dialogView.findViewById<EditText>(R.id.editNote)
+        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
+        val buttonOk = dialogView.findViewById<Button>(R.id.buttonOk)
+
+        if (!binding.txtNote.text.toString().equals("")){
+            editNote.setText(binding.txtNote.text.toString())
+        }
+
+        buttonOk.setOnClickListener {
+            if (editNote.text.toString().trim().isEmpty()) {
+                ViewController.customToast(this@CartActivity, "Please enter your note")
+            }else{
+                if (!editNote.text.toString().equals("")){
+                    binding.txtNote.text = editNote.text.toString()
+                    binding.txtNoteButton.text = getString(R.string.editNote)
+                }
+                dialog.dismiss()
+            }
+        }
+
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
+
+
+    //promoCode
+    private fun promoCodeDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this@CartActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode, null)
+        bottomSheetDialog.setContentView(view)
+
+        val buttonOk = view.findViewById<Button>(R.id.buttonOk)
+
+        buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
     }
 
     override fun onBackPressed() {

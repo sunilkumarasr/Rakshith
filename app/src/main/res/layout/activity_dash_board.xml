@@ -7,67 +7,114 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whitebg">
+        android:background="@color/white">
 
         <LinearLayout
             android:id="@+id/relativeTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:gravity="center"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/edge_gray_light">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/marker_ic"
-                    app:tint="@color/txtLight"/>
-            </LinearLayout>
-
+            android:background="@drawable/round_button_bottom_edge_only"
+            android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="55dp"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/logo"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:fontFamily="@font/teachers_medium"
+                        android:hint="Hi User.."
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="18sp"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtUserLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="3dp"
+                        android:singleLine="true"
+                        android:background="@null"
+                        android:fontFamily="@font/teachers_regular"
+                        android:hint="@string/dummyNote"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:id="@+id/linearCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+                        <include
+                            layout="@layout/cart_custom_layout" />
+                    </LinearLayout>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lotiNotification"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/notifications"
+                        android:scaleType="fitXY"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="25dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:background="@drawable/editbox_round">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/search_ic"
+                    app:tint="@color/txtdes"/>
+
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:background="@null"
                     android:fontFamily="@font/teachers_medium"
-                    android:hint="Hi Sunil.."
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="18sp"/>
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="3dp"
-                    android:background="@null"
-                    android:fontFamily="@font/teachers_regular"
-                    android:hint="@string/locationnote"
-                    android:textColor="@color/txtdes"
-                    android:textColorHint="@color/txtdes"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearCart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edge_gray_light"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <include
-                    layout="@layout/cart_custom_layout" />
+                    android:hint="@string/searchyourProducts"
+                    android:textSize="15sp"
+                    android:textColorHint="@color/txtdes" />
             </LinearLayout>
         </LinearLayout>
 

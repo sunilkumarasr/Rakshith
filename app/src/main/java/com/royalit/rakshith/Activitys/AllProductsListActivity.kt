@@ -74,6 +74,14 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+        binding.linearSubmitGotoHome.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmitGotoHome.startAnimation(animations)
+            val intent = Intent(this@AllProductsListActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+        }
+
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
@@ -83,6 +91,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     }
 
     private fun getProductsApi() {
+        binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getProductsApi(getString(R.string.api_key))
         call.enqueue(object : Callback<ProductModel> {
@@ -95,12 +104,14 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.e("onResponseException", e.message.toString())
+                    binding.shimmerLoading.visibility = View.GONE
                 }
             }
 
             override fun onFailure(call: Call<ProductModel>, t: Throwable) {
                 Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
                 binding.recyclerview.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
             }
         })
     }
@@ -116,6 +127,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
@@ -132,6 +144,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
                 DataProductSet()
+                binding.shimmerLoading.visibility = View.GONE
             }
         })
     }
@@ -139,7 +152,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
         //empty list
         val cartListToPass = if (cartItemsList.isNullOrEmpty()) arrayListOf() else cartItemsList
 
-        binding.recyclerview.layoutManager = LinearLayoutManager(this@AllProductsListActivity)
+        binding.recyclerview.layoutManager = GridLayoutManager(this@AllProductsListActivity, 2)
         binding.recyclerview.adapter = AllProductsAdapter(this@AllProductsListActivity, productList,cartListToPass, this@AllProductsListActivity, cartItemQuantityChangeListener)
 
     }
@@ -164,7 +177,6 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     }
 
     private fun addToCart(itemsData: ProductListResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -179,11 +191,10 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
-                    getProductsApi()
+//                    getProductsApi()
                 }
                 try {
                     if (response.isSuccessful) {
@@ -203,11 +214,10 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
-                    getProductsApi()
+//                    getProductsApi()
                 }
             }
         })
@@ -215,7 +225,6 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     }
 
     private fun updateCart(itemsData: ProductListResponse?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -230,12 +239,10 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
-                    getProductsApi()
+//                    getProductsApi()
                 }
                 try {
                     if (response.isSuccessful) {
@@ -255,11 +262,10 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
-                    getProductsApi()
+//                    getProductsApi()
                 }
             }
         })

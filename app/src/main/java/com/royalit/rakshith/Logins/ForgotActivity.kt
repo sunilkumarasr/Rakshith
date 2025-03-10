@@ -30,14 +30,12 @@ class ForgotActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        ViewController.changeStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimary), false)
 
-
-        inits()
+        inIts()
 
     }
 
-    private fun inits() {
+    private fun inIts() {
         binding.linearBack.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearBack.startAnimation(animations)

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="25sp"
+    android:layout_marginEnd="25dp"
+    android:padding="15dp"
+    android:background="@drawable/dialog_bg">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addaNotetoYourOrder"
+        android:fontFamily="@font/teachers_medium"
+        android:textSize="14sp"
+        android:textColor="@color/txtdes"/>
+
+   <androidx.appcompat.widget.AppCompatEditText
+       android:id="@+id/editNote"
+       android:layout_width="match_parent"
+       android:layout_height="80dp"
+       android:layout_marginTop="8dp"
+       android:background="@drawable/editbox_round"
+       android:hint="@string/addNote"
+       android:textColor="@color/txtdes"
+       android:textColorHint="@color/txtdes"
+       android:textSize="11sp"
+       android:layout_gravity="start"
+       android:gravity="start"
+       android:padding="8dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonCancel"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:background="@drawable/round_cancel_button"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonOk"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:textAllCaps="false"
+            android:background="@drawable/round_button"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:text="@string/save" />
+    </LinearLayout>
+
+</LinearLayout>

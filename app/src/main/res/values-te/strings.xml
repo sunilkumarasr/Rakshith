@@ -108,6 +108,7 @@
     <string name="add">జోడించు</string>
     <string name="description">వివరణ</string>
     <string name="totalAmount">మొత్తం చెల్లింపు</string>
+    <string name="orderAmount">ఆర్డర్ మొత్తం</string>
     <string name="Items">అంశాలు</string>
     <string name="discount">తగ్గింపు</string>
     <string name="deliveryCharges">డెలివరీ ఖర్చులు</string>
@@ -116,7 +117,7 @@
     <string name="noData">డేటా లేదు</string>
     <string name="title">శీర్షిక</string>
     <string name="orderSuccessfull">ఆర్డర్ విజయవంతంగా పూర్తైంది</string>
-    <string name="orderNote">మీ ఆర్డర్ #96454 విజయవంతంగా నమోదైంది</string>
+    <string name="orderStatus">మీ ఆర్డర్ #96454 విజయవంతంగా నమోదైంది</string>
     <string name="trackMyOrder">నా ఆర్డర్ ట్రాక్ చేయండి</string>
     <string name="goBack">వెనక్కి వెళ్లండి</string>
     <string name="orderFailed">ఆర్డర్ విఫలమైంది</string>
@@ -137,6 +138,17 @@
     <string name="apply">అప్లై</string>
     <string name="select">ఎంచుకోండి</string>
     <string name="nodatafound">డేటా కనబడలేదు</string>
+    <string name="continueShopping">షాపింగ్ కొనసాగించండి</string>
+    <string name="transactions">లావాదేవీలు</string>
+    <string name="noPromoAvailable">ప్రచార కోడ్‌లు అందుబాటులో లేవు</string>
+    <string name="PromoCodesAddedSoon">ప్రచార కోడ్‌లు త్వరలో జోడించబడతాయి</string>
+    <string name="addNote">గమనికను జోడించండి</string>
+    <string name="editNote">గమనికను సవరించండి</string>
+    <string name="orderNote">ఆర్డర్ గమనిక</string>
+    <string name="addaNotetoYourOrder">మీ ఆర్డర్‌కు ఒక గమనికను జోడించండి</string>
+    <string name="save">సేవ్</string>
+
+
 
 
     <string name="dummyNote">Lorem Ipsum అనేది 1500ల నుండి పరిశ్రమలలోని ప్రామాణిక డమ్మీ టెక్స్ట్‌గా ఉంటుంది, ఒక అజ్ఞాతమైన ప్రింటర్ గ్యాలీ యొక్క టైప్‌ని తీసుకుని దానిని ఒక టైప్ స్పెసిమెన్ బుక్ తయారు</string>

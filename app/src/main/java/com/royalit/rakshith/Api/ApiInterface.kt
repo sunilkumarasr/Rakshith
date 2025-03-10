@@ -9,10 +9,12 @@ import com.royalit.rakshith.Models.CategoryModel
 import com.royalit.rakshith.Models.CategoryWiseModel
 import com.royalit.rakshith.Models.ContactUsModel
 import com.royalit.rakshith.Models.DeleteCartResponse
+import com.royalit.rakshith.Models.FavouriteModel
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
 import com.royalit.rakshith.Models.PrivacyPolicyModel
 import com.royalit.rakshith.Models.ProductModel
+import com.royalit.rakshith.Models.ProfileModel
 import com.royalit.rakshith.Models.RegisterModel
 import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.Models.UpdateCartResponse
@@ -132,6 +134,29 @@ interface ApiInterface {
         @Field("product_id") product_id: String,
         @Field("cart_id") cart_id: String,
     ): Call<DeleteCartResponse>
+
+    @FormUrlEncoded
+    @POST("all_products_list")
+    fun getFavouriteApi(
+        @Field("api_key") apiKey: String
+    ): Call<FavouriteModel>
+
+    @FormUrlEncoded
+    @POST("user_get_profile")
+    fun getProfileApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String
+    ): Call<ProfileModel>
+
+    @FormUrlEncoded
+    @POST("updateprofile")
+    fun updateProfileApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String,
+        @Field("full_name") fullName: String,
+        @Field("mobile_number") mobileNumber: String,
+        @Field("email_id") emailId: String,
+    ): Call<ProfileModel>
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>

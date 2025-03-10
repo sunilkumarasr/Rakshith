@@ -28,9 +28,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="15sp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="15sp"
                 android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -49,12 +49,12 @@
                         android:layout_marginTop="3dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -87,15 +87,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -127,15 +127,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -167,15 +167,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -207,15 +207,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="3dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -245,16 +246,16 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/teachers_medium"
-                android:text="@string/promotionalactivity"
+                android:text="@string/earnings"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="15sp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="15sp"
                 android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -264,43 +265,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <LinearLayout
-                        android:id="@+id/linearCoupon"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:background="@drawable/edge_items_light_gray">
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
-                                android:src="@drawable/coupon_ic"
-                                app:tint="@color/black" />
-                        </LinearLayout>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:fontFamily="@font/teachers_regular"
-                            android:text="@string/coupon"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@color/lightGray" />
 
                     <LinearLayout
                         android:id="@+id/linearMyWallet"
@@ -310,11 +274,11 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -333,48 +297,26 @@
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@color/lightGray" />
 
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/teachers_medium"
-                android:text="@string/earnings"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="25dp"
-                android:layout_marginBottom="8dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="5dp"
-                app:strokeWidth="0dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
                     <LinearLayout
                         android:id="@+id/linearReferAndEarn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -404,15 +346,16 @@
                         android:id="@+id/linearShare"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="3dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -447,9 +390,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="15sp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="15sp"
                 android:layout_marginBottom="8dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="10dp"
@@ -468,11 +411,11 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -502,15 +445,15 @@
                         android:id="@+id/linearTermsAndConditions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -540,15 +483,15 @@
                         android:id="@+id/linearPrivacyPolicy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -578,15 +521,15 @@
                         android:id="@+id/linearFaq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -616,15 +559,15 @@
                         android:id="@+id/linearRefundPolicy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
@@ -654,15 +597,16 @@
                         android:id="@+id/linearShippingPolicy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="1dp"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="3dp"
                         android:orientation="horizontal"
-                        android:padding="10dp">
+                        android:padding="5dp">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
+                            android:padding="8dp"
                             android:background="@drawable/edge_items_light_gray">
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="18dp"
