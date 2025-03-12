@@ -1,6 +1,7 @@
 package com.royalit.rakshith.Fragments
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -58,6 +59,15 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             return
         } else {
 
+        }
+
+        val packageName = "com.royalit.rakshith"
+        try {
+            val packageInfo = requireActivity().packageManager.getPackageInfo(packageName, 0)
+            val versionName = packageInfo.versionName
+            binding.txtVersion.text = "v$versionName"
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
         }
 
         binding.linearProfile.setOnClickListener(this)

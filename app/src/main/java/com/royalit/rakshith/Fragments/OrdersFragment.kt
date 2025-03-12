@@ -54,15 +54,6 @@ class OrdersFragment : Fragment() {
         }.attach()
 
 
-
-
-        if (!ViewController.noInterNetConnectivity(requireActivity())) {
-            ViewController.showToast(requireActivity(), "Please check your connection ")
-            return
-        } else {
-
-        }
-
     }
 
 }

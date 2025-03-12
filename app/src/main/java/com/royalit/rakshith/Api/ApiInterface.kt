@@ -12,22 +12,15 @@ import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.FavouriteModel
 import com.royalit.rakshith.Models.ForgotModel
 import com.royalit.rakshith.Models.LoginModel
+import com.royalit.rakshith.Models.OrderHistoryModel
 import com.royalit.rakshith.Models.PrivacyPolicyModel
 import com.royalit.rakshith.Models.ProductModel
 import com.royalit.rakshith.Models.ProfileModel
 import com.royalit.rakshith.Models.RegisterModel
 import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.Models.UpdateCartResponse
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.Part
-import retrofit2.http.Path
-import retrofit2.http.Query
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -157,6 +150,18 @@ interface ApiInterface {
         @Field("mobile_number") mobileNumber: String,
         @Field("email_id") emailId: String,
     ): Call<ProfileModel>
+
+
+    @FormUrlEncoded
+    @POST("get_orders_list")
+    fun getOrdersHistoryApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String
+    ): Call<OrderHistoryModel>
+
+
+
+
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>

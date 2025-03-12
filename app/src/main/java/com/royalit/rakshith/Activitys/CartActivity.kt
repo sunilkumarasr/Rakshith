@@ -333,7 +333,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         }
     }
 
-
     //delete item in cart
     override fun onDeleteCartItem(cartItem: CartItems) {
         deletePopup(cartItem)

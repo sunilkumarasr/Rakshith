@@ -10,7 +10,6 @@
        android:background="@color/whitebg"
        android:orientation="vertical">
 
-      <!-- TabLayout for tabs -->
       <com.google.android.material.tabs.TabLayout
           android:id="@+id/tabLayout"
           android:layout_width="match_parent"
@@ -20,7 +19,6 @@
           app:tabRippleColor="@android:color/transparent"
           android:background="@color/whitebg"/>
 
-      <!-- ViewPager2 for swiping between pages -->
       <androidx.viewpager2.widget.ViewPager2
           android:id="@+id/viewPager"
           android:layout_width="match_parent"

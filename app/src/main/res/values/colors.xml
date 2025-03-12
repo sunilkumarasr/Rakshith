@@ -2,6 +2,7 @@
 <resources>
     <color name="colorPrimary">#3b6c64</color>
     <color name="darkcolorPrimary">#3b6c64</color>
+    <color name="primary_">#52a899</color>
     <color name="lightgreen">#ebf0ef</color>
     <color name="lightPrimary">#e4f4e9</color>
     <color name="black">#000000</color>
@@ -15,6 +16,7 @@
     <color name="whitebg">#fefefe</color>
     <color name="gray">#999999</color>
     <color name="lightGray">#f5f5f5</color>
+    <color name="lightGray2">#BCBCBC</color>
     <color name="shimmer">#b7b7b7</color>
     <color name="splashcolor">#3a6c64</color>
     <color name="selectedRed">#D2042D</color>
@@ -22,7 +24,6 @@
     <color name="green">#23a54f</color>
     <color name="pending">#DBBD28</color>
     <color name="box_border">#f5f5f5</color>
-<!--    <color name="box_border">#eeeeee</color>-->
     <color name="box_gray">#f6f6f6</color>
     <color name="darkGray">#666666</color>
     <color name="hintcolor">#999999</color>

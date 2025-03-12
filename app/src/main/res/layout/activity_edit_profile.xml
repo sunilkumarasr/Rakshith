@@ -107,7 +107,9 @@
                         android:hint="@string/enteremailaddress"
                         android:fontFamily="@font/teachers_regular"
                         android:textColorHint="@color/hintcolor"
-                        android:inputType="textEmailAddress"/>
+                        android:inputType="textEmailAddress"
+                        android:filterTouchesWhenObscured="false"
+                        android:focusableInTouchMode="false"/>
                 </LinearLayout>
 
                 <LinearLayout
