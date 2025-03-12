@@ -21,6 +21,7 @@ import com.royalit.rakshith.Activitys.FaqActivity
 import com.royalit.rakshith.Activitys.MyOrdersActivity
 import com.royalit.rakshith.Activitys.MyWalletActivity
 import com.royalit.rakshith.Activitys.PrivacyPolicyActivity
+import com.royalit.rakshith.Activitys.ReferAndEarnActivity
 import com.royalit.rakshith.Activitys.RefundPolicyActivity
 import com.royalit.rakshith.Activitys.ShippingPolicyActivity
 import com.royalit.rakshith.Activitys.TermsAndConditionsActivity
@@ -138,7 +139,9 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             R.id.linearReferAndEarn -> {
                 val animations = ViewController.animation()
                 view.startAnimation(animations)
-                ReferAndEarnApp()
+                val intent = Intent(requireActivity(), ReferAndEarnActivity::class.java)
+                startActivity(intent)
+                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
             R.id.linearFaq -> {
                 val animations = ViewController.animation()
@@ -189,21 +192,6 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             }
         }
     }
-
-    private fun ReferAndEarnApp() {
-        // Replace with your app's package name
-        val appPackageName = requireContext().packageName
-        val appLink = "https://play.google.com/store/apps/details?id=$appPackageName"
-        // Create the intent
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
-            type = "text/plain"
-            putExtra(Intent.EXTRA_SUBJECT, "ReferID")
-            putExtra(Intent.EXTRA_TEXT, "Hey, check out this app: $appLink")
-        }
-        // Launch the share chooser
-        startActivity(Intent.createChooser(shareIntent, "Share via"))
-    }
-
 
     private fun shareApp() {
         // Replace with your app's package name

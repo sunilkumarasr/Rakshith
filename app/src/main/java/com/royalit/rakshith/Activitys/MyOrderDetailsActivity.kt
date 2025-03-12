@@ -1,11 +1,15 @@
 package com.royalit.rakshith.Activitys
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -115,21 +119,65 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 val totalItemsPrice = ordersItemsList.sumByDouble {
                     (it.price.toDoubleOrNull() ?: 0.0)
                 }
+                binding.txtItems.text = getString(R.string.Items)+ " " + ordersItemsList.size
                 binding.txtItemsPrice.text = "₹" + totalItemsPrice.toString()
                 binding.txtTotalAmount.text = "₹" + order.grandTotal
-                binding.txtAddress.text =order.billingAddress
-                binding.txtName.text =order.fullName
-                binding.txtMobile.text =order.mobile
-                binding.txtEmail.text =order.email
+                binding.txtAddress.text = "Address : "+order.billingAddress
+                binding.txtName.text = "Name : "+order.fullName
+                binding.txtMobile.text = "Mobile : "+order.mobile
+                binding.txtEmail.text = "Email : "+order.email
+                binding.txtOrderDate.text ="Order Date : " + order.updatedDate
                 binding.txtOrderTotalAmount.text = "₹" + order.grandTotal
 
                 // set fields
                 binding.txtOrderNumber.text = order.orderNumber
+
+                //order track bar
+                if (order.deliveryStatus == "1"){
+                    //view
+                    binding.view1copy.setBackgroundResource(R.color.lightGray)
+                    binding.view2.setBackgroundResource(R.color.lightGray)
+                    binding.view2copy.setBackgroundResource(R.color.lightGray)
+                    binding.view3.setBackgroundResource(R.color.lightGray)
+                    binding.view3copy.setBackgroundResource(R.color.lightGray)
+                    binding.view4.setBackgroundResource(R.color.lightGray)
+                    binding.view4copy.setBackgroundResource(R.color.lightGray)
+                    //round
+                    val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
+                    binding.img2.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img3.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
+                }
+                if (order.deliveryStatus == "2"){
+                    //view
+                    binding.view2copy.setBackgroundResource(R.color.lightGray)
+                    binding.view3.setBackgroundResource(R.color.lightGray)
+                    binding.view3copy.setBackgroundResource(R.color.lightGray)
+                    binding.view4.setBackgroundResource(R.color.lightGray)
+                    binding.view4copy.setBackgroundResource(R.color.lightGray)
+                    //round
+                    val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
+                    binding.img3.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
+                }
+                if (order.deliveryStatus == "3"){
+                    //view
+                    binding.view3copy.setBackgroundResource(R.color.lightGray)
+                    binding.view4.setBackgroundResource(R.color.lightGray)
+                    binding.view4copy.setBackgroundResource(R.color.lightGray)
+                    //round
+                    val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
+                    binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
+                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
+                }
+
+
                 break
             }
         }
 
     }
-
 
 }

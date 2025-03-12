@@ -209,13 +209,31 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img1"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
-                                android:src="@drawable/round_button"/>
-                            <View
-                                android:layout_width="2dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/primary_"/>
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:id="@+id/view1"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                                <View
+                                    android:id="@+id/view1copy"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
+
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -252,13 +270,30 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img2"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
-                                android:src="@drawable/round_button"/>
-                            <View
-                                android:layout_width="2dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/primary_"/>
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:id="@+id/view2"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                                <View
+                                    android:id="@+id/view2copy"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -288,20 +323,40 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp">
+
                         <LinearLayout
                             android:layout_width="30dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
+
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img3"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
-                                android:src="@drawable/round_button"/>
-                            <View
-                                android:layout_width="2dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/primary_"/>
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:id="@+id/view3"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                                <View
+                                    android:id="@+id/view3copy"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -338,13 +393,30 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img4"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
-                                android:src="@drawable/round_button"/>
-                            <View
-                                android:layout_width="2dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/primary_"/>
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:id="@+id/view4"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                                <View
+                                    android:id="@+id/view4copy"
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -381,9 +453,11 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/img5"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
-                                android:src="@drawable/round_button"/>
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary"/>
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -513,6 +587,7 @@
                     tools:ignore="HardcodedText" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtOrderDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -560,7 +635,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/teachers_medium"
                         android:text="@string/Items"
-                        android:textColor="@color/black"
+                        android:textColor="@color/txtdes"
                         android:textSize="13sp" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/txtItemsPrice"
@@ -590,7 +665,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/teachers_medium"
                         android:text="@string/deliveryCharges"
-                        android:textColor="@color/black"
+                        android:textColor="@color/txtdes"
                         android:textSize="13sp" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -618,7 +693,7 @@
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/teachers_medium"
                         android:text="@string/discount"
-                        android:textColor="@color/black"
+                        android:textColor="@color/txtdes"
                         android:textSize="13sp" />
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"

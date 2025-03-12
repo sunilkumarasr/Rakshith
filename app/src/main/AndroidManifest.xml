@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Rakshith"
         tools:targetApi="31">
         <activity
+            android:name=".Activitys.ReferAndEarnActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activitys.MyOrderDetailsActivity"
             android:exported="false" />
         <activity

@@ -61,12 +61,13 @@ class AllOrdersFragment : Fragment() {
     }
 
     private fun getOrdersHistoryApi() {
-
+        ViewController.showLoading(requireActivity())
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getOrdersHistoryApi(getString(R.string.api_key), userId.toString() )
         call.enqueue(object : Callback<OrderHistoryModel> {
             override fun onResponse(call: Call<OrderHistoryModel>, response: Response<OrderHistoryModel>) {
+                ViewController.hideLoading()
                 try {
                     if (response.isSuccessful) {
                         val selectedServicesList = response.body()?.response
@@ -89,6 +90,7 @@ class AllOrdersFragment : Fragment() {
                 }
             }
             override fun onFailure(call: Call<OrderHistoryModel>, t: Throwable) {
+                ViewController.hideLoading()
                 binding.linearNoData.visibility = View.VISIBLE
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
