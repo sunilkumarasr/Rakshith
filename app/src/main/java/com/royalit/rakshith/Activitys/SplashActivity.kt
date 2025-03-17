@@ -1,5 +1,7 @@
 package com.royalit.rakshith.Activitys
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -7,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
@@ -35,6 +38,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun inIts() {
+
+        LogoAnimation()
         
         //language
         val languageCode = Preferences.loadStringValue(applicationContext, Preferences.languageCode, "")
@@ -54,6 +59,28 @@ class SplashActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
         }, 3000)
+    }
+
+    private fun LogoAnimation() {
+        val splashLogo: AppCompatImageView = findViewById(R.id.imgLogo)
+        // Create ObjectAnimators for the different effects
+        val scaleX = ObjectAnimator.ofFloat(splashLogo, "scaleX", 0f, 1f)
+        val scaleY = ObjectAnimator.ofFloat(splashLogo, "scaleY", 0f, 1f)
+        val fadeIn = ObjectAnimator.ofFloat(splashLogo, "alpha", 0f, 1f)
+        val moveUp = ObjectAnimator.ofFloat(splashLogo, "translationY", 1000f, 0f) // Move logo up
+
+        // Set durations for animations
+        scaleX.duration = 1000
+        scaleY.duration = 1000
+        fadeIn.duration = 1000
+        moveUp.duration = 1000
+
+        // Combine animations in AnimatorSet to run together
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(scaleX, scaleY, fadeIn, moveUp)
+
+        // Start animation
+        animatorSet.start()
     }
 
     private fun setLocale(languageCode: String) {

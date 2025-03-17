@@ -14,6 +14,7 @@ data class SearchItems(
     @SerializedName("products_id") val products_id: String,
     @SerializedName("categories_id") val categories_id: String,
     @SerializedName("product_num") val product_num: String,
+    @SerializedName("product_name") val product_name: String,
     @SerializedName("product_title") val product_title: String,
     @SerializedName("product_information") val product_information: String,
     @SerializedName("product_image") val product_image: String,

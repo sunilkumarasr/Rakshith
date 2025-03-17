@@ -20,7 +20,6 @@ data class CartItems(
     @SerializedName("categories_id") val categories_id: String,
     @SerializedName("product_num") val product_num: String,
     @SerializedName("product_name") val product_name: String,
-    @SerializedName("product_title") val product_title: String,
     @SerializedName("product_information") val product_information: String,
     @SerializedName("product_image") val product_image: String,
     @SerializedName("max_order_quantity") val max_order_quantity: String,

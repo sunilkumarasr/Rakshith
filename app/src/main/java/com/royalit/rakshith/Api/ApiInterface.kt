@@ -4,6 +4,7 @@ import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.FaqModel
 import com.royalit.rakshith.Adapters.ProductDetailsModel
 import com.royalit.rakshith.Adapters.Search.SearchModel
+import com.royalit.rakshith.Models.AboutUsModel
 import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CategoryModel
 import com.royalit.rakshith.Models.CategoryWiseModel
@@ -16,7 +17,9 @@ import com.royalit.rakshith.Models.OrderHistoryModel
 import com.royalit.rakshith.Models.PrivacyPolicyModel
 import com.royalit.rakshith.Models.ProductModel
 import com.royalit.rakshith.Models.ProfileModel
+import com.royalit.rakshith.Models.RefundPolicyModel
 import com.royalit.rakshith.Models.RegisterModel
+import com.royalit.rakshith.Models.ShippingPolicyModel
 import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.Models.UpdateCartResponse
 import retrofit2.http.GET
@@ -166,11 +169,34 @@ interface ApiInterface {
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>
 
+
     @FormUrlEncoded
     @POST("terms")
     fun termsAndConditionsApi(
         @Field("api_key") apiKey: String
     ): Call<TermsAndConditionsModel>
+
+
+    @FormUrlEncoded
+    @POST("refundpolicy")
+    fun refundPolicyApi(
+        @Field("api_key") apiKey: String
+    ): Call<RefundPolicyModel>
+
+
+    @FormUrlEncoded
+    @POST("shipping")
+    fun shippingPolicyApi(
+        @Field("api_key") apiKey: String
+    ): Call<ShippingPolicyModel>
+
+
+    @FormUrlEncoded
+    @POST("about")
+    fun aboutUsApi(
+        @Field("api_key") apiKey: String
+    ): Call<AboutUsModel>
+
 
     @FormUrlEncoded
     @POST("privacy")

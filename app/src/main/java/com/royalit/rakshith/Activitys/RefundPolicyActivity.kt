@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Models.RefundPolicyModel
 import com.royalit.rakshith.Models.TermsAndConditionsModel
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityPrivacyPolicyBinding
@@ -57,20 +58,20 @@ class RefundPolicyActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
         val call =
-            apiServices.termsAndConditionsApi(
+            apiServices.refundPolicyApi(
                 getString(R.string.api_key)
             )
-        call.enqueue(object : Callback<TermsAndConditionsModel> {
+        call.enqueue(object : Callback<RefundPolicyModel> {
             override fun onResponse(
-                call: Call<TermsAndConditionsModel>,
-                response: Response<TermsAndConditionsModel>
+                call: Call<RefundPolicyModel>,
+                response: Response<RefundPolicyModel>
             ) {
                 binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
-                        response.body()?.termsandconditionsResponse?.let { listOfcategories ->
+                        response.body()?.refundPolicyResponse?.let { listOfcategories ->
                             if (listOfcategories.isNotEmpty()) {
-                                val htmlText = listOfcategories[0].terms
+                                val htmlText = listOfcategories[0].description
                                 binding.txtNote.text = Html.fromHtml(htmlText, Html.FROM_HTML_MODE_LEGACY)
                             }
                         } ?: run {
@@ -81,7 +82,7 @@ class RefundPolicyActivity : AppCompatActivity() {
                     Log.e("onFailure",e.message.toString())
                 }
             }
-            override fun onFailure(call: Call<TermsAndConditionsModel>, t: Throwable) {
+            override fun onFailure(call: Call<RefundPolicyModel>, t: Throwable) {
                 binding.progressBar.visibility = View.GONE
                 Log.e("onFailure",t.message.toString())
             }

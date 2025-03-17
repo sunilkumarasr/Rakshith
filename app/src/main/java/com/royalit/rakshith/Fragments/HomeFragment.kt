@@ -158,7 +158,12 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 try {
                     if (response.isSuccessful) {
                         productList = response.body()?.response!!
-                        getCartApi()
+                        if (!productList.isEmpty()){
+                            getCartApi()
+                        }else{
+                            ViewController.customToast(requireActivity(), "No Items Found")
+                            binding.shimmerLoading.visibility = View.GONE
+                        }
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

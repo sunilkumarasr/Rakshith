@@ -48,7 +48,7 @@ class SearchAdapter(
             .load(item.product_image)
             .error(R.drawable.logo)
             .into(holder.imgProducts)
-        holder.txtTitle.text = item.product_title
+        holder.txtTitle.text = item.product_name
         holder.txtOfferPrice.text = "₹"+item.offer_price
         holder.txtQuantity.text = item.quantity
 

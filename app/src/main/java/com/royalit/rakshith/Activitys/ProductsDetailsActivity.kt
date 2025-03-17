@@ -208,7 +208,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
             .load(productResponse.product_image)
             .error(R.drawable.logo)
             .into(binding.imgProduct)
-        binding.txtTitle.text = productResponse.product_title
+        binding.txtTitle.text = productResponse.product_name
         binding.txtOfferPrice.text = "\u20B9" + productResponse.offer_price
         binding.txtActualPrice.text = "\u20B9" + productResponse.sales_price
         binding.txtActualPrice.paintFlags = binding.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

@@ -60,7 +60,7 @@ class CartAdapter(
             .load(RetrofitClient.Image_URL2+item.product_image)
             .error(R.drawable.logo)
             .into(holder.imgProducts)
-        holder.txtTitle.text = item.product_title
+        holder.txtTitle.text = item.product_name
         holder.txtQuantity.text = item.quantity
         holder.txtOfferPrice.text =  "₹"+item.offer_price
         holder.cartQty.text = item.cart_quantity

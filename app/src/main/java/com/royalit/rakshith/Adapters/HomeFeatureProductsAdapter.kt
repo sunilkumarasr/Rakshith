@@ -54,7 +54,7 @@ class HomeFeatureProductsAdapter(
             .placeholder(R.drawable.logo)
             .error(R.drawable.logo)
             .into(holder.imgProducts)
-        holder.txtTitle.text = item.productTitle
+        holder.txtTitle.text = item.productName
         holder.txtItemType.text = item.quantity
         holder.txtOfferPrice.text = "₹" + item.offerPrice
         holder.txtActualPrice.text = "₹" + item.salesPrice

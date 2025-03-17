@@ -14,7 +14,6 @@ data class ProductDetailsResponse(
     @SerializedName("categories_id") val categories_id : String,
     @SerializedName("product_num") val product_num : String,
     @SerializedName("product_name") val product_name : String,
-    @SerializedName("product_title") val product_title : String,
     @SerializedName("product_information") val product_information : String,
     @SerializedName("product_image") val product_image : String,
     @SerializedName("quantity") val quantity : String,
@@ -27,8 +26,8 @@ data class ProductDetailsResponse(
     @SerializedName("updated_date") val updated_date : String,
     @SerializedName("final_amount") val final_amount : String,
     @SerializedName("images") val productImage: List<ProductImage>,
-    @SerializedName("max_order_quantity") val max_order_quantity: String?,
-    @SerializedName("category_2_price") val category_2_price: String?
+    @SerializedName("max_order_quantity") val max_order_quantity: String,
+    @SerializedName("category_2_price") val category_2_price: String
 )
 
 data class ProductImage(
