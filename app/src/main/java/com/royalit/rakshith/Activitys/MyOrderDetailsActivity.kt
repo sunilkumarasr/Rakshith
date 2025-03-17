@@ -140,39 +140,38 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                     binding.view2copy.setBackgroundResource(R.color.lightGray)
                     binding.view3.setBackgroundResource(R.color.lightGray)
                     binding.view3copy.setBackgroundResource(R.color.lightGray)
-                    binding.view4.setBackgroundResource(R.color.lightGray)
-                    binding.view4copy.setBackgroundResource(R.color.lightGray)
                     //round
                     val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
                     binding.img2.imageTintList = ColorStateList.valueOf(newTintColor)
                     binding.img3.imageTintList = ColorStateList.valueOf(newTintColor)
                     binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
-                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
                 }
                 if (order.deliveryStatus == "2"){
                     //view
                     binding.view2copy.setBackgroundResource(R.color.lightGray)
                     binding.view3.setBackgroundResource(R.color.lightGray)
                     binding.view3copy.setBackgroundResource(R.color.lightGray)
-                    binding.view4.setBackgroundResource(R.color.lightGray)
-                    binding.view4copy.setBackgroundResource(R.color.lightGray)
                     //round
                     val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
                     binding.img3.imageTintList = ColorStateList.valueOf(newTintColor)
                     binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
-                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
                 }
                 if (order.deliveryStatus == "3"){
                     //view
                     binding.view3copy.setBackgroundResource(R.color.lightGray)
-                    binding.view4.setBackgroundResource(R.color.lightGray)
-                    binding.view4copy.setBackgroundResource(R.color.lightGray)
                     //round
                     val newTintColor = ContextCompat.getColor(this, R.color.lightGray)
                     binding.img4.imageTintList = ColorStateList.valueOf(newTintColor)
-                    binding.img5.imageTintList = ColorStateList.valueOf(newTintColor)
                 }
 
+                if (order.deliveryStatus == "4"){
+                    //Default green
+                }
+
+                if (order.deliveryStatus == "5"){
+                    binding.linearOrderTrack.visibility = View.GONE
+                    binding.linearOrderCancelTrack.visibility = View.VISIBLE
+                }
 
                 break
             }

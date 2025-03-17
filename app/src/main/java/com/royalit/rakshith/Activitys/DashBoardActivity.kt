@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -16,10 +17,17 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.royalit.rakshith.Activitys.AllProductsListActivity
+import com.royalit.rakshith.Adapters.Cart.CartListResponse
+import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
+import com.royalit.rakshith.Logins.LoginActivity
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityDashBoardBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DashBoardActivity : AppCompatActivity() {
 
@@ -31,6 +39,8 @@ class DashBoardActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var navController: NavController
 
+    //exit
+    private var isHomeFragmentDisplayed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +80,14 @@ class DashBoardActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+        binding.lotiNotification.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.lotiNotification.startAnimation(animations)
+            val intent = Intent(this@DashBoardActivity, NotificationsActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+        }
+
 
         binding.linearSearch.setOnClickListener {
             val animations = ViewController.animation()
@@ -79,6 +97,7 @@ class DashBoardActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+        getCartApi()
     }
 
     private fun bottomMenu() {
@@ -88,7 +107,6 @@ class DashBoardActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
-
             when (menuItem.itemId) {
                 R.id.home -> {
                     binding.linearSearch.visibility = View.VISIBLE
@@ -119,12 +137,63 @@ class DashBoardActivity : AppCompatActivity() {
         }
     }
 
+
+    fun getCartApi() {
+        val userId = Preferences.loadStringValue(this@DashBoardActivity, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCartApi(
+            getString(R.string.api_key),
+            userId.toString(),
+        )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        binding.root.findViewById<TextView>(R.id.cart_badge_count).text = response.body()?.ResponseCartList!!.size.toString()
+                        Preferences.saveStringValue(this@DashBoardActivity, Preferences.cartCount, response.body()?.ResponseCartList!!.size.toString())
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+
+     fun cartCount(count: String, cartStatus: String) {
+         Log.e("cartStatus_",cartStatus)
+         if (cartStatus.equals("1")){
+             getCartApi()
+         }else{
+             binding.root.findViewById<TextView>(R.id.cart_badge_count).text = count.toString()
+             Preferences.saveStringValue(this@DashBoardActivity, Preferences.cartCount, count)
+         }
+     }
+
     override fun onBackPressed() {
-        super.onBackPressed()
-        exitDialog()
+        if (isHomeFragmentDisplayed) {
+            exitDialog()
+        } else {
+            isHomeFragmentDisplayed = true
+            // Navigate to HomeFragment
+            navigateToHomeFragment()
+        }
+    }
+    private fun navigateToHomeFragment() {
+        binding.linearSearch.visibility = View.VISIBLE
+        navController.navigate(R.id.homeFragment)
+        bottomNavigationView.selectedItemId = R.id.home
     }
 
     private fun exitDialog() {
+        isHomeFragmentDisplayed = false
         val dialogBuilder = AlertDialog.Builder(this@DashBoardActivity)
         dialogBuilder.setTitle("Exit")
         dialogBuilder.setMessage("Are you sure want to exit this app?")

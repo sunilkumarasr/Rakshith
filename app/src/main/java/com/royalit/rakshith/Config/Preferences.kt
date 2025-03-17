@@ -15,6 +15,8 @@ object Preferences {
     const val address = "address"
     const val email= "email"
     const val languageCode = "languageCode"
+    const val cartCount = "cartCount"
+
 
 
     private fun getSharedPreferences(context: Context): SharedPreferences {

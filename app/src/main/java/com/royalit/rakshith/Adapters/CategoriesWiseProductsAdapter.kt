@@ -81,23 +81,37 @@ class CategoriesWiseProductsAdapter(
             }
         }
 
-        val cartQ = intArrayOf(holder.cartQty.text.toString().toInt())
-
         holder.linearDecrement.setOnClickListener {
             val animations = ViewController.animation()
             holder.linearDecrement.startAnimation(animations)
+
+            val cartQty = holder.cartQty.text.toString().toInt()
+            val cartQ = intArrayOf(cartQty)
+
             if (cartQ[0] > 1) {
                 cartQ[0]--
                 holder.cartQty.text = "" + cartQ[0]
                 holder.cartQty.text = cartQ[0].toString()
                 val cartQty1 = holder.cartQty.text.toString()
-                if(cartQ[0]==1){
-                    click!!.onAddToCartClicked(item, cartQty1,1)
-                }else{
-                    click!!.onAddToCartClicked(item, cartQty1,1)
+                if (cartQ[0] == 1) {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
+                } else {
+                    click!!.onAddToCartClicked(item, cartQty1, 1)
                 }
+                val finalAmount: Int =
+                    item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+                holder.txtTotalPrice.visibility = View.VISIBLE
+                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
                 // holder.binding.addToCartBtn.performClick()
+            } else if (cartQ[0] == 1) {
+                //delete
+                quantityChangeListener?.onDeleteCartItem(item)
+                //without api load
+                holder.linearCount.visibility = View.GONE
+                holder.txtTotalPrice.visibility = View.INVISIBLE
+                holder.addToCart.visibility = View.VISIBLE
             }
+
         }
 
         holder.linearIncrement.setOnClickListener {
@@ -105,29 +119,37 @@ class CategoriesWiseProductsAdapter(
             holder.linearIncrement.startAnimation(animations)
 
             val cartQty = holder.cartQty.text.toString().toInt()
+            val cartQ = intArrayOf(cartQty)
 
             if (item.maxOrderQuantity.toInt() <= cartQty) {
-                ViewController.showToast(context, "Max Quantity only for " + item.maxOrderQuantity)
+                ViewController.customToast(context,"Max Quantity only for " + item.maxOrderQuantity)
                 return@setOnClickListener
             }
 
             if (item.stock.toInt() <= cartQty) {
-                ViewController.showToast(context, "Stock Limit only " + item.stock)
+                ViewController.customToast(context,"Stock Limit only " + item.stock)
                 return@setOnClickListener
-            }else{
-                if ((item.maxOrderQuantity!=null)&& (item.maxOrderQuantity!!.toInt()<=cartQty.toInt())){
-                    ViewController.customToast(context,"Can't add Max Quantity for this Product" + item.maxOrderQuantity)
+            } else {
+                if (item.maxOrderQuantity.toInt() <= cartQty.toInt()) {
+                    ViewController.customToast(
+                        context,
+                        "Can't add Max Quantity for this Product" + item.maxOrderQuantity
+                    )
                     return@setOnClickListener
-                }else{
+                } else {
                     cartQ[0]++
                     holder.cartQty.text = cartQ[0].toString()
                     val cartQty1 = holder.cartQty.text.toString()
+                    val finalAmount: Int =
+                        item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+                    holder.txtTotalPrice.visibility = View.VISIBLE
+                    holder.txtTotalPrice.text = "Total : ₹"+finalAmount
                     if (!ViewController.noInterNetConnectivity(context)) {
-                        ViewController.showToast(context, "Please check your connection ")
+                        ViewController.customToast(context,"Please check your connection ")
                     } else {
                         if (cartQ[0] == 1)
                             click!!.onAddToCartClicked(item, cartQty1, 0)
-                        else{
+                        else {
                             click!!.onAddToCartClicked(item, cartQty1, 1)
                         }
                     }
@@ -136,7 +158,22 @@ class CategoriesWiseProductsAdapter(
 
         }
 
-        holder.itemView.setOnClickListener {
+        holder.addToCart.setOnClickListener {
+            val animations = ViewController.animation()
+            holder.addToCart.startAnimation(animations)
+
+            click!!.onAddToCartClicked(item, "1", 0)
+            holder.addToCart.visibility = View.GONE
+            holder.linearCount.visibility = View.VISIBLE
+            holder.cartQty.text = "1"
+
+            val finalAmount: Int =
+                item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+            holder.txtTotalPrice.visibility = View.VISIBLE
+            holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+        }
+
+        holder.imgProducts.setOnClickListener {
             val animations = ViewController.animation()
             holder.imgProducts.startAnimation(animations)
             val intent = Intent(context, ProductsDetailsActivity::class.java).apply {
@@ -155,8 +192,8 @@ class CategoriesWiseProductsAdapter(
     }
 
     interface ProductItemClick {
-        fun onProductItemClick(itemsData: CategoryWiseResponse?)
-        fun onAddToCartClicked(itemsData: CategoryWiseResponse?, cartQty: String?, isAdd:Int)
+        fun onProductItemClick(itemsData: CategoryWiseResponse)
+        fun onAddToCartClicked(itemsData: CategoryWiseResponse, cartQty: String, isAdd:Int)
     }
 
     interface CartItemQuantityChangeListener {

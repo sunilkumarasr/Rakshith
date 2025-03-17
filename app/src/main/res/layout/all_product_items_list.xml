@@ -126,13 +126,14 @@
             android:layout_marginBottom="7dp"
             android:orientation="horizontal">
             <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="invisible"
                 android:id="@+id/txtTotalPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:fontFamily="@font/teachers_regular"
-                android:textColor="@color/txtHeader"
+                android:fontFamily="@font/teachers_medium"
+                android:textColor="@color/black"
                 android:textSize="12sp" />
             <LinearLayout
                 android:visibility="gone"

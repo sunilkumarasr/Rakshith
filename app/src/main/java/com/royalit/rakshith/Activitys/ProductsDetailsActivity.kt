@@ -1,18 +1,13 @@
 package com.royalit.rakshith.Activitys
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.bumptech.glide.Glide
-import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.ProductDetailsModel
 import com.royalit.rakshith.Adapters.ProductDetailsResponse
@@ -20,6 +15,7 @@ import com.royalit.rakshith.Api.RetrofitClient
 import com.royalit.rakshith.Config.Preferences
 import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.AddtoCartResponse
+import com.royalit.rakshith.Models.DeleteCartResponse
 import com.royalit.rakshith.Models.UpdateCartResponse
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityProductsDetailsBinding
@@ -40,7 +36,9 @@ class ProductsDetailsActivity : AppCompatActivity() {
     lateinit var quantity: IntArray
     var isFavorite = false
     var productCartStatus: String = ""
-    var TotalPrice: Double? = 0.0
+    var TotalPrice: Double = 0.0
+
+    var cartId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +59,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
             finish()
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
-        
+
         binding.AddFavourite.setOnClickListener {
             val animations = ViewController.animation()
             binding.AddFavourite.startAnimation(animations)
@@ -69,7 +67,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
             if (isFavorite) {
                 binding.imgFav.setImageResource(R.drawable.favadd)
             } else {
-                binding.imgFav.setImageResource(R.drawable.favorite_ic)
+                binding.imgFav.setImageResource(R.drawable.favorite_green_ic)
             }
         }
 
@@ -113,6 +111,8 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 binding.cartQty.text = quantity[0].toString()
                 val cartQty1 = binding.cartQty.text.toString()
                 upDateCartApi(cartQty1)
+            }else{
+                removeFromCartApi()
             }
         }
 
@@ -155,14 +155,13 @@ class ProductsDetailsActivity : AppCompatActivity() {
             ViewController.customToast(applicationContext, "Please check your connection ")
         } else {
             productDetailsApi()
-            getCartApi()
         }
 
     }
 
     //details api
     private fun productDetailsApi() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.productDetailsApi(
@@ -174,7 +173,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 call: Call<ProductDetailsModel>,
                 response: Response<ProductDetailsModel>
             ) {
-                binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         productResponseDetails = response.body()?.response!!
@@ -183,25 +181,27 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
+                    binding.shimmerLoading.visibility = View.GONE
                 }
             }
             override fun onFailure(call: Call<ProductDetailsModel>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
                 Log.e("onFailure",t.message.toString())
             }
         })
     }
     private fun DataSet(productResponse: ProductDetailsResponse) {
+        getCartApi()
 
         //out of stock
         if (productResponse.stock.toInt() ==0) {
             binding.linearOutOfStock.visibility = View.VISIBLE
             binding.linearInStock.visibility = View.GONE
-            binding.linearBottom.visibility = View.GONE
+            binding.cardBottom.visibility = View.GONE
         } else {
             binding.linearOutOfStock.visibility = View.GONE
             binding.linearInStock.visibility = View.VISIBLE
-            binding.linearBottom.visibility = View.VISIBLE
+            binding.cardBottom.visibility = View.VISIBLE
         }
 
         Glide.with(binding.imgProduct)
@@ -209,12 +209,11 @@ class ProductsDetailsActivity : AppCompatActivity() {
             .error(R.drawable.logo)
             .into(binding.imgProduct)
         binding.txtTitle.text = productResponse.product_title
-        binding.txtOfferPrice.text = "Price: "+ "\u20B9 " + productResponse.offer_price
-        binding.txtActualPrice.text = "Price: "+ "\u20B9 " + productResponse.sales_price
+        binding.txtOfferPrice.text = "\u20B9" + productResponse.offer_price
+        binding.txtActualPrice.text = "\u20B9" + productResponse.sales_price
         binding.txtActualPrice.paintFlags = binding.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         binding.txtQuantity.text = productResponse.quantity
         binding.txtDec.text = HtmlCompat.fromHtml(productResponse.product_information, HtmlCompat.FROM_HTML_MODE_LEGACY)
-
     }
 
     //get cart
@@ -231,30 +230,43 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         if (response.body()?.ResponseCartList?.size!! > 0) {
                             binding.cartQty.text = "0"
-                            for (j in response.body()?.ResponseCartList!!.indices) {
-                                if (response.body()?.ResponseCartList!!.get(j).product_id.toInt() == (productsId.toInt())) {
-                                    binding.cartQty.text=response.body()?.ResponseCartList!!.get(j).cart_quantity
-                                    quantity[0]=response.body()?.ResponseCartList!!.get(j).cart_quantity.toInt()
-                                }
-                            }
 
+                            //default data set
                             if (binding.cartQty.text.toString() == "0"){
                                 productCartStatus = "0";
                                 binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.addtocart)
-                            }else{
-                                productCartStatus = "1";
-                                binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.gotocart)
                             }
-
                             //total amount showing
                             val offerPrice = productResponseDetails?.offer_price?.toDoubleOrNull() ?: 0.0
                             val cartQty = binding.cartQty.text.toString().toDoubleOrNull() ?: 0.0
                             TotalPrice = offerPrice * cartQty
-                            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
+                            binding.txtTotalPrice.text = "\u20b9$TotalPrice"
+
+                            //cart check
+                            for (j in response.body()?.ResponseCartList!!.indices) {
+                                if (response.body()?.ResponseCartList!!.get(j).product_id.toInt() == (productsId.toInt())) {
+                                    binding.cartQty.text=response.body()?.ResponseCartList!!.get(j).cart_quantity
+                                    quantity[0]=response.body()?.ResponseCartList!!.get(j).cart_quantity.toInt()
+
+                                    //cartId
+                                    cartId = response.body()?.ResponseCartList!!.get(j).id
+
+
+                                    //total amount showing
+                                    val offerPrice = productResponseDetails?.offer_price?.toDoubleOrNull() ?: 0.0
+                                    val cartQty = response.body()?.ResponseCartList!!.get(j).cart_quantity.toDoubleOrNull() ?: 0.0
+                                    TotalPrice = offerPrice * cartQty
+                                    binding.txtTotalPrice.text = "\u20b9"+offerPrice * cartQty
+                                    //button status
+                                    productCartStatus = "1";
+                                    binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.gotocart)
+                                }
+                            }
 
                         } else {
                             binding.cartQty.text = "0"
@@ -268,6 +280,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                binding.shimmerLoading.visibility = View.GONE
                 Log.e("onFailure",t.message.toString())
             }
         })
@@ -276,7 +289,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //add to cart
     private fun addToCartApi() {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -291,43 +303,26 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.customToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCartApi()
-                }
+                valueChangeDataSet("1")
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
-
-                            }else{
-                                ViewController.customToast(this@ProductsDetailsActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.customToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCartApi()
-                }
+                valueChangeDataSet("1")
             }
         })
     }
 
     //update Cart
     private fun upDateCartApi(cartQty: String) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -342,23 +337,10 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.customToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCartApi()
-                }
+                valueChangeDataSet(cartQty)
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            getCartApi()
-                            if (res.message.equals("Success")){
-
-                            }else{
-                                ViewController.customToast(this@ProductsDetailsActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -366,17 +348,72 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
-                Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.customToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCartApi()
-                }
+                valueChangeDataSet(cartQty)
             }
         })
     }
 
+    //delete for cart
+    private fun removeFromCartApi() {
+        val userId = Preferences.loadStringValue(this@ProductsDetailsActivity, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.removeFromCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                productResponseDetails?.products_id.toString(),
+                cartId            )
+        call.enqueue(object : Callback<DeleteCartResponse> {
+            override fun onResponse(
+                call: Call<DeleteCartResponse>,
+                response: Response<DeleteCartResponse>
+            ) {
+                valueChangeDataSet("0")
+                try {
+                    if(response.isSuccessful) {
+                        val res = response.body()
+
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
+                valueChangeDataSet("0")
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+
+    private fun valueChangeDataSet(cartValue: String) {
+
+        val offerPrice = productResponseDetails?.offer_price?.toDoubleOrNull() ?: 0.0
+        val cartQty = cartValue.toDoubleOrNull() ?: 0.0
+        TotalPrice = offerPrice * cartQty
+        binding.txtTotalPrice.text = "\u20b9"+offerPrice * cartQty
+        binding.cartQty.text = cartValue
+        quantity = intArrayOf(cartValue.toInt())
+
+        //button status
+        if (cartValue == "0"){
+            productCartStatus = "0";
+            binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.addtocart)
+        }else{
+            productCartStatus = "1";
+            binding.txtAddToCart.text = this@ProductsDetailsActivity.getString(R.string.gotocart)
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.customToast(applicationContext, "Please check your connection ")
+        } else {
+            productDetailsApi()
+        }
+    }
 
     override fun onBackPressed() {
         super.onBackPressed()

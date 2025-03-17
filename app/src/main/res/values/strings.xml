@@ -149,6 +149,7 @@
     <string name="orderNote">Order Note</string>
     <string name="addaNotetoYourOrder">Add a note to your order</string>
     <string name="save">Save</string>
+    <string name="cancelPolicy">Orders cannot be cancelled once packed for delivery. In case of unexpected delays, a refund will be provided, if applicable.</string>
 
     <string name="dummyNote">Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
      </string>

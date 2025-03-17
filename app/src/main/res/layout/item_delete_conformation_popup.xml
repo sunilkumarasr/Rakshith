@@ -4,22 +4,21 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@drawable/popup_background">
+    android:background="@drawable/edge_items_light_gray">
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_gravity="center_horizontal"
+       android:padding="10dp"
        android:gravity="center_horizontal"
        android:orientation="horizontal">
        <androidx.appcompat.widget.AppCompatImageView
            android:id="@+id/delete"
-           android:layout_width="22dp"
-           android:layout_height="24dp"
-           android:scaleType="fitXY"
+           android:layout_width="18dp"
+           android:layout_height="18dp"
            android:src="@drawable/delete_ic"
-           app:tint="@color/selectedRed"/>
+           app:tint="@color/txtHeader"/>
        <androidx.appcompat.widget.AppCompatTextView
            android:id="@+id/tvDeleteTitle"
            android:layout_width="wrap_content"
@@ -27,8 +26,8 @@
            android:layout_marginStart="5dp"
            android:layout_gravity="center_vertical"
            android:text="@string/deleteConfirmation"
-           android:textSize="16sp"
-           android:textColor="@color/black"
+           android:textSize="14sp"
+           android:textColor="@color/txtHeader"
            android:fontFamily="@font/teachers_medium"/>
    </LinearLayout>
 
@@ -37,37 +36,50 @@
         android:id="@+id/tvDeleteMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:text="@string/deleteConfirmationNote"
         android:textSize="13sp"
         android:textAlignment="center"
         android:textColor="@color/txtH"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/lightGray"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="15dp">
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDelete"
-            android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/buttonCancel"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:text="@string/yes"
-            android:fontFamily="@font/teachers_medium"
-            android:textColor="@color/white"
-            android:background="@drawable/round_red"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCancel"
-            android:layout_width="100dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/txtHeader"
+            android:textSize="14sp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/lightGray"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/buttonOk"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_marginStart="15dp"
-            android:fontFamily="@font/teachers_medium"
-            android:text="@string/no"
-            android:backgroundTint="@color/gray"
-            android:textColor="@color/white"
-            android:background="@drawable/round_red"/>
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/txtHeader"
+            android:textSize="14sp"/>
     </LinearLayout>
 
 </LinearLayout>

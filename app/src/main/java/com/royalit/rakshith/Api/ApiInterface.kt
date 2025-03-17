@@ -169,19 +169,19 @@ interface ApiInterface {
     @FormUrlEncoded
     @POST("terms")
     fun termsAndConditionsApi(
-        @Field("api_key") api_key: String
+        @Field("api_key") apiKey: String
     ): Call<TermsAndConditionsModel>
 
     @FormUrlEncoded
     @POST("privacy")
     fun privacyPolicyApi(
-        @Field("api_key") api_key: String
+        @Field("api_key") apiKey: String
     ): Call<PrivacyPolicyModel>
 
     @FormUrlEncoded
     @POST("contact")
     fun contactUsApi(
-        @Field("api_key") api_key: String
+        @Field("api_key") apiKey: String
     ): Call<ContactUsModel>
 
 }

@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +15,7 @@ import com.denzcoskun.imageslider.models.SlideModel
 import com.royalit.rakshith.Activitys.AllProductsListActivity
 import com.royalit.rakshith.Activitys.CategoriesActivity
 import com.royalit.rakshith.Activitys.CategoriesWiseProductsListActivity
+import com.royalit.rakshith.Activitys.DashBoardActivity
 import com.royalit.rakshith.Activitys.SearchActivity
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
@@ -41,7 +44,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     lateinit var cartItemQuantityChangeListener: HomeFeatureProductsAdapter.CartItemQuantityChangeListener
     lateinit var productItemClick: HomeFeatureProductsAdapter.ProductItemClick
-
 
     //Products list
     var productList: MutableList<ProductListResponse> = ArrayList()
@@ -72,7 +74,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             ViewController.showToast(requireActivity(), "Please check your connection ")
             return
         } else {
-            HomebannersApi()
+            homeBannersApi()
             getCategoriesApi()
             getProductsApi()
         }
@@ -95,7 +97,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     }
 
-    private fun HomebannersApi() {
+    private fun homeBannersApi() {
         val imageList = mutableListOf<SlideModel>()
         imageList.add(SlideModel(R.drawable.dummy_banner1, ""))
         imageList.add(SlideModel(R.drawable.dummy_banner, ""))
@@ -119,7 +121,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                             binding.recyclerViewCategories.visibility = View.GONE
                             return
                         }
-                        DataSet(selectedServicesList)
+                        dataSet(selectedServicesList)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -131,12 +133,12 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             }
         })
     }
-    private fun DataSet(selectedServicesList: List<CategoryListResponse>) {
+    private fun dataSet(selectedServicesList: List<CategoryListResponse>) {
         // Truncate the list to the first 6 items if needed
-       // val truncatedList = selectedServicesList.take(6)
+        val truncatedList = selectedServicesList.take(6)
         binding.recyclerViewCategories.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(selectedServicesList) { item ->
+            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(truncatedList) { item ->
                 val intent = Intent(activity, CategoriesWiseProductsListActivity::class.java).apply {
                     putExtra("categoriesId", item.categoriesId)
                     putExtra("categoryName", item.categoryName)
@@ -189,24 +191,31 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
-                        DataProductSet()
+
+                        Preferences.saveStringValue(requireActivity(), Preferences.cartCount, cartItemsList.size.toString())
+
+                        //cart count
+                        val activity = activity as DashBoardActivity
+                        activity.cartCount(cartItemsList.size.toString(), "")
+
+                        dataProductSet()
                     } else {
-                        DataProductSet()
+                        dataProductSet()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
-                    DataProductSet()
+                    dataProductSet()
                 }
             }
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                DataProductSet()
+                dataProductSet()
                 binding.shimmerLoading.visibility = View.GONE
             }
         })
     }
-    private fun DataProductSet() {
+    private fun dataProductSet() {
         //empty list
         val cartListToPass = if (cartItemsList.isNullOrEmpty()) arrayListOf() else cartItemsList
 
@@ -215,17 +224,18 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     }
 
-    override fun onProductItemClick(itemsData: ProductListResponse?) {
+    override fun onProductItemClick(itemsData: ProductListResponse) {
 
     }
-    override fun onAddToCartClicked(itemsData: ProductListResponse?, cartQty: String?, isAdd: Int) {
+
+    override fun onAddToCartClicked(itemsData: ProductListResponse, cartQty: String, isAdd: Int) {
         if (isAdd == 0) {
             if (!ViewController.noInterNetConnectivity(requireActivity())) {
                 ViewController.showToast(requireActivity(), "Please check your connection ")
             } else {
                 addToCart(itemsData, cartQty)
             }
-        } else{
+        }else{
             if (!ViewController.noInterNetConnectivity(requireActivity())) {
                 ViewController.showToast(requireActivity(), "Please check your connection ")
             } else {
@@ -234,14 +244,14 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         }
     }
 
-    private fun addToCart(itemsData: ProductListResponse?, cartQty: String?) {
+    private fun addToCart(itemsData: ProductListResponse, cartQty: String) {
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.addToCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.productsId.toString(),
+                itemsData.productsId.toString(),
                 "1"
             )
         call.enqueue(object : Callback<AddtoCartResponse> {
@@ -252,16 +262,12 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                   // getProductsApi()
+                    checkCartId(itemsData, "")
                 }
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
 
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -273,22 +279,22 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                   // getProductsApi()
+                    checkCartId(itemsData, "")
                 }
             }
         })
 
     }
 
-    private fun updateCart(itemsData: ProductListResponse?, cartQty: String?) {
+    private fun updateCart(itemsData: ProductListResponse, cartQty: String) {
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.upDateCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.productsId.toString(),
-                cartQty!!,
+                itemsData.productsId.toString(),
+                cartQty.toString(),
             )
         call.enqueue(object : Callback<UpdateCartResponse> {
             override fun onResponse(
@@ -298,18 +304,14 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                    //getProductsApi()
+                    checkCartId(itemsData, "")
                 }
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
 
-                            }
-                        }
                     }
-                } catch (e: NullPointerException) {
+                }catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
                 }
@@ -319,7 +321,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 if (!ViewController.noInterNetConnectivity(requireActivity())) {
                     ViewController.showToast(requireActivity(), "Please check your connection ")
                 } else {
-                   // getProductsApi()
+                    checkCartId(itemsData, "")
                 }
             }
         })
@@ -336,9 +338,51 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     //delete item in cart
     override fun onDeleteCartItem(cartItem: ProductListResponse) {
-        removeFromCartApi(cartItem)
+        checkCartId(cartItem, "1")
     }
-    private fun removeFromCartApi(cartItem: ProductListResponse) {
+    private fun checkCartId(cartItem: ProductListResponse, deleteItem: String) {
+        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCartApi(
+            getString(R.string.api_key),
+            userId.toString(),
+        )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        var cartItemsCheckId: List<CartItems> = ArrayList()
+                        // To clear the list
+                        (cartItemsCheckId as? MutableList<CartItems>)?.clear()
+
+                        cartItemsCheckId = response.body()?.ResponseCartList!!
+                        for (j in cartItemsCheckId.indices) {
+                            if (cartItemsCheckId[j].product_id.toInt() == cartItem.productsId.toInt()) {
+
+                                //Update cart count
+                                updateCartCount(response.body()?.ResponseCartList!!.size.toString(), "")
+
+                                if (deleteItem == "1"){
+                                    //CartId
+                                    removeFromCartApi(cartItem, cartItemsCheckId[j].id.toString(), response.body()?.ResponseCartList!!.size.toString())
+                                }
+
+                            }
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun removeFromCartApi(cartItem: ProductListResponse, cartID: String, count: String) {
         val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -346,16 +390,18 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 getString(R.string.api_key),
                 userId.toString(),
                 cartItem.productsId,
-                cartItem.cartId
+                cartID
             )
         call.enqueue(object : Callback<DeleteCartResponse> {
             override fun onResponse(
                 call: Call<DeleteCartResponse>,
                 response: Response<DeleteCartResponse>
             ) {
+                //Update cart count
+                updateCartCount(count, "1")
                 try {
                     if(response.isSuccessful) {
-
+                        val res = response.body()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -363,16 +409,22 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 }
             }
             override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
-                getCartApi()
                 Log.e("onFailure",t.message.toString())
+                //Update cart count
+                updateCartCount(count, "1")
             }
         })
     }
 
+    private fun updateCartCount(count: String, cartStatus: String) {
+        val activity = activity as DashBoardActivity
+        activity.cartCount(count, cartStatus)
+    }
 
     override fun onResume() {
         super.onResume()
         getProductsApi()
     }
+
 
 }

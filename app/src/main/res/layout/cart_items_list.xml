@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="@drawable/edge_items_light_gray"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp">
+    android:layout_marginEnd="10dp"
+    android:elevation="2dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,71 +37,60 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTitle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/teachers_semibold"
-                    android:text="@string/dummyNote"
-                    android:textColor="@color/txtHeader"
-                    android:textSize="16sp"
-                    android:maxLines="2"/>
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imgDelete"
-                    android:layout_width="24dp"
-                    android:layout_height="26dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/delete_ic"
-                    app:tint="@color/selectedRed"/>
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/teachers_semibold"
+                android:text="@string/dummyNote"
+                android:textColor="@color/txtHeader"
+                android:textSize="16sp"
+                android:maxLines="2"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp">
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="@font/teachers_medium"
-                    android:text="0 g"
-                    android:textColor="@color/txtdes"
-                    android:textSize="14sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txtOfferPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:layout_gravity="center_vertical"
                     android:fontFamily="@font/teachers_medium"
                     android:text="@string/actuleprice"
-                    android:textColor="@color/txtdes"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtActualPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/teachers_regular"
+                    android:text="@string/actuleprice"
+                    android:textColor="@color/gray"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp">
+
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtTotalPrice"
+                    android:id="@+id/txtQuantity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/teachers_medium"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
+                    android:text="0 g"
+                    android:textColor="@color/txtdes"
+                    android:textSize="14sp" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -147,12 +137,61 @@
                 </LinearLayout>
             </LinearLayout>
 
-
-
-
         </LinearLayout>
 
 
 
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtTotalPrice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:fontFamily="@font/teachers_medium"
+                android:textColor="@color/txtLight"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/lightGray"/>
+        <LinearLayout
+            android:id="@+id/linearDelete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_weight="1">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/delete_ic"
+                app:tint="@color/txtLight"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/teachers_regular"
+                android:text="Remove"
+                android:textColor="@color/txtLight"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

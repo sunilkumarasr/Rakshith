@@ -3,6 +3,7 @@ package com.royalit.rakshith.Logins
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -58,18 +59,37 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        // Toggle password visibility
+        binding.passwordToggle.setOnClickListener {
+            // Toggle password visibility
+            if (binding.passwordEdit.inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                // Show password
+                binding.passwordEdit.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                binding.passwordToggle.setImageResource(R.drawable.open_eye_ic) // Set 'show' icon
+            } else {
+                // Hide password
+                binding.passwordEdit.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.passwordToggle.setImageResource(R.drawable.close_eye_ic) // Set 'hide' icon
+            }
+
+            // Delay setting the selection to ensure the inputType change is applied
+            binding.passwordEdit.post {
+                binding.passwordEdit.setSelection(binding.passwordEdit.text!!.length) // Move cursor to the end
+            }
+        }
+
+
     }
 
 
     private fun loginApi() {
-        val phone = binding.phoneEdit.text?.trim().toString()
+        val email = binding.emailEdit.text?.trim().toString()
         val password = binding.passwordEdit.text?.trim().toString()
 
         ViewController.hideKeyBoard(this@LoginActivity )
 
-
-        if (phone.isEmpty()) {
-            ViewController.customToast(applicationContext, "Enter Email")
+        if (email.isEmpty()) {
+            ViewController.customToast(applicationContext, "Enter email")
             return
         }
         if (password.isEmpty()) {
@@ -77,16 +97,17 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        if (!ViewController.validateMobile(phone)) {
-            ViewController.customToast(applicationContext, "Enter Valid mobile number")
+        if (!ViewController.validateEmail(email)) {
+            ViewController.customToast(applicationContext, "Enter valid email")
         } else {
-            ViewController.showLoading(this@LoginActivity)
+            binding.txtButton.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
 
             val apiServices = RetrofitClient.apiInterface
             val call =
                 apiServices.loginApi(
                     getString(R.string.api_key),
-                    phone,
+                    email,
                     password, "token"
                 )
 
@@ -95,7 +116,8 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<LoginModel>,
                     response: Response<LoginModel>
                 ) {
-                    ViewController.hideLoading()
+                    binding.txtButton.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                     try {
                         if (response.isSuccessful) {
 
@@ -123,7 +145,8 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<LoginModel>, t: Throwable) {
-                    ViewController.hideLoading()
+                    binding.txtButton.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
                     ViewController.customToast(applicationContext, "Invalid Credentials")
                 }
             })

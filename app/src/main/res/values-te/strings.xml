@@ -147,6 +147,7 @@
     <string name="orderNote">ఆర్డర్ గమనిక</string>
     <string name="addaNotetoYourOrder">మీ ఆర్డర్‌కు ఒక గమనికను జోడించండి</string>
     <string name="save">సేవ్</string>
+    <string name="cancelPolicy">Orders cannot be cancelled once packed for delivery. In case of unexpected delays, a refund will be provided, if applicable.</string>
 
 
 

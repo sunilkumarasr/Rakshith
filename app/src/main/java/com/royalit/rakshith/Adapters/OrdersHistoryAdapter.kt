@@ -56,13 +56,28 @@ class OrdersHistoryAdapter(
         holder.txtOrderDate.text = item.createdDate
 
         //order status
-        holder.txtOrderStatus.text = item.orderStatus
+
         when (item.deliveryStatus) {
-            "1" -> holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.blue))
-            "2" -> holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.pending))
-            "3" -> holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.statusBarBg))
-            "4" -> holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
-            "5" -> holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.selectedRed))
+            "1" -> {
+                holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.blue))
+                holder.txtOrderStatus.text = "Order Placed"
+            }
+            "2" -> {
+                holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.pending))
+                holder.txtOrderStatus.text = "Confirmed"
+            }
+            "3" -> {
+                holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.statusBarBg))
+                holder.txtOrderStatus.text = "Pickup"
+            }
+            "4" -> {
+                holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+                holder.txtOrderStatus.text = "Delivered"
+            }
+            "5" -> {
+                holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.selectedRed))
+                holder.txtOrderStatus.text = "Canceled"
+            }
         }
 
         //total items size

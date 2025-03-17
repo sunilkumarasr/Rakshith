@@ -57,7 +57,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     var cartItemsList: List<CartItems> = ArrayList()
 
 
-    var TotalPrice: Double? = 0.0
+    var TotalPrice: Double = 0.0
     private var TotalFinalPrice: String = ""
 
     //cartCount
@@ -121,7 +121,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
 
     private fun getCartApi() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.shimmerLoading.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -134,12 +134,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
                         if (cartItemsList.size > 0) {
-                            binding.txtItems.text = cartItemsList.size.toString() + " Items"
                             getTotalPrice(cartItemsList)
                             binding.relativeData.visibility = View.VISIBLE
                             binding.linearNoData.visibility = View.GONE
@@ -161,7 +160,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 }
             }
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
+                binding.shimmerLoading.visibility = View.GONE
                 binding.relativeData.visibility = View.GONE
                 binding.linearNoData.visibility = View.VISIBLE
                 Log.e("onFailure",t.message.toString())
@@ -172,11 +171,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     private fun DataSet() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@CartActivity)
         binding.recyclerview.adapter = CartAdapter(this@CartActivity, cartItemsList, this@CartActivity, cartItemQuantityChangeListener)
-//            val intent = Intent(this@CartActivity, ProductsDetailsActivity::class.java).apply {
-//                putExtra("productsId", item.products_id)
-//            }
-//            startActivity(intent)
-//            overridePendingTransition(R.anim.from_right, R.anim.to_left)
     }
 
     @SuppressLint("SetTextI18n")
@@ -185,12 +179,14 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             TotalPrice = 0.0
             for (i in cartItemsList.indices) {
                 try {
-                    TotalPrice = TotalPrice!! + cartItemsList[i].offer_price
+                    Log.e("cart_quantity_",cartItemsList[i].cart_quantity.toString())
+                    TotalPrice = TotalPrice + cartItemsList[i].offer_price
                         .toDouble() * cartItemsList[i].cart_quantity.toDouble()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
+            binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
             binding.txtItemsPrice.text = "\u20b9 $TotalPrice"
             binding.txtOrderAmount.text = "\u20b9 $TotalPrice"
             binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
@@ -202,11 +198,10 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         }
     }
 
-
-    override fun onProductItemClick(itemsData: CartItems?) {
+    override fun onProductItemClick(itemsData: CartItems) {
 
     }
-    override fun onAddToCartClicked(itemsData: CartItems?, cartQty: String?, isAdd: Int) {
+    override fun onAddToCartClicked(itemsData: CartItems, cartQty: String, isAdd: Int) {
         if (isAdd == 0) {
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
                 ViewController.showToast(applicationContext, "Please check your connection ")
@@ -222,15 +217,14 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         }
     }
 
-    private fun addToCart(itemsData: CartItems?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
+    private fun addToCart(itemsData: CartItems, cartQty: String) {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.addToCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.products_id.toString(),
+                itemsData.products_id.toString(),
                 "1"
             )
         call.enqueue(object : Callback<AddtoCartResponse> {
@@ -238,7 +232,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -247,13 +240,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
 
-                            }else{
-                                ViewController.showToast(this@CartActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -262,7 +249,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -273,39 +259,26 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
     }
 
-    private fun updateCart(itemsData: CartItems?, cartQty: String?) {
-        binding.progressBar.visibility = View.VISIBLE
+    private fun updateCart(itemsData: CartItems, cartQty: String) {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.upDateCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.products_id.toString(),
-                cartQty!!,
+                itemsData.products_id.toString(),
+                cartQty,
             )
         call.enqueue(object : Callback<UpdateCartResponse> {
             override fun onResponse(
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
-
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.showToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCartApi()
-                }
+                cartCountUpdate()
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
 
-                            }else{
-                                ViewController.showToast(this@CartActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -314,7 +287,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                binding.progressBar.visibility = View.GONE
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -326,11 +298,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     }
 
     override fun onQuantityChanged(cartItem: CartItems, newQuantity: Int) {
-        val index = cartItemsList.indexOfFirst { it.product_id == cartItem.product_id }
-        if (index != -1) {
-            cartItemsList[index].cart_quantity = newQuantity.toString() // Now it's mutable
-            getTotalPrice(cartItemsList)
-        }
+//        val index = cartItemsList.indexOfFirst { it.product_id == cartItem.product_id }
+//        if (index != -1) {
+//            cartItemsList[index].cart_quantity = newQuantity.toString() // Now it's mutable
+//            getTotalPrice(cartItemsList)
+//        }
     }
 
     //delete item in cart
@@ -353,17 +325,17 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             (resources.displayMetrics.widthPixels * 0.9).toInt() // 90% of screen width
         dialog.window?.attributes = layoutParams
 
-        val btnCancel = customView.findViewById<Button>(R.id.btnCancel)
-        val btnDelete = customView.findViewById<Button>(R.id.btnDelete)
+        val buttonCancel = customView.findViewById<TextView>(R.id.buttonCancel)
+        val buttonOk = customView.findViewById<TextView>(R.id.buttonOk)
 
-        btnCancel.setOnClickListener {
+        buttonCancel.setOnClickListener {
             val animations = ViewController.animation()
-            btnDelete.startAnimation(animations)
+            buttonCancel.startAnimation(animations)
             dialog.dismiss()
         }
-        btnDelete.setOnClickListener {
+        buttonOk.setOnClickListener {
             val animations = ViewController.animation()
-            btnDelete.startAnimation(animations)
+            buttonOk.startAnimation(animations)
             dialog.dismiss()
             removeFromCartApi(cartItem)
         }
@@ -372,7 +344,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         dialog.show()
     }
     private fun removeFromCartApi(cartItem: CartItems) {
-        binding.progressBar.visibility = View.VISIBLE
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -387,11 +358,10 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 call: Call<DeleteCartResponse>,
                 response: Response<DeleteCartResponse>
             ) {
-                binding.progressBar.visibility = View.GONE
                 getCartApi()
                 try {
                     if(response.isSuccessful) {
-
+                        val res = response.body()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -399,7 +369,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 }
             }
             override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
-                binding.progressBar.visibility = View.GONE
                 getCartApi()
                 Log.e("onFailure",t.message.toString())
             }
@@ -407,18 +376,59 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     }
 
 
+    private fun cartCountUpdate() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.getCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+            )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        cartItemsList = response.body()?.ResponseCartList!!
+                        if (cartItemsList.size > 0) {
+                            getTotalPrice(cartItemsList)
+
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+
+    }
+
     //note Order
     private fun orderNoteDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.add_note_dialog, null)
-        val dialog = AlertDialog.Builder(this@CartActivity)
-            .setView(dialogView)
-            .setCancelable(false)
-            .create()
+        val dialog = Dialog(this)
+        val customView = LayoutInflater.from(this).inflate(R.layout.add_note_dialog, null)
+        dialog.setContentView(customView)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.setCancelable(false)
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        val layoutParams = dialog.window?.attributes
+        layoutParams?.width =
+            (resources.displayMetrics.widthPixels * 0.9).toInt() // 90% of screen width
+        dialog.window?.attributes = layoutParams
 
         // Get Views
-        val editNote = dialogView.findViewById<EditText>(R.id.editNote)
-        val buttonCancel = dialogView.findViewById<Button>(R.id.buttonCancel)
-        val buttonOk = dialogView.findViewById<Button>(R.id.buttonOk)
+        val editNote = customView.findViewById<EditText>(R.id.editNote)
+        val buttonCancel = customView.findViewById<TextView>(R.id.buttonCancel)
+        val buttonOk = customView.findViewById<TextView>(R.id.buttonOk)
 
         if (!binding.txtNote.text.toString().equals("")){
             editNote.setText(binding.txtNote.text.toString())
@@ -440,11 +450,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             dialog.dismiss()
         }
 
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        // Show the dialog
         dialog.show()
     }
-
-
 
     //promoCode
     private fun promoCodeDialog() {

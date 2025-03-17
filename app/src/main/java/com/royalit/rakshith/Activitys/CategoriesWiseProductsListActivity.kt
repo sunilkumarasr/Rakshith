@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.royalit.rakshith.Activitys.AllProductsListActivity
 import com.royalit.rakshith.Adapters.Cart.CartItems
 import com.royalit.rakshith.Adapters.Cart.CartListResponse
 import com.royalit.rakshith.Adapters.CategoriesWiseProductsAdapter
@@ -15,6 +17,8 @@ import com.royalit.rakshith.Config.ViewController
 import com.royalit.rakshith.Models.AddtoCartResponse
 import com.royalit.rakshith.Models.CategoryWiseModel
 import com.royalit.rakshith.Models.CategoryWiseResponse
+import com.royalit.rakshith.Models.DeleteCartResponse
+import com.royalit.rakshith.Models.ProductListResponse
 import com.royalit.rakshith.Models.UpdateCartResponse
 import com.royalit.rakshith.R
 import com.royalit.rakshith.databinding.ActivityCategoriesProductsListBinding
@@ -104,7 +108,6 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<CategoryWiseModel>,
                 response: Response<CategoryWiseModel>
             ) {
-                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         productList = response.body()?.response!!
@@ -113,14 +116,17 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                             getCartApi()
                         } else {
                             binding.linearNoData.visibility = View.VISIBLE
+                            binding.shimmerLoading.visibility = View.GONE
                         }
                     } else {
                         binding.linearNoData.visibility = View.GONE
+                        binding.shimmerLoading.visibility = View.GONE
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
                     binding.linearNoData.visibility = View.GONE
+                    binding.shimmerLoading.visibility = View.GONE
                 }
             }
             override fun onFailure(call: Call<CategoryWiseModel>, t: Throwable) {
@@ -143,28 +149,29 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
+                binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
                         cartItemsList = response.body()?.ResponseCartList!!
-
-                        DataSet()
+                        updateCartCount(response.body()?.ResponseCartList!!.size.toString())
+                        dataSet()
                     } else {
-                        DataSet()
+                        dataSet()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
                     Log.e("onFailure",e.message.toString())
-                    DataSet()
+                    dataSet()
                 }
             }
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                DataSet()
+                binding.shimmerLoading.visibility = View.GONE
+                dataSet()
             }
         })
     }
-    private fun DataSet() {
-
+    private fun dataSet() {
         //empty list
         val cartListToPass = if (cartItemsList.isNullOrEmpty()) arrayListOf() else cartItemsList
 
@@ -172,10 +179,10 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
         binding.recyclerview.adapter = CategoriesWiseProductsAdapter(this@CategoriesWiseProductsListActivity, productList,cartListToPass, this@CategoriesWiseProductsListActivity, cartItemQuantityChangeListener)
     }
 
-    override fun onProductItemClick(itemsData: CategoryWiseResponse?) {
+    override fun onProductItemClick(itemsData: CategoryWiseResponse) {
 
     }
-    override fun onAddToCartClicked(itemsData: CategoryWiseResponse?, cartQty: String?, isAdd: Int) {
+    override fun onAddToCartClicked(itemsData: CategoryWiseResponse, cartQty: String, isAdd: Int) {
         if (isAdd == 0) {
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
                 ViewController.showToast(applicationContext, "Please check your connection ")
@@ -191,14 +198,14 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
         }
     }
 
-    private fun addToCart(itemsData: CategoryWiseResponse?, cartQty: String?) {
+    private fun addToCart(itemsData: CategoryWiseResponse, cartQty: String) {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.addToCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.productsId.toString(),
+                itemsData.productsId.toString(),
                 "1"
             )
         call.enqueue(object : Callback<AddtoCartResponse> {
@@ -206,21 +213,10 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.showToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCategoryWiseProductsListApi()
-                }
+                checkCartId(itemsData, "")
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
-
-                            }else{
-                                ViewController.showToast(this@CategoriesWiseProductsListActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -229,46 +225,32 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.showToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCategoryWiseProductsListApi()
-                }
+                checkCartId(itemsData, "")
             }
         })
 
     }
 
-    private fun updateCart(itemsData: CategoryWiseResponse?, cartQty: String?) {
+    private fun updateCart(itemsData: CategoryWiseResponse, cartQty: String) {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.upDateCartApi(
                 getString(R.string.api_key),
                 userId.toString(),
-                itemsData?.productsId.toString(),
-                cartQty!!,
+                itemsData.productsId.toString(),
+                cartQty,
             )
         call.enqueue(object : Callback<UpdateCartResponse> {
             override fun onResponse(
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.showToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCategoryWiseProductsListApi()
-                }
+                checkCartId(itemsData, "")
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
-                        if (res != null) {
-                            if (res.message.equals("Success")){
 
-                            }else{
-                                ViewController.showToast(this@CategoriesWiseProductsListActivity,res.message)
-                            }
-                        }
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -277,11 +259,7 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.showToast(applicationContext, "Please check your connection ")
-                } else {
-                    getCategoryWiseProductsListApi()
-                }
+                checkCartId(itemsData, "")
             }
         })
 
@@ -297,9 +275,85 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
     //delete item in cart
     override fun onDeleteCartItem(cartItem: CategoryWiseResponse) {
-
+        checkCartId(cartItem, "1")
     }
 
+    private fun checkCartId(cartItem: CategoryWiseResponse, deleteItem: String) {
+        val userId = Preferences.loadStringValue(this@CategoriesWiseProductsListActivity, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCartApi(
+            getString(R.string.api_key),
+            userId.toString(),
+        )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+
+                        //Update cart count
+                        updateCartCount(response.body()?.ResponseCartList!!.size.toString())
+
+                        var cartItemsCheckId: List<CartItems> = ArrayList()
+                        cartItemsCheckId = response.body()?.ResponseCartList!!
+                        for (j in cartItemsCheckId.indices) {
+                            if (cartItemsCheckId[j].product_id.toInt() == cartItem.productsId.toInt()) {
+                                if (deleteItem.equals("1")){
+                                    //CartId
+                                    removeFromCartApi(cartItem, cartItemsCheckId[j].id.toString())
+                                }
+                            }
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                }
+            }
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun removeFromCartApi(cartItem: CategoryWiseResponse, cartID: String) {
+        val userId = Preferences.loadStringValue(this@CategoriesWiseProductsListActivity, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.removeFromCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                cartItem.productsId,
+                cartID
+            )
+        call.enqueue(object : Callback<DeleteCartResponse> {
+            override fun onResponse(
+                call: Call<DeleteCartResponse>,
+                response: Response<DeleteCartResponse>
+            ) {
+                //Update cart count
+                checkCartId(cartItem, "")
+                try {
+                    if(response.isSuccessful) {
+
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+                //Update cart count
+                checkCartId(cartItem, "")
+            }
+        })
+    }
+
+    private fun updateCartCount(count: String) {
+        binding.root.findViewById<TextView>(R.id.cart_badge_count).text = count
+        Preferences.saveStringValue(this@CategoriesWiseProductsListActivity, Preferences.cartCount, count)
+    }
 
     override fun onResume() {
         super.onResume()

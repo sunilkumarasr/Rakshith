@@ -195,6 +195,7 @@
                     android:background="@color/lightGray" />
 
                 <LinearLayout
+                    android:id="@+id/linearOrderTrack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -263,18 +264,21 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp">
+
                         <LinearLayout
                             android:layout_width="30dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
+
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/img2"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:src="@drawable/circle_track"
-                                app:tint="@color/colorPrimary"/>
+                                app:tint="@color/colorPrimary" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -289,69 +293,6 @@
                                     android:background="@color/colorPrimary"/>
                                 <View
                                     android:id="@+id/view2copy"
-                                    android:layout_width="2dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:background="@color/colorPrimary"/>
-                            </LinearLayout>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:orientation="vertical">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Pending"
-                                android:fontFamily="@font/teachers_regular"
-                                android:textColor="@color/black"
-                                android:textSize="13sp"
-                                tools:ignore="HardcodedText" />
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="250dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:text="Your order is awaiting confirmation"
-                                android:fontFamily="@font/teachers_regular"
-                                android:textColor="@color/txtdes"
-                                android:textSize="11sp"
-                                tools:ignore="HardcodedText" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp">
-
-                        <LinearLayout
-                            android:layout_width="30dp"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/img3"
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:src="@drawable/circle_track"
-                                app:tint="@color/colorPrimary" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical">
-                                <View
-                                    android:id="@+id/view3"
-                                    android:layout_width="2dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1"
-                                    android:background="@color/colorPrimary"/>
-                                <View
-                                    android:id="@+id/view3copy"
                                     android:layout_width="2dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -393,7 +334,7 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/img4"
+                                android:id="@+id/img3"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:src="@drawable/circle_track"
@@ -405,13 +346,13 @@
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
                                 <View
-                                    android:id="@+id/view4"
+                                    android:id="@+id/view3"
                                     android:layout_width="2dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
                                     android:background="@color/colorPrimary"/>
                                 <View
-                                    android:id="@+id/view4copy"
+                                    android:id="@+id/view3copy"
                                     android:layout_width="2dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
@@ -453,7 +394,7 @@
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/img5"
+                                android:id="@+id/img4"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
                                 android:src="@drawable/circle_track"
@@ -477,6 +418,124 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
                                 android:text="Your order was delivered"
+                                android:fontFamily="@font/teachers_regular"
+                                android:textColor="@color/txtdes"
+                                android:textSize="11sp"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/linearOrderCancelTrack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp">
+                        <LinearLayout
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/colorPrimary"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/colorPrimary"/>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Order Placed"
+                                android:fontFamily="@font/teachers_regular"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                tools:ignore="HardcodedText" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="We have received your order"
+                                android:fontFamily="@font/teachers_regular"
+                                android:textColor="@color/txtdes"
+                                android:textSize="11sp"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginBottom="10dp">
+                        <LinearLayout
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="10dp"
+                                android:layout_height="10dp"
+                                android:src="@drawable/circle_track"
+                                app:tint="@color/selectedRed"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+                                <View
+                                    android:layout_width="2dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@color/selectedRed"/>
+                                <androidx.appcompat.widget.AppCompatImageView
+                                    android:layout_width="10dp"
+                                    android:layout_height="10dp"
+                                    android:src="@drawable/circle_track"
+                                    app:tint="@color/selectedRed"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:orientation="vertical">
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Canceled"
+                                android:fontFamily="@font/teachers_regular"
+                                android:textColor="@color/black"
+                                android:textSize="13sp"
+                                tools:ignore="HardcodedText" />
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="250dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Sorry your order is cancelled"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/txtdes"
                                 android:textSize="11sp"
