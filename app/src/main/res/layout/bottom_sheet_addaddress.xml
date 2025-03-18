@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="25dp"
+            android:padding="15dp"
             android:orientation="vertical">
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/editbox_round">
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/fullNameEdit"
+                    android:id="@+id/nameEdit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -201,7 +201,7 @@
                 android:layout_width="200dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/round_button">
                 <TextView

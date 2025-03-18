@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.royalit.rakshith"
+    namespace = "com.village.villagevegetables"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.royalit.rakshith"
+        applicationId = "com.village.villagevegetables"
         minSdk = 25
         targetSdk = 34
         versionCode = 1

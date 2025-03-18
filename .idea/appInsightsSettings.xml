@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.royalit.rakshith" />
-                  <option name="mobileSdkAppId" value="1:601426761333:android:af20da8dda6d2cc2340a3c" />
-                  <option name="projectId" value="villagevegetables-148ac" />
-                  <option name="projectNumber" value="601426761333" />
+                  <option name="appId" value="com.village.villagevegetables" />
+                  <option name="mobileSdkAppId" value="1:741855085910:android:dad7e346d8f454b703c2f7" />
+                  <option name="projectId" value="villagevegetables-b6b8c" />
+                  <option name="projectNumber" value="741855085910" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

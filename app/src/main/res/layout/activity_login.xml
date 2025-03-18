@@ -94,7 +94,7 @@
                     android:layout_marginStart="10dp"/>
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordEdit"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginStart="10dp"

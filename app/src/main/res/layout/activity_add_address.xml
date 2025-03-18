@@ -53,6 +53,37 @@
 
             </RelativeLayout>
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmerLoading"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+
+                    <include
+                        layout="@layout/address_items_list_shimmer"/>
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview"
                 android:layout_width="match_parent"
@@ -71,6 +102,42 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/no_address"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/teachers_medium"
+                    android:layout_marginTop="10dp"
+                    android:text="Your address list is Empty!"
+                    android:textColor="#cdcdcd"
+                    android:textSize="18sp" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/teachers_regular"
+                    android:layout_marginTop="8dp"
+                    android:text="Add something to make me happy!"
+                    android:textColor="#cdcdcd"
+                    android:textSize="15sp" />
+                <LinearLayout
+                    android:id="@+id/linearAdd"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/round_button">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/add"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/teachers_medium"/>
+                </LinearLayout>
+
             </LinearLayout>
 
 
