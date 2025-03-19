@@ -17,7 +17,6 @@ data class SearchItems(
     @SerializedName("product_title") val product_title: String,
     @SerializedName("product_information") val product_information: String,
     @SerializedName("product_image") val product_image: String,
-    @SerializedName("max_order_quantity") val max_order_quantity: String,
     @SerializedName("quantity") val quantity: String,
     @SerializedName("sales_price") val sales_price: String,
     @SerializedName("offer_price") val offer_price: String,

@@ -102,19 +102,11 @@ class CartAdapter(
             val cartQty = holder.cartQty.text.toString().toInt()
             val cartQ = intArrayOf(cartQty)
 
-            if (item.max_order_quantity.toInt()<=cartQty.toInt()){
-                ViewController.customToast(context,"Max Quantity only for "+item.max_order_quantity)
-                return@setOnClickListener
-            }
+
             if (item.stock.toInt() <= cartQty) {
                 ViewController.customToast(context,"Stock Limit only " + item.stock)
             }else{
                 cartQ[0]++
-                if (item.max_order_quantity.toInt()<=cartQty.toInt()){
-                    Toast.makeText(context, "Can't add Max Quantity for this Product", Toast.LENGTH_LONG).show()
-                    ViewController.customToast(context,"Can't add Max Quantity for this Product")
-                    return@setOnClickListener
-                }
                 holder.cartQty.text = cartQ[0].toString()
                 val cartQty1 = holder.cartQty.text.toString()
                 holder.cartQty.text = "" + cartQ.get(0)

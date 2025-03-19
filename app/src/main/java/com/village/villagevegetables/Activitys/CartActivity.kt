@@ -43,7 +43,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     //Products list
     var cartItemsList: List<CartItems> = ArrayList()
 
-
     var TotalPrice: Double = 0.0
     private var TotalFinalPrice: String = ""
 

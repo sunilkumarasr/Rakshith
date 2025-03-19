@@ -11,10 +11,7 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.village.villagevegetables.Activitys.CartActivity
 import com.village.villagevegetables.Adapters.AddressAdapter
-import com.village.villagevegetables.Adapters.Cart.CartItems
-import com.village.villagevegetables.Adapters.CartAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
@@ -31,9 +28,7 @@ import retrofit2.Response
 
 class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
 
-
     lateinit var itemClick: AddressAdapter.ItemClick
-
 
     val binding: ActivityAddAddressBinding by lazy {
         ActivityAddAddressBinding.inflate(layoutInflater)
@@ -55,6 +50,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
     }
 
     private fun inIts() {
+
         itemClick = this@MyAddressActivity
 
         binding.imgBack.setOnClickListener {
@@ -74,7 +70,6 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             binding.linearAdd.startAnimation(animations)
             addAddressDialog()
         }
-
 
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
@@ -497,7 +492,6 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                         try {
                             if (response.isSuccessful) {
                                 if (response.body()?.message.equals("Success")) {
-                                    ViewController.showToast(applicationContext, response.body()?.message.toString())
                                     if (!ViewController.noInterNetConnectivity(applicationContext)) {
                                         ViewController.showToast(applicationContext, "Please check your connection ")
                                     } else {

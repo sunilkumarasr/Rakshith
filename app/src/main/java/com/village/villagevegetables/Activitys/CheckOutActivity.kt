@@ -1,19 +1,43 @@
 package com.village.villagevegetables.Activitys
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.village.villagevegetables.Adapters.AddressAdapter
+import com.village.villagevegetables.Activitys.CartActivity
+import com.village.villagevegetables.Adapters.Cart.CartItems
+import com.village.villagevegetables.Adapters.Cart.CartListResponse
+import com.village.villagevegetables.Adapters.CartAdapter
+import com.village.villagevegetables.Adapters.CheckInAddressAdapter
+import com.village.villagevegetables.Adapters.CheckInDialogAddressAdapter
+import com.village.villagevegetables.Adapters.CheckOutProductsAdapter
+import com.village.villagevegetables.Api.RetrofitClient
+import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Models.AddAddressModel
 import com.village.villagevegetables.Models.AddressModel
+import com.village.villagevegetables.Models.AddressModelResponse
+import com.village.villagevegetables.Models.AreaModel
+import com.village.villagevegetables.Models.CityModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityPlaceOrderBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CheckOutActivity : AppCompatActivity() {
 
@@ -21,11 +45,20 @@ class CheckOutActivity : AppCompatActivity() {
         ActivityPlaceOrderBinding.inflate(layoutInflater)
     }
 
+    //address
+    var addressItemsList: List<AddressModelResponse> = ArrayList()
+    var addressListStatus = false
+    //Products list
+    var cartItemsList: List<CartItems> = ArrayList()
+    var TotalPrice: Double = 0.0
+    private var TotalFinalPrice: String = ""
+
+    lateinit var cityName: String
+    lateinit var areaName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
 
         inIts()
 
@@ -39,30 +72,431 @@ class CheckOutActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.from_left, R.anim.to_right)
         }
 
-        binding.txtAddAddress.setOnClickListener {
+        //address
+        binding.linearAddAddress.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearAddAddress.startAnimation(animations)
             addAddressDialog()
         }
-        binding.linearSubmit.setOnClickListener {
-            orderSuccessPopup()
-            // orderFailedPopup()
+        binding.txtChangeAddress.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.txtChangeAddress.startAnimation(animations)
+            AddressListDialog()
         }
 
+
+        binding.linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSubmit.startAnimation(animations)
+            if (addressListStatus){
+                orderSuccessPopup()
+            }else{
+                ViewController.showToast(applicationContext, "Please add your address")
+            }
+        }
+
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            addressListApi()
+            getCartApi()
+        }
+
+
+    }
+    //cart List
+    private fun getCartApi() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.getCartApi(
+                getString(R.string.api_key),
+                userId.toString(),
+            )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+
+                try {
+                    if (response.isSuccessful) {
+                        cartItemsList = response.body()?.ResponseCartList!!
+                        if (cartItemsList.size > 0) {
+                            getTotalPrice(cartItemsList)
+                            DataSet()
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun DataSet() {
+        binding.recyclerview.layoutManager = LinearLayoutManager(this@CheckOutActivity)
+        binding.recyclerview.adapter = CheckOutProductsAdapter(this@CheckOutActivity, cartItemsList )
+    }
+    @SuppressLint("SetTextI18n")
+    private fun getTotalPrice(cartItemsList: List<CartItems>) {
+        try {
+            TotalPrice = 0.0
+            for (i in cartItemsList.indices) {
+                try {
+                    Log.e("cart_quantity_",cartItemsList[i].cart_quantity.toString())
+                    TotalPrice = TotalPrice + cartItemsList[i].offer_price
+                        .toDouble() * cartItemsList[i].cart_quantity.toDouble()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+            binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+            binding.txtItemsPrice.text = "\u20b9 $TotalPrice"
+            binding.txtOrderAmount.text = "\u20b9 $TotalPrice"
+            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
+            TotalFinalPrice = TotalPrice.toString()
+        } catch (e: NumberFormatException) {
+            e.printStackTrace()
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
+        }
     }
 
+
+    //address list
+    private fun addressListApi() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.addressListApi(getString(R.string.api_key), userId.toString())
+        call.enqueue(object : Callback<AddressModel> {
+            override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
+                addressListStatus = false
+                try {
+                    if (response.isSuccessful) {
+                        if (!response.body()?.response!!.isEmpty()){
+                            addressListStatus = true
+                            binding.linearAddressList.visibility = View.VISIBLE
+                            binding.linearAddAddress.visibility = View.GONE
+                            //clear list
+                            addressItemsList = mutableListOf()
+                            addressItemsList = response.body()?.response!!
+                            DataSet(addressItemsList)
+                        }else{
+                            binding.linearAddressList.visibility = View.GONE
+                            binding.linearAddAddress.visibility = View.VISIBLE
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                    binding.linearAddressList.visibility = View.GONE
+                    binding.linearAddAddress.visibility = View.VISIBLE
+                }
+            }
+            override fun onFailure(call: Call<AddressModel>, t: Throwable) {
+                Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
+                addressListStatus = false
+                binding.linearAddressList.visibility = View.GONE
+                binding.linearAddAddress.visibility = View.VISIBLE
+            }
+        })
+    }
+    private fun DataSet(addressList: List<AddressModelResponse>) {
+
+        // Selected address set
+        val newAddressList = mutableListOf<AddressModelResponse>()
+        val addressPosition = Preferences.loadStringValue(applicationContext, Preferences.addressPosition, "")
+        if (!addressPosition.equals("")) {
+            val position = addressPosition?.toIntOrNull()
+            if (position != null && position in addressList.indices) {
+                newAddressList.add(addressList[position])
+            }
+        } else {
+            newAddressList.add(addressList[0])
+        }
+
+        // Set up RecyclerView
+        binding.recyclerviewAddress.layoutManager = LinearLayoutManager(this@CheckOutActivity)
+        binding.recyclerviewAddress.adapter = CheckInAddressAdapter(this@CheckOutActivity, newAddressList) { item ->
+            // Add your item click logic here
+        }
+    }
+    //address Dialog
+    private fun AddressListDialog() {
+        val bottomSheetDialog = BottomSheetDialog(this@CheckOutActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_addresslist, null)
+        bottomSheetDialog.setContentView(view)
+
+        val linearAdd = view.findViewById<LinearLayout>(R.id.linearAdd)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        val linearRecyclerView = view.findViewById<LinearLayout>(R.id.linearRecyclerView)
+        val recyclerview = view.findViewById<RecyclerView>(R.id.recyclerview)
+        val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
+
+
+        //address list
+        progressBar.visibility = View.VISIBLE
+        linearRecyclerView.visibility = View.GONE
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.addressListApi(getString(R.string.api_key), userId.toString())
+        call.enqueue(object : Callback<AddressModel> {
+            override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
+                progressBar.visibility = View.GONE
+                linearRecyclerView.visibility = View.VISIBLE
+                try {
+                    if (response.isSuccessful) {
+                        if (!response.body()?.response!!.isEmpty()){
+                            // Set up RecyclerView
+                            recyclerview.layoutManager = LinearLayoutManager(this@CheckOutActivity)
+                            recyclerview.adapter = CheckInDialogAddressAdapter(this@CheckOutActivity, response.body()?.response!!) { item ->
+                                // Add your item click logic here
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                    linearRecyclerView.visibility = View.GONE
+                }
+            }
+            override fun onFailure(call: Call<AddressModel>, t: Throwable) {
+                Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
+                progressBar.visibility = View.GONE
+                linearRecyclerView.visibility = View.GONE
+            }
+        })
+
+        linearSubmit.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                ViewController.showToast(applicationContext, "Please check your connection ")
+            } else {
+                addressListApi()
+            }
+        }
+
+        linearAdd.setOnClickListener {
+            val animations = ViewController.animation()
+            linearAdd.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+            addAddressDialog()
+        }
+
+        bottomSheetDialog.show()
+    }
     private fun addAddressDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this@CheckOutActivity)
+        val bottomSheetDialog = BottomSheetDialog(this@CheckOutActivity, R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_addaddress, null)
         bottomSheetDialog.setContentView(view)
 
+        val nameEdit = view.findViewById<EditText>(R.id.nameEdit)
+        val mobileEdit = view.findViewById<EditText>(R.id.mobileEdit)
+        val alternateMobileEdit = view.findViewById<EditText>(R.id.alternateMobileEdit)
+        val areaEdit = view.findViewById<EditText>(R.id.areaEdit)
+        val spinnerCity = view.findViewById<Spinner>(R.id.spinnerCity)
+        val spinnerArea = view.findViewById<Spinner>(R.id.spinnerArea)
         val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
+
+
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            getCityListApi(spinnerCity, spinnerArea)
+        }
+
 
         linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             linearSubmit.startAnimation(animations)
-            bottomSheetDialog.dismiss()
+
+            val name = nameEdit.text.trim().toString()
+            val mobile = mobileEdit.text.trim().toString()
+            val alternateMobile = alternateMobileEdit.text.trim().toString()
+            val area = areaEdit.text.trim().toString()
+
+            ViewController.hideKeyBoard(this@CheckOutActivity )
+            if (name.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter name")
+                return@setOnClickListener
+            }
+            if (mobile.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter mobile")
+                return@setOnClickListener
+            }
+            if (alternateMobile.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter alternate mobile")
+                return@setOnClickListener
+            }
+            if (mobile.equals(alternateMobile)) {
+                ViewController.customToast(applicationContext, "Mobile number and alternate mobile number both are same")
+                return@setOnClickListener
+            }
+            if (area.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter area")
+                return@setOnClickListener
+            }
+            if (cityName.isEmpty()) {
+                ViewController.customToast(applicationContext, "please select city")
+                return@setOnClickListener
+            }
+            if (areaName.isEmpty()) {
+                ViewController.customToast(applicationContext, "please select area")
+                return@setOnClickListener
+            }
+
+            val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+
+            if (!ViewController.validateMobile(mobile)) {
+                ViewController.customToast(applicationContext, "Enter valid mobile")
+            }else if (!ViewController.validateMobile(alternateMobile)) {
+                ViewController.customToast(applicationContext, "Enter valid alternate mobile")
+            } else {
+                val apiServices = RetrofitClient.apiInterface
+                val call =
+                    apiServices.addAddressApi(
+                        getString(R.string.api_key),
+                        userId.toString(),
+                        name,
+                        mobile,
+                        alternateMobile,
+                        area,
+                        cityName,
+                        areaName
+                    )
+                call.enqueue(object : Callback<AddAddressModel> {
+                    override fun onResponse(
+                        call: Call<AddAddressModel>,
+                        response: Response<AddAddressModel>
+                    ) {
+                        bottomSheetDialog.dismiss()
+                        try {
+                            if (response.isSuccessful) {
+                                if (response.body()?.message.equals("Success")) {
+                                    val result = (addressItemsList.size).toString()
+                                    Preferences.saveStringValue(this@CheckOutActivity, Preferences.addressPosition,result)
+                                    if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                                        ViewController.showToast(applicationContext, "Please check your connection ")
+                                    } else {
+                                        addressListApi()
+                                    }
+                                }
+                            }
+                        } catch (e: NullPointerException) {
+                            e.printStackTrace()
+                            Log.e("t_", e.message.toString())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
+                        Log.e("t_", t.message.toString())
+                        bottomSheetDialog.dismiss()
+                    }
+                })
+            }
         }
         bottomSheetDialog.show()
     }
+    private fun getCityListApi(spinnerCity: Spinner, spinnerArea: Spinner) {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCityListApi(getString(R.string.api_key) )
+        call.enqueue(object : Callback<CityModel> {
+            override fun onResponse(call: Call<CityModel>, response: Response<CityModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        if (response.body()?.status==true) {
+                            val stateList = response.body()?.response ?: emptyList()
+                            // Update the spinner
+                            val adapter = ArrayAdapter(
+                                this@CheckOutActivity,
+                                android.R.layout.simple_spinner_item,
+                                stateList.map { it.cityName }
+                            )
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            spinnerCity.adapter = adapter
+
+                            // Optional: Handle item selection
+                            spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedState = stateList[position]
+                                    val stateId = selectedState.cityId
+                                    cityName = selectedState.cityName
+
+                                    areaName = ""
+                                    getAreaListApi(stateId, spinnerArea)
+                                }
+
+                                override fun onNothingSelected(p0: AdapterView<*>?) {
+                                }
+                            }
+                        }
+
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<CityModel>, t: Throwable) {
+                Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
+            }
+        })
+    }
+    private fun getAreaListApi(stateId: String, spinnerArea: Spinner) {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId )
+        call.enqueue(object : Callback<AreaModel> {
+            override fun onResponse(call: Call<AreaModel>, response: Response<AreaModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        if (response.body()?.status==true) {
+                            val stateList = response.body()?.response ?: emptyList()
+                            // Update the spinner
+                            val adapter = ArrayAdapter(
+                                this@CheckOutActivity,
+                                android.R.layout.simple_spinner_item,
+                                stateList.map { it.areaName }
+                            )
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            spinnerArea.adapter = adapter
+
+                            // Optional: Handle item selection
+                            spinnerArea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedState = stateList[position]
+                                    val city_id = selectedState.areaId
+                                    areaName = selectedState.areaName
+                                }
+                                override fun onNothingSelected(p0: AdapterView<*>?) {
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<AreaModel>, t: Throwable) {
+                Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
+            }
+        })
+    }
+
 
     private fun orderSuccessPopup() {
         val dialog = Dialog(this)

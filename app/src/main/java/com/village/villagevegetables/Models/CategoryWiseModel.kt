@@ -19,7 +19,6 @@ data class CategoryWiseResponse(
     @SerializedName("sales_price") val salesPrice : String,
     @SerializedName("offer_price") val offerPrice : String,
     @SerializedName("final_amount") val finalAmount : String,
-    @SerializedName("max_order_quantity") val maxOrderQuantity : String,
     @SerializedName("cart_id") var cartId : String,
     @SerializedName("category_2_price") val category2Price : String
 )

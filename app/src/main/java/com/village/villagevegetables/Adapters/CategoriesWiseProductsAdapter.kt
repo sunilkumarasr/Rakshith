@@ -120,37 +120,24 @@ class CategoriesWiseProductsAdapter(
             val cartQty = holder.cartQty.text.toString().toInt()
             val cartQ = intArrayOf(cartQty)
 
-            if (item.maxOrderQuantity.toInt() <= cartQty) {
-                ViewController.customToast(context,"Max Quantity only for " + item.maxOrderQuantity)
-                return@setOnClickListener
-            }
-
             if (item.stock.toInt() <= cartQty) {
                 ViewController.customToast(context,"Stock Limit only " + item.stock)
                 return@setOnClickListener
             } else {
-                if (item.maxOrderQuantity.toInt() <= cartQty.toInt()) {
-                    ViewController.customToast(
-                        context,
-                        "Can't add Max Quantity for this Product" + item.maxOrderQuantity
-                    )
-                    return@setOnClickListener
+                cartQ[0]++
+                holder.cartQty.text = cartQ[0].toString()
+                val cartQty1 = holder.cartQty.text.toString()
+                val finalAmount: Int =
+                    item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
+                holder.txtTotalPrice.visibility = View.VISIBLE
+                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+                if (!ViewController.noInterNetConnectivity(context)) {
+                    ViewController.customToast(context,"Please check your connection ")
                 } else {
-                    cartQ[0]++
-                    holder.cartQty.text = cartQ[0].toString()
-                    val cartQty1 = holder.cartQty.text.toString()
-                    val finalAmount: Int =
-                        item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                    holder.txtTotalPrice.visibility = View.VISIBLE
-                    holder.txtTotalPrice.text = "Total : ₹"+finalAmount
-                    if (!ViewController.noInterNetConnectivity(context)) {
-                        ViewController.customToast(context,"Please check your connection ")
-                    } else {
-                        if (cartQ[0] == 1)
-                            click!!.onAddToCartClicked(item, cartQty1, 0)
-                        else {
-                            click!!.onAddToCartClicked(item, cartQty1, 1)
-                        }
+                    if (cartQ[0] == 1)
+                        click!!.onAddToCartClicked(item, cartQty1, 0)
+                    else {
+                        click!!.onAddToCartClicked(item, cartQty1, 1)
                     }
                 }
             }

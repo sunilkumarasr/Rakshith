@@ -76,7 +76,7 @@
             android:layout_weight="1"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/save"
+            android:text="@string/ok"
             android:textAllCaps="false"
             android:textColor="@color/txtHeader"
             android:textSize="14sp"/>

@@ -82,23 +82,17 @@ class ProductsDetailsActivity : AppCompatActivity() {
             if (productResponseDetails?.stock == cartQty) {
                 ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
             }else{
-                if ((productResponseDetails?.max_order_quantity!=null)&& (productResponseDetails?.max_order_quantity!!.toInt()<=cartQty.toInt())){
-                    ViewController.customToast(this@ProductsDetailsActivity,"Can't add Max Quantity for this Product" + productResponseDetails?.max_order_quantity)
-                    return@setOnClickListener
-                }else{
-                    quantity[0]++
-                    binding.cartQty.text = quantity[0].toString()
-                    val cartQty1 = binding.cartQty.text.toString()
-                    if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                        ViewController.customToast(applicationContext, "Please check your connection ")
-                    } else {
-                        if (cartQty1 == "1")
-                            addToCartApi()
-                        else{
-                            upDateCartApi(cartQty1)
-                        }
+                quantity[0]++
+                binding.cartQty.text = quantity[0].toString()
+                val cartQty1 = binding.cartQty.text.toString()
+                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                    ViewController.customToast(applicationContext, "Please check your connection ")
+                } else {
+                    if (cartQty1 == "1")
+                        addToCartApi()
+                    else{
+                        upDateCartApi(cartQty1)
                     }
-
                 }
             }
 
@@ -128,10 +122,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
             if (productResponseDetails?.stock == cartQty1) {
                 ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
             }else if (productCartStatus.equals("0")){
-                if ((productResponseDetails?.max_order_quantity!=null)&& (productResponseDetails?.max_order_quantity!!.toInt()<=cartQty1.toInt())){
-                    ViewController.customToast(this@ProductsDetailsActivity,"Max Quantity only for "+productResponseDetails?.max_order_quantity)
-                    return@setOnClickListener
-                }
                 try {
                     quantity[0]++
                     binding.cartQty.text = quantity[0].toString()

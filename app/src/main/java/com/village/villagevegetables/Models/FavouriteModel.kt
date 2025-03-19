@@ -21,6 +21,5 @@ data class FavouriteResponse(
     @SerializedName("offer_price") val offerPrice: String,
     @SerializedName("final_amount") val finalAmount: String,
     @SerializedName("cart_id") var cartId : String,
-    @SerializedName("max_order_quantity") val maxOrderQuantity: String,
     @SerializedName("category_2_price") val category2Price: String
 )

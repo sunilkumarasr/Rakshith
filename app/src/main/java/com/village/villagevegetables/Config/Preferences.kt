@@ -16,6 +16,7 @@ object Preferences {
     const val email= "email"
     const val languageCode = "languageCode"
     const val cartCount = "cartCount"
+    const val addressPosition = "addressPosition"
 
 
 

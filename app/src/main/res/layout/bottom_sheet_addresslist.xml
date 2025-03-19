@@ -1,0 +1,78 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bottom_topup_round">
+
+   <LinearLayout
+       android:id="@+id/linearAdd"
+       android:layout_width="match_parent"
+       android:layout_height="45dp"
+       android:gravity="end">
+       <androidx.appcompat.widget.AppCompatImageView
+           android:layout_width="25dp"
+           android:layout_height="25dp"
+           android:gravity="center_vertical"
+           android:layout_gravity="center_vertical"
+           android:src="@drawable/plus_ic"
+           app:tint="@color/colorPrimary"/>
+       <androidx.appcompat.widget.AppCompatTextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="5dp"
+           android:gravity="center_vertical"
+           android:layout_gravity="center_vertical"
+           android:text="@string/addaddress"
+           android:textColor="@color/colorPrimary"
+           android:fontFamily="@font/teachers_semibold"
+           android:textSize="15sp"/>
+   </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGray"/>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="25dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/linearRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/linearSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/round_button">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Deliver Here"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:fontFamily="@font/teachers_bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>
