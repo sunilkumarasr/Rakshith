@@ -151,7 +151,6 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
 
         binding.recyclerview.layoutManager = GridLayoutManager(this@AllProductsListActivity, 2)
         binding.recyclerview.adapter = AllProductsAdapter(this@AllProductsListActivity, productList,cartListToPass, this@AllProductsListActivity, cartItemQuantityChangeListener)
-
     }
 
     override fun onProductItemClick(itemsData: ProductListResponse) {
@@ -188,7 +187,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 call: Call<AddtoCartResponse>,
                 response: Response<AddtoCartResponse>
             ) {
-                checkCartId(itemsData, "")
+                getProductsApiwithoutAnimation()
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
@@ -201,7 +200,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             }
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                checkCartId(itemsData, "")
+                getProductsApiwithoutAnimation()
             }
         })
 
@@ -222,7 +221,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 call: Call<UpdateCartResponse>,
                 response: Response<UpdateCartResponse>
             ) {
-                checkCartId(itemsData, "")
+                getProductsApiwithoutAnimation()
                 try {
                     if (response.isSuccessful) {
                         val res = response.body()
@@ -235,7 +234,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             }
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
-                checkCartId(itemsData, "")
+                getProductsApiwithoutAnimation()
             }
         })
 
@@ -267,8 +266,6 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             ) {
                 try {
                     if (response.isSuccessful) {
-                        //Update cart count
-                        updateCartCount(response.body()?.ResponseCartList!!.size.toString())
 
                         var cartItemsCheckId: List<CartItems> = ArrayList()
                         // To clear the list
@@ -284,6 +281,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
 
                             }
                         }
+
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
@@ -310,7 +308,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
                 response: Response<DeleteCartResponse>
             ) {
                 //Update cart count
-                checkCartId(cartItem, "")
+                getProductsApiwithoutAnimation()
                 try {
                     if(response.isSuccessful) {
                         val res = response.body()
@@ -323,7 +321,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
                 Log.e("onFailure",t.message.toString())
                 //Update cart count
-                checkCartId(cartItem, "")
+                getProductsApiwithoutAnimation()
             }
         })
     }
@@ -332,5 +330,81 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
         binding.root.findViewById<TextView>(R.id.cart_badge_count).text = count
         Preferences.saveStringValue(this@AllProductsListActivity, Preferences.cartCount, count)
     }
+
+    //reload api
+    private fun getProductsApiwithoutAnimation() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getProductsApi(getString(R.string.api_key))
+        call.enqueue(object : Callback<ProductModel> {
+            override fun onResponse(call: Call<ProductModel>, response: Response<ProductModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        productList = response.body()?.response!!
+                        getCartApiwithoutAnimation()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<ProductModel>, t: Throwable) {
+                Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
+            }
+        })
+    }
+    private fun getCartApiwithoutAnimation() {
+        val userId = Preferences.loadStringValue(this@AllProductsListActivity, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCartApi(
+            getString(R.string.api_key),
+            userId.toString(),
+        )
+        call.enqueue(object : Callback<CartListResponse> {
+            override fun onResponse(
+                call: Call<CartListResponse>,
+                response: Response<CartListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        cartItemsList = response.body()?.ResponseCartList!!
+                        updateCartCount(response.body()?.ResponseCartList!!.size.toString())
+                        dataProductSetwithoutAnimation()
+                    } else {
+                        dataProductSetwithoutAnimation()
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                    dataProductSetwithoutAnimation()
+                }
+            }
+            override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+                dataProductSetwithoutAnimation()
+            }
+        })
+    }
+    private fun dataProductSetwithoutAnimation() {
+        val layoutManager = binding.recyclerview.layoutManager as GridLayoutManager
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        val visibleItemOffset = layoutManager.findViewByPosition(firstVisibleItemPosition)?.top ?: 0
+
+        val cartListToPass = if (cartItemsList.isNullOrEmpty()) arrayListOf() else cartItemsList
+
+        if (binding.recyclerview.layoutManager == null) {
+            binding.recyclerview.layoutManager = GridLayoutManager(this@AllProductsListActivity, 2)
+        }
+
+        binding.recyclerview.setHasFixedSize(true)
+
+        val adapter = binding.recyclerview.adapter as? AllProductsAdapter
+        adapter?.updateData(productList, cartListToPass)
+
+        binding.recyclerview.post {
+            layoutManager.scrollToPositionWithOffset(firstVisibleItemPosition, visibleItemOffset)
+        }
+    }
+
 
 }

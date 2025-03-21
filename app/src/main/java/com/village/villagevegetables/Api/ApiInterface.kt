@@ -6,6 +6,7 @@ import com.village.villagevegetables.Adapters.ProductDetailsModel
 import com.village.villagevegetables.Adapters.Search.SearchModel
 import com.village.villagevegetables.Models.AboutUsModel
 import com.village.villagevegetables.Models.AddAddressModel
+import com.village.villagevegetables.Models.AddFavouriteModel
 import com.village.villagevegetables.Models.AddressModel
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.AreaModel
@@ -18,11 +19,13 @@ import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.ForgotModel
 import com.village.villagevegetables.Models.LoginModel
 import com.village.villagevegetables.Models.OrderHistoryModel
+import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.Models.PrivacyPolicyModel
 import com.village.villagevegetables.Models.ProductModel
 import com.village.villagevegetables.Models.ProfileModel
 import com.village.villagevegetables.Models.RefundPolicyModel
 import com.village.villagevegetables.Models.RegisterModel
+import com.village.villagevegetables.Models.SettingsModel
 import com.village.villagevegetables.Models.ShippingPolicyModel
 import com.village.villagevegetables.Models.TermsAndConditionsModel
 import com.village.villagevegetables.Models.UpdateCartResponse
@@ -61,6 +64,11 @@ interface ApiInterface {
         @Field("email_id") username: String
     ): Call<ForgotModel>
 
+    @FormUrlEncoded
+    @POST("settings")
+    fun settingsApi(
+        @Field("api_key") apiKey: String,
+    ): Call<SettingsModel>
 
     @FormUrlEncoded
     @POST("categories_list")
@@ -132,11 +140,28 @@ interface ApiInterface {
         @Field("cart_id") cart_id: String,
     ): Call<DeleteCartResponse>
 
+
     @FormUrlEncoded
-    @POST("all_products_list")
+    @POST("userbased_favorite")
     fun getFavouriteApi(
-        @Field("api_key") apiKey: String
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String
     ): Call<FavouriteModel>
+
+    @FormUrlEncoded
+    @POST("add_favorite")
+    fun addFavouriteApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String,
+        @Field("product_id") productId: String
+    ): Call<AddFavouriteModel>
+
+    @FormUrlEncoded
+    @POST("delete_favorite")
+    fun removeFavouriteApi(
+        @Field("api_key") apiKey: String,
+        @Field("id") id: String
+    ): Call<AddFavouriteModel>
 
     @FormUrlEncoded
     @POST("user_get_profile")
@@ -146,7 +171,7 @@ interface ApiInterface {
     ): Call<ProfileModel>
 
     @FormUrlEncoded
-    @POST("updateprofile")
+    @POST("update_profile")
     fun updateProfileApi(
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String,
@@ -155,14 +180,12 @@ interface ApiInterface {
         @Field("email_id") emailId: String,
     ): Call<ProfileModel>
 
-
     @FormUrlEncoded
     @POST("get_orders_list")
     fun getOrdersHistoryApi(
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String
     ): Call<OrderHistoryModel>
-
 
     @FormUrlEncoded
     @POST("state")
@@ -223,14 +246,21 @@ interface ApiInterface {
         @Field("address_id") addressId: String
     ): Call<AddressModel>
 
-
-
-
+    
+    @FormUrlEncoded
+    @POST("place_order_save")
+    fun placeOrderApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String,
+        @Field("product_ids") productIds: String,
+        @Field("product_qtys") productQty: String,
+        @Field("order_notes") orderNotes: String,
+        @Field("amount") amount: String,
+    ): Call<PlaceorderModel>
 
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>
-
 
     @FormUrlEncoded
     @POST("terms")
@@ -259,9 +289,8 @@ interface ApiInterface {
         @Field("api_key") apiKey: String
     ): Call<AboutUsModel>
 
-
     @FormUrlEncoded
-    @POST("privacy")
+    @POST("privacypolicy")
     fun privacyPolicyApi(
         @Field("api_key") apiKey: String
     ): Call<PrivacyPolicyModel>

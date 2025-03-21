@@ -17,6 +17,8 @@ object Preferences {
     const val languageCode = "languageCode"
     const val cartCount = "cartCount"
     const val addressPosition = "addressPosition"
+    const val minAmount = "minAmount"
+    const val cityName = "cityName"
 
 
 

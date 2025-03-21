@@ -46,19 +46,32 @@
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
                         android:textSize="18sp"/>
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/txtUserLocation"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linearLocationChange"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="3dp"
-                        android:singleLine="true"
-                        android:background="@null"
-                        android:fontFamily="@font/teachers_regular"
-                        android:hint="@string/dummyNote"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="14sp" />
+                        android:gravity="center_vertical">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtUserLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:background="@null"
+                            android:fontFamily="@font/teachers_regular"
+                            android:textColor="@color/white"
+                            android:textColorHint="@color/white"
+                            android:textSize="15sp" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/down_arrow"
+                            app:tint="@color/white"
+                            android:layout_marginStart="10dp"/>
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -77,6 +90,7 @@
                     </LinearLayout>
 
                     <com.airbnb.lottie.LottieAnimationView
+                        android:visibility="gone"
                         android:id="@+id/lotiNotification"
                         android:layout_width="25dp"
                         android:layout_height="25dp"

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.village.villagevegetables.Activitys.DashBoardActivity
 import com.village.villagevegetables.Adapters.FavouriteAdapter
 import com.village.villagevegetables.Api.RetrofitClient
+import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.FavouriteResponse
@@ -63,9 +64,10 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun getFavouriteApi() {
+        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.getFavouriteApi(getString(R.string.api_key))
+        val call = apiServices.getFavouriteApi(getString(R.string.api_key), userId.toString())
         call.enqueue(object : Callback<FavouriteModel> {
             override fun onResponse(call: Call<FavouriteModel>, response: Response<FavouriteModel>) {
                 binding.shimmerLoading.visibility = View.GONE

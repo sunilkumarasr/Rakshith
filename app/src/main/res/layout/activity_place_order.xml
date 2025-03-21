@@ -136,172 +136,152 @@
                         android:layout_marginTop="15dp"
                         android:layout_marginStart="15sp"
                         android:layout_marginEnd="15sp"
+                        android:layout_marginBottom="15dp"
                         android:background="@drawable/edge_items_light_gray"
-                        android:elevation="2dp"
-                        android:orientation="vertical">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:fontFamily="@font/teachers_medium"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:text="Payment summery"
-                            android:textColor="@color/black"
-                            android:textSize="15sp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/lightGray"
-                            android:layout_marginTop="10dp"/>
+                        android:orientation="vertical"
+                        android:elevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1">
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="15dp"
-                                    android:layout_height="15dp"
-                                    android:src="@drawable/tremsandconditions"
-                                    android:layout_marginEnd="5dp"
-                                    app:tint="@color/txtH"/>
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/txtItems"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:fontFamily="@font/teachers_medium"
-                                    android:text="@string/Items"
-                                    android:textColor="@color/txtH"
-                                    android:textSize="13sp" />
-                            </LinearLayout>
+                            android:orientation="vertical">
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txtItemsPrice"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
-                                android:gravity="end"
                                 android:fontFamily="@font/teachers_medium"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:text="Payment summery"
                                 android:textColor="@color/black"
-                                android:textSize="13sp" />
-                        </LinearLayout>
+                                android:textSize="15sp" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal">
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/lightGray"
+                                android:layout_marginTop="10dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="15dp"
-                                    android:layout_height="15dp"
-                                    android:src="@drawable/bike_delivery_ic"
-                                    android:layout_marginEnd="5dp"
-                                    app:tint="@color/txtH"/>
-                                <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginTop="10dp"
+                                android:orientation="horizontal">
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:src="@drawable/tremsandconditions"
+                                        android:layout_marginEnd="5dp"
+                                        app:tint="@color/txtH"/>
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:id="@+id/txtItems"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:fontFamily="@font/teachers_medium"
+                                        android:text="@string/Items"
+                                        android:textColor="@color/txtH"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtItemsPrice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:layout_gravity="center_vertical"
+                                    android:gravity="end"
                                     android:fontFamily="@font/teachers_medium"
-                                    android:text="@string/deliveryCharges"
-                                    android:textColor="@color/txtH"
+                                    android:textColor="@color/black"
                                     android:textSize="13sp" />
                             </LinearLayout>
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="FREE"
-                                android:fontFamily="@font/teachers_medium"
-                                android:textColor="@color/blue"
-                                android:textSize="13sp" />
-                        </LinearLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal">
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1">
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:layout_width="15dp"
-                                    android:layout_height="15dp"
-                                    android:src="@drawable/bag_ic"
-                                    android:layout_marginEnd="5dp"
-                                    app:tint="@color/txtH"/>
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:src="@drawable/bike_delivery_ic"
+                                        android:layout_marginEnd="5dp"
+                                        app:tint="@color/txtH"/>
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:fontFamily="@font/teachers_medium"
+                                        android:text="@string/deliveryCharges"
+                                        android:textColor="@color/txtH"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
+                                <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtDeliveryCharge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="end"
+                                    android:text="FREE"
+                                    android:fontFamily="@font/teachers_medium"
+                                    android:textColor="@color/blue"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:visibility="visible"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="15dp"
+                                android:layout_marginEnd="15dp"
+                                android:layout_marginBottom="10dp"
+                                android:orientation="horizontal">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1">
+                                    <androidx.appcompat.widget.AppCompatImageView
+                                        android:layout_width="15dp"
+                                        android:layout_height="15dp"
+                                        android:src="@drawable/discount_ic"
+                                        android:layout_marginEnd="5dp"
+                                        app:tint="@color/txtH"/>
+                                    <androidx.appcompat.widget.AppCompatTextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:fontFamily="@font/teachers_medium"
+                                        android:text="@string/discount"
+                                        android:textColor="@color/txtH"
+                                        android:textSize="13sp" />
+                                </LinearLayout>
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_weight="1"
                                     android:layout_gravity="center_vertical"
+                                    android:gravity="end"
                                     android:fontFamily="@font/teachers_medium"
-                                    android:text="@string/orderAmount"
-                                    android:textColor="@color/txtH"
+                                    android:text="@string/offerprice"
+                                    android:textColor="@color/black"
                                     android:textSize="13sp" />
                             </LinearLayout>
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/txtOrderAmount"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="@string/offerprice"
-                                android:fontFamily="@font/teachers_medium"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-                        </LinearLayout>
 
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginEnd="15dp"
-                            android:layout_marginBottom="10dp"
-                            android:orientation="horizontal">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_vertical"
-                                android:fontFamily="@font/teachers_medium"
-                                android:text="@string/discount"
-                                android:textColor="@color/txtH"
-                                android:textSize="13sp" />
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:fontFamily="@font/teachers_medium"
-                                android:text="@string/offerprice"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -377,7 +357,7 @@
                             android:textSize="18sp" />
                     </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/linearSubmit"
+                        android:id="@+id/linearPayment"
                         android:layout_width="400dp"
                         android:layout_height="45dp"
                         android:layout_gravity="center_vertical"

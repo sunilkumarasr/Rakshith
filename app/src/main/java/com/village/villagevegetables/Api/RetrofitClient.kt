@@ -13,6 +13,7 @@ object RetrofitClient {
     private const val BASE_URL = "https://villagevegetables.in/app/api/"
     public const val Image_URL = "https://villagevegetables.in/uploads/products/"
     public const val Image_URL2 = "https://villagevegetables.in/app/uploads/products/"
+    public const val URL = "https://villagevegetables.in/"
 
     // Initialize logging interceptor
     private val interceptor = HttpLoggingInterceptor().apply {

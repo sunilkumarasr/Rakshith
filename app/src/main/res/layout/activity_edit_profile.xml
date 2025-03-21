@@ -85,8 +85,7 @@
                         android:singleLine="true"
                         android:hint="@string/enteryourName"
                         android:fontFamily="@font/teachers_regular"
-                        android:textColorHint="@color/hintcolor"
-                        android:inputType="phone"/>
+                        android:textColorHint="@color/hintcolor"/>
                 </LinearLayout>
 
                 <LinearLayout

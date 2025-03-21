@@ -85,9 +85,9 @@ class CheckOutActivity : AppCompatActivity() {
         }
 
 
-        binding.linearSubmit.setOnClickListener {
+        binding.linearPayment.setOnClickListener {
             val animations = ViewController.animation()
-            binding.linearSubmit.startAnimation(animations)
+            binding.linearPayment.startAnimation(animations)
             if (addressListStatus){
                 orderSuccessPopup()
             }else{
@@ -154,18 +154,32 @@ class CheckOutActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-            binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
-            binding.txtItemsPrice.text = "\u20b9 $TotalPrice"
-            binding.txtOrderAmount.text = "\u20b9 $TotalPrice"
-            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
-            TotalFinalPrice = TotalPrice.toString()
+
+            val minAmount = Preferences.loadStringValue(this@CheckOutActivity, Preferences.minAmount, "")
+            minAmount?.toInt()?.let {
+                if (it <= TotalPrice){
+                    binding.txtDeliveryCharge.text = "FREE"
+                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItemsPrice.text = "₹"+TotalPrice
+                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    TotalFinalPrice = TotalPrice.toString()
+                }else{
+                    binding.txtDeliveryCharge.text = "₹20"
+                    TotalPrice = (TotalPrice + 20)
+                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
+                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    TotalFinalPrice = TotalPrice.toString()
+                }
+            }
+
+
         } catch (e: NumberFormatException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
     }
-
 
     //address list
     private fun addressListApi() {

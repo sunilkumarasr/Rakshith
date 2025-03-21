@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.village.villagevegetables.Activitys.AllProductsListActivity
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CartAdapter
@@ -172,11 +173,25 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     e.printStackTrace()
                 }
             }
-            binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
-            binding.txtItemsPrice.text = "\u20b9 $TotalPrice"
-            binding.txtOrderAmount.text = "\u20b9 $TotalPrice"
-            binding.txtTotalPrice.text = "\u20b9 $TotalPrice"
-            TotalFinalPrice = TotalPrice.toString()
+
+            val minAmount = Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "")
+            minAmount?.toInt()?.let {
+                if (it <= TotalPrice){
+                       binding.txtDeliveryCharge.text = "FREE"
+                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItemsPrice.text = "₹"+TotalPrice
+                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    TotalFinalPrice = TotalPrice.toString()
+                }else{
+                    binding.txtDeliveryCharge.text = "₹20"
+                    TotalPrice = (TotalPrice + 20)
+                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
+                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    TotalFinalPrice = TotalPrice.toString()
+                }
+            }
+
         } catch (e: NumberFormatException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

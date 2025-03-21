@@ -267,6 +267,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearMyWallet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -298,6 +299,7 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="15dp"
@@ -518,6 +520,7 @@
                         android:background="@color/lightGray" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/linearFaq"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -549,6 +552,7 @@
                             android:textSize="15sp" />
                     </LinearLayout>
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginStart="15dp"

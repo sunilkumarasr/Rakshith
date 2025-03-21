@@ -20,8 +20,8 @@ import com.village.villagevegetables.R
 
 class AllProductsAdapter(
     val context: Context,
-    private val items: List<ProductListResponse>,
-    private val cartList: List<CartItems>,
+    private var items: List<ProductListResponse>,
+    private var cartList: List<CartItems>,
     var click: ProductItemClick?,
     var quantityChangeListener: CartItemQuantityChangeListener?
 ) : RecyclerView.Adapter<AllProductsAdapter.ViewHolder>() {
@@ -105,6 +105,7 @@ class AllProductsAdapter(
                 holder.txtTotalPrice.visibility = View.VISIBLE
                 holder.txtTotalPrice.text = "Total : ₹"+finalAmount
                 // holder.binding.addToCartBtn.performClick()
+
             } else if (cartQ[0] == 1) {
                 //without api load
                 holder.linearCount.visibility = View.GONE
@@ -113,6 +114,7 @@ class AllProductsAdapter(
 
                 //delete
                 quantityChangeListener?.onDeleteCartItem(item)
+
             }
 
         }
@@ -181,10 +183,18 @@ class AllProductsAdapter(
 
     }
 
-
     override fun getItemCount(): Int {
         return items.size
     }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
 
     interface ProductItemClick {
         fun onProductItemClick(itemsData: ProductListResponse)
@@ -194,6 +204,13 @@ class AllProductsAdapter(
     interface CartItemQuantityChangeListener {
         fun onQuantityChanged(cartItem: ProductListResponse, newQuantity: Int)
         fun onDeleteCartItem(cartItem: ProductListResponse)
+    }
+
+
+    fun updateData(newProductList: List<ProductListResponse>, newCartList: List<CartItems>) {
+        this.items = newProductList
+        this.cartList = newCartList
+        notifyDataSetChanged()  // Notify the adapter that the data has changed
     }
 
 

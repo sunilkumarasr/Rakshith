@@ -14,8 +14,10 @@ import com.village.villagevegetables.Adapters.ProductDetailsResponse
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Models.AddFavouriteModel
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
+import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.UpdateCartResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityProductsDetailsBinding
@@ -38,6 +40,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
     var productCartStatus: String = ""
     var TotalPrice: Double = 0.0
 
+    var favId: String = ""
     var cartId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,8 +68,10 @@ class ProductsDetailsActivity : AppCompatActivity() {
             binding.AddFavourite.startAnimation(animations)
             isFavorite = !isFavorite
             if (isFavorite) {
+                addFavouriteApi()
                 binding.imgFav.setImageResource(R.drawable.favadd)
             } else {
+                removeFavouriteApi()
                 binding.imgFav.setImageResource(R.drawable.favorite_green_ic)
             }
         }
@@ -145,9 +150,112 @@ class ProductsDetailsActivity : AppCompatActivity() {
             ViewController.customToast(applicationContext, "Please check your connection ")
         } else {
             productDetailsApi()
+            getFavouriteApi()
         }
 
     }
+
+    //favorite
+    private fun getFavouriteApi() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        Log.e("userId_",userId.toString())
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.getFavouriteApi(
+                getString(R.string.api_key),
+                userId.toString(),
+            )
+        call.enqueue(object : Callback<FavouriteModel> {
+            override fun onResponse(
+                call: Call<FavouriteModel>,
+                response: Response<FavouriteModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val productsList = response.body()?.response!!
+
+                        if (productsList.isNotEmpty()) {
+                            for (i in productsList.indices) {
+                                // Access each product by index
+                                if (productsList[i].productsId == productsId) {
+                                    favId = productsList[i].id
+                                    isFavorite = true
+                                    binding.imgFav.setImageResource(R.drawable.favadd)
+                                    break
+                                }
+                            }
+                        }
+
+                    }
+
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<FavouriteModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun addFavouriteApi() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        Log.e("userId_",userId.toString())
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.addFavouriteApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                productsId
+            )
+        call.enqueue(object : Callback<AddFavouriteModel> {
+            override fun onResponse(
+                call: Call<AddFavouriteModel>,
+                response: Response<AddFavouriteModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val res = response.body()
+                    }
+
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<AddFavouriteModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun removeFavouriteApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.removeFavouriteApi(
+                getString(R.string.api_key),
+                favId
+            )
+        call.enqueue(object : Callback<AddFavouriteModel> {
+            override fun onResponse(
+                call: Call<AddFavouriteModel>,
+                response: Response<AddFavouriteModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val res = response.body()
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<AddFavouriteModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+
+
 
     //details api
     private fun productDetailsApi() {

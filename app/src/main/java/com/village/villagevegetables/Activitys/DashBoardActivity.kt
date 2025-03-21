@@ -6,6 +6,11 @@ import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -17,10 +22,17 @@ import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.village.villagevegetables.Activitys.AllProductsListActivity
+import com.village.villagevegetables.Activitys.CheckOutActivity
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Models.AddAddressModel
+import com.village.villagevegetables.Models.AreaModel
+import com.village.villagevegetables.Models.CityModel
+import com.village.villagevegetables.Models.SettingsModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityDashBoardBinding
 import retrofit2.Call
@@ -40,6 +52,8 @@ class DashBoardActivity : AppCompatActivity() {
     //exit
     private var isHomeFragmentDisplayed = false
 
+    var cityName: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -49,7 +63,6 @@ class DashBoardActivity : AppCompatActivity() {
             false
         )
 
-
         inIts()
 
     }
@@ -57,6 +70,18 @@ class DashBoardActivity : AppCompatActivity() {
     private fun inIts() {
 
         Preferences.saveStringValue(this@DashBoardActivity, Preferences.LOGINCHECK, "Login")
+
+        val name = Preferences.loadStringValue(this@DashBoardActivity, Preferences.name, "")
+        val cityName = Preferences.loadStringValue(this@DashBoardActivity, Preferences.cityName, "")
+        binding.txtUserName.text = "Hi "+name
+        binding.txtUserLocation.text = cityName
+        if (cityName.equals("")){
+            locationPopup()
+        }
+
+        binding.linearLocationChange.setOnClickListener {
+            locationPopup()
+        }
 
         //LottieAnimation color change
         binding.lotiNotification.addValueCallback(
@@ -95,7 +120,92 @@ class DashBoardActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
-        getCartApi()
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            settingsApi()
+            getCartApi()
+        }
+    }
+
+    private fun locationPopup() {
+        val bottomSheetDialog = BottomSheetDialog(this@DashBoardActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_location, null)
+        bottomSheetDialog.setContentView(view)
+
+        val city = Preferences.loadStringValue(this@DashBoardActivity, Preferences.cityName, "")
+        if (city.equals("")){
+            // Disable touch outside to dismiss dialog
+            bottomSheetDialog.setCancelable(false)
+            bottomSheetDialog.setCanceledOnTouchOutside(false)
+        }
+
+        val spinnerCity = view.findViewById<Spinner>(R.id.spinnerCity)
+        val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
+
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            getCityListApi(spinnerCity)
+        }
+
+
+        linearSubmit.setOnClickListener {
+            if (!cityName.equals("")){
+                Preferences.saveStringValue(this@DashBoardActivity, Preferences.cityName, cityName)
+                binding.txtUserLocation.text = cityName
+                bottomSheetDialog.dismiss()
+            }else{
+                ViewController.customToast(applicationContext, "select your address")
+            }
+        }
+
+        bottomSheetDialog.show()
+    }
+    private fun getCityListApi(spinnerCity: Spinner) {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCityListApi(getString(R.string.api_key) )
+        call.enqueue(object : Callback<CityModel> {
+            override fun onResponse(call: Call<CityModel>, response: Response<CityModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        if (response.body()?.status==true) {
+                            val stateList = response.body()?.response ?: emptyList()
+                            // Update the spinner
+                            val adapter = ArrayAdapter(
+                                this@DashBoardActivity,
+                                android.R.layout.simple_spinner_item,
+                                stateList.map { it.cityName }
+                            )
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            spinnerCity.adapter = adapter
+
+                            // Optional: Handle item selection
+                            spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    val selectedState = stateList[position]
+                                    val stateId = selectedState.cityId
+                                    cityName = selectedState.cityName
+                                }
+                                override fun onNothingSelected(p0: AdapterView<*>?) {
+                                }
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<CityModel>, t: Throwable) {
+                Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
+            }
+        })
     }
 
     private fun bottomMenu() {
@@ -133,6 +243,75 @@ class DashBoardActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    fun settingsApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.settingsApi(
+            getString(R.string.api_key)
+        )
+        call.enqueue(object : Callback<SettingsModel> {
+            override fun onResponse(
+                call: Call<SettingsModel>,
+                response: Response<SettingsModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        extractAmount(response.body()?.response!!.get(0).cartText)
+
+                        //Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,extractAmount(response.body()?.response!!.get(0).cartText).toString())
+                        Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,"300".toString())
+
+                        if (!response.body()?.response!!.get(0).appMode.equals("online")){
+                            offlineAppPopup()
+                        }
+
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<SettingsModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    fun extractAmount(cartText: String?): Int? {
+        // Check if the input is null or empty
+        if (cartText.isNullOrEmpty()) {
+            return null
+        }
+
+        // Trim any leading or trailing whitespace (just in case)
+        val trimmedText = cartText.trim()
+
+        // Split the string by space
+        val parts = trimmedText.split(" ")
+
+        // Ensure that we have at least two parts (e.g., "Minimum Order" and "5000/-")
+        if (parts.size < 2) {
+            return null
+        }
+
+        // Extract the last part (should be the amount with "/-")
+        val amountString = parts.lastOrNull()?.replace("/-", "")
+
+        // Convert to integer safely
+        return amountString?.toIntOrNull()
+    }
+    private fun offlineAppPopup() {
+        val bottomSheetDialog = BottomSheetDialog(this@DashBoardActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_offline, null)
+        bottomSheetDialog.setContentView(view)
+
+        // Disable touch outside to dismiss dialog
+        bottomSheetDialog.setCancelable(false)
+        bottomSheetDialog.setCanceledOnTouchOutside(false)
+
+
+        bottomSheetDialog.show()
     }
 
 
@@ -205,6 +384,5 @@ class DashBoardActivity : AppCompatActivity() {
         val b = dialogBuilder.create()
         b.show()
     }
-
 
 }

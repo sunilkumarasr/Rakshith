@@ -110,45 +110,48 @@ class EditProfileActivity : AppCompatActivity() {
             return
         }
 
+        if (!ViewController.validateMobile(mobile)) {
+            ViewController.customToast(applicationContext, "Enter valid mobile number")
+        } else {
+            ViewController.showLoading(this@EditProfileActivity)
 
-        ViewController.showLoading(this@EditProfileActivity)
+            val apiServices = RetrofitClient.apiInterface
+            val call =
+                apiServices.updateProfileApi(
+                    getString(R.string.api_key),
+                    userId.toString(),
+                    name,
+                    mobile,
+                    email
+                )
 
-        val apiServices = RetrofitClient.apiInterface
-        val call =
-            apiServices.updateProfileApi(
-                getString(R.string.api_key),
-                userId.toString(),
-                name,
-                mobile,
-                email
-            )
+            call.enqueue(object : Callback<ProfileModel> {
+                override fun onResponse(
+                    call: Call<ProfileModel>,
+                    response: Response<ProfileModel>
+                ) {
+                    ViewController.hideLoading()
+                    try {
+                        if (response.isSuccessful) {
+                            Preferences.saveStringValue(this@EditProfileActivity, Preferences.name,binding.nameEdit.text.toString())
+                            Preferences.saveStringValue(this@EditProfileActivity, Preferences.mobileNumber,binding.mobileEdit.text.toString())
+                            Preferences.saveStringValue(this@EditProfileActivity, Preferences.email,binding.emailEdit.text.toString())
 
-        call.enqueue(object : Callback<ProfileModel> {
-            override fun onResponse(
-                call: Call<ProfileModel>,
-                response: Response<ProfileModel>
-            ) {
-                ViewController.hideLoading()
-                try {
-                    if (response.isSuccessful) {
-                        Preferences.saveStringValue(this@EditProfileActivity, Preferences.name,binding.nameEdit.text.toString())
-                        Preferences.saveStringValue(this@EditProfileActivity, Preferences.mobileNumber,binding.mobileEdit.text.toString())
-                        Preferences.saveStringValue(this@EditProfileActivity, Preferences.email,binding.emailEdit.text.toString())
-
-                        val intent = Intent(this@EditProfileActivity, DashBoardActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                            val intent = Intent(this@EditProfileActivity, DashBoardActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
                     }
-                } catch (e: NullPointerException) {
-                    e.printStackTrace()
                 }
-            }
 
-            override fun onFailure(call: Call<ProfileModel>, t: Throwable) {
-                ViewController.hideLoading()
-                ViewController.customToast(applicationContext, "Register Failed")
-            }
-        })
+                override fun onFailure(call: Call<ProfileModel>, t: Throwable) {
+                    ViewController.hideLoading()
+                    ViewController.customToast(applicationContext, "Register Failed")
+                }
+            })
+        }
 
     }
 
