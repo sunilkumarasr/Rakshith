@@ -10,6 +10,7 @@ import com.village.villagevegetables.Models.AddFavouriteModel
 import com.village.villagevegetables.Models.AddressModel
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.AreaModel
+import com.village.villagevegetables.Models.BannersModel
 import com.village.villagevegetables.Models.CategoryModel
 import com.village.villagevegetables.Models.CategoryWiseModel
 import com.village.villagevegetables.Models.CityModel
@@ -69,6 +70,12 @@ interface ApiInterface {
     fun settingsApi(
         @Field("api_key") apiKey: String,
     ): Call<SettingsModel>
+
+    @FormUrlEncoded
+    @POST("sliders")
+    fun getBannersApi(
+        @Field("api_key") apiKey: String
+    ): Call<BannersModel>
 
     @FormUrlEncoded
     @POST("categories_list")
@@ -193,14 +200,12 @@ interface ApiInterface {
         @Field("api_key") apiKey: String
     ): Call<CityModel>
 
-
     @FormUrlEncoded
     @POST("city")
     fun getAreaListApi(
         @Field("api_key") apiKey: String,
         @Field("state_id") stateId: String,
     ): Call<AreaModel>
-
 
     @FormUrlEncoded
     @POST("add_addressinfo")
@@ -214,7 +219,6 @@ interface ApiInterface {
         @Field("city") city: String,
         @Field("area") area: String,
     ): Call<AddAddressModel>
-
 
     @FormUrlEncoded
     @POST("update_address")
@@ -249,13 +253,16 @@ interface ApiInterface {
     
     @FormUrlEncoded
     @POST("place_order_save")
-    fun placeOrderApi(
+    fun placeOrderSuccessApi(
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String,
         @Field("product_ids") productIds: String,
         @Field("product_qtys") productQty: String,
         @Field("order_notes") orderNotes: String,
         @Field("amount") amount: String,
+        @Field("address") address: String,
+        @Field("promocode") promoCode: String,
+        @Field("delivery_charge") deliveryCharge: String,
     ): Call<PlaceorderModel>
 
 

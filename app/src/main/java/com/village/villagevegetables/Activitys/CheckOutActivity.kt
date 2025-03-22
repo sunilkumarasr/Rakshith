@@ -2,6 +2,7 @@ package com.village.villagevegetables.Activitys
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.village.villagevegetables.Activitys.CartActivity
+import com.village.villagevegetables.Activitys.SplashActivity
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CartAdapter
@@ -33,11 +35,14 @@ import com.village.villagevegetables.Models.AddressModel
 import com.village.villagevegetables.Models.AddressModelResponse
 import com.village.villagevegetables.Models.AreaModel
 import com.village.villagevegetables.Models.CityModel
+import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityPlaceOrderBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Field
+import kotlin.toString
 
 class CheckOutActivity : AppCompatActivity() {
 
@@ -56,9 +61,21 @@ class CheckOutActivity : AppCompatActivity() {
     lateinit var cityName: String
     lateinit var areaName: String
 
+
+    lateinit var productsIDS: String
+    lateinit var productsQtyS: String
+
+    var note: String = ""
+    var promoCodePrice: String = ""
+    var selectedAddress: String = ""
+
+    private var deliveryChargePrice: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        note = intent.getStringExtra("note").toString()
+        promoCodePrice = intent.getStringExtra("promoCodePrice").toString()
 
         inIts()
 
@@ -89,7 +106,22 @@ class CheckOutActivity : AppCompatActivity() {
             val animations = ViewController.animation()
             binding.linearPayment.startAnimation(animations)
             if (addressListStatus){
-                orderSuccessPopup()
+                //orderSuccessPopup()
+                productsIDS = ""
+                productsQtyS = ""
+                cartItemsList.forEach({
+                    if (productsIDS.isEmpty())
+                        productsIDS = it.products_id.toString()
+                    else
+                        productsIDS = productsIDS + "##" + it.products_id
+
+                    if (productsQtyS.isEmpty())
+                        productsQtyS = it.cart_quantity.toString()
+                    else
+                        productsQtyS = productsQtyS + "##" + it.cart_quantity
+                })
+                placeOrderSuccessApi()
+
             }else{
                 ViewController.showToast(applicationContext, "Please add your address")
             }
@@ -158,14 +190,16 @@ class CheckOutActivity : AppCompatActivity() {
             val minAmount = Preferences.loadStringValue(this@CheckOutActivity, Preferences.minAmount, "")
             minAmount?.toInt()?.let {
                 if (it <= TotalPrice){
+                    deliveryChargePrice = ""
                     binding.txtDeliveryCharge.text = "FREE"
                     binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
                     binding.txtItemsPrice.text = "₹"+TotalPrice
                     binding.txtTotalPrice.text = "₹"+TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
                 }else{
-                    binding.txtDeliveryCharge.text = "₹20"
-                    TotalPrice = (TotalPrice + 20)
+                    deliveryChargePrice = "20"
+                    binding.txtDeliveryCharge.text = "₹"+deliveryChargePrice
+                    TotalPrice = (TotalPrice + deliveryChargePrice.toInt())
                     binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
                     binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
                     binding.txtTotalPrice.text = "₹"+TotalPrice
@@ -228,9 +262,11 @@ class CheckOutActivity : AppCompatActivity() {
             val position = addressPosition?.toIntOrNull()
             if (position != null && position in addressList.indices) {
                 newAddressList.add(addressList[position])
+                selectedAddress = addressList[position].name+", "+addressList[position].city+", "+addressList[position].area+", "+addressList[position].landmark+", "+addressList[position].mobileNo+", "+addressList[position].alternateMobileNumber
             }
         } else {
             newAddressList.add(addressList[0])
+            selectedAddress = addressList[0].name+", "+addressList[0].city+", "+addressList[0].area+", "+addressList[0].landmark+", "+addressList[0].mobileNo+", "+addressList[0].alternateMobileNumber
         }
 
         // Set up RecyclerView
@@ -512,6 +548,44 @@ class CheckOutActivity : AppCompatActivity() {
     }
 
 
+    private fun placeOrderSuccessApi() {
+        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.placeOrderSuccessApi(
+                getString(R.string.api_key),
+                userId.toString(),
+                productsIDS,
+                productsQtyS,
+                note,
+                TotalFinalPrice,
+                selectedAddress,
+                promoCodePrice,
+                deliveryChargePrice,
+            )
+
+        call.enqueue(object : Callback<PlaceorderModel> {
+            override fun onResponse(
+                call: Call<PlaceorderModel>,
+                response: Response<PlaceorderModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        orderSuccessPopup()
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                    orderFailedPopup()
+                }
+            }
+            override fun onFailure(call: Call<PlaceorderModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+                orderFailedPopup()
+            }
+        })
+    }
+
     private fun orderSuccessPopup() {
         val dialog = Dialog(this)
         val customView = LayoutInflater.from(this).inflate(R.layout.payment_success_popup, null)
@@ -533,9 +607,22 @@ class CheckOutActivity : AppCompatActivity() {
         mediaPlayer?.start()
 
         val linearSubmit = customView.findViewById<LinearLayout>(R.id.linearSubmit)
+        val linearHome = customView.findViewById<LinearLayout>(R.id.linearHome)
         linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             linearSubmit.startAnimation(animations)
+            val intent = Intent(this@CheckOutActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+
+            dialog.dismiss()
+        }
+        linearHome.setOnClickListener {
+            val animations = ViewController.animation()
+            linearHome.startAnimation(animations)
+            val intent = Intent(this@CheckOutActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
             dialog.dismiss()
         }
 
@@ -559,8 +646,20 @@ class CheckOutActivity : AppCompatActivity() {
         dialog.window?.attributes = layoutParams
 
         val linearSubmit = customView.findViewById<LinearLayout>(R.id.linearSubmit)
+        val linearHome = customView.findViewById<LinearLayout>(R.id.linearHome)
 
         linearSubmit.setOnClickListener {
+            val animations = ViewController.animation()
+            linearSubmit.startAnimation(animations)
+            val intent = Intent(this@CheckOutActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            dialog.dismiss()
+        }
+        linearHome.setOnClickListener {
+            val animations = ViewController.animation()
+            linearHome.startAnimation(animations)
+
             dialog.dismiss()
         }
 

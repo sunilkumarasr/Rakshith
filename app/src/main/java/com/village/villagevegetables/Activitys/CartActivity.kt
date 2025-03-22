@@ -51,6 +51,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     var quantity = 1
     var isFavorite = false
 
+    private var promoCodePrice: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -80,6 +82,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val animations = ViewController.animation()
             binding.linearSubmit.startAnimation(animations)
             val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
+            intent.putExtra("note", binding.txtNote.text.toString())
+            intent.putExtra("promoCodePrice", promoCodePrice)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
@@ -177,7 +181,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val minAmount = Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "")
             minAmount?.toInt()?.let {
                 if (it <= TotalPrice){
-                       binding.txtDeliveryCharge.text = "FREE"
+                    binding.txtDeliveryCharge.text = "FREE"
                     binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
                     binding.txtItemsPrice.text = "₹"+TotalPrice
                     binding.txtTotalPrice.text = "₹"+TotalPrice
@@ -191,7 +195,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     TotalFinalPrice = TotalPrice.toString()
                 }
             }
-
         } catch (e: NumberFormatException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {

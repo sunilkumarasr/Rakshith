@@ -113,14 +113,21 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                     (it.price.toDoubleOrNull() ?: 0.0)
                 }
                 binding.txtItems.text = getString(R.string.Items)+ " " + ordersItemsList.size
-                binding.txtItemsPrice.text = "₹" + totalItemsPrice.toString()
+                binding.txtItemsPrice.text = "₹" + order.grandTotal
                 binding.txtTotalAmount.text = "₹" + order.grandTotal
                 binding.txtAddress.text = "Address : "+order.billingAddress
                 binding.txtName.text = "Name : "+order.fullName
                 binding.txtMobile.text = "Mobile : "+order.mobile
                 binding.txtEmail.text = "Email : "+order.email
                 binding.txtOrderDate.text ="Order Date : " + order.updatedDate
-                binding.txtOrderTotalAmount.text = "₹" + order.grandTotal
+                if (!order.deliveryCharge.equals("")){
+                    binding.txtDeliveryCharge.text = "₹" +order.deliveryCharge
+                    var sum = order.grandTotal.toDouble() + order.deliveryCharge.toDouble()
+                    binding.txtOrderTotalAmount.text = "₹" + sum.toString()
+                }else{
+                    binding.txtDeliveryCharge.text = "Free"
+                    binding.txtOrderTotalAmount.text = "₹" + order.grandTotal
+                }
 
                 // set fields
                 binding.txtOrderNumber.text = order.orderNumber

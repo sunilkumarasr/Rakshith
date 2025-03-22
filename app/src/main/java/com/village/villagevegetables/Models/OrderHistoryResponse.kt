@@ -22,6 +22,7 @@ data class OrderHistoryResponse(
     @SerializedName("billing_address") val billingAddress : String,
     @SerializedName("area_name") val areaName : String,
     @SerializedName("grand_total") val grandTotal : String,
+    @SerializedName("delivery_charge") val deliveryCharge : String,
     @SerializedName("order_notes") val orderNotes : String,
     @SerializedName("delivery_status") val deliveryStatus : String,
     @SerializedName("completed_date") val completedDate : String,

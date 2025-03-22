@@ -727,12 +727,13 @@
                         android:textColor="@color/txtdes"
                         android:textSize="13sp" />
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtDeliveryCharge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
                         android:gravity="end"
-                        android:text="@string/offerprice"
+                        android:text="Free"
                         android:fontFamily="@font/teachers_medium"
                         android:textColor="@color/black"
                         android:textSize="13sp" />

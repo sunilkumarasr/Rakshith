@@ -150,7 +150,7 @@
                 android:fontFamily="@font/teachers_regular"
                 android:gravity="center"
                 android:maxLines="2"
-                android:text="123456789"
+                android:text="00"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 tools:ignore="HardcodedText" />

@@ -9,19 +9,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.denzcoskun.imageslider.models.SlideModel
+import androidx.viewpager2.widget.ViewPager2
 import com.village.villagevegetables.Activitys.AllProductsListActivity
 import com.village.villagevegetables.Activitys.CategoriesActivity
 import com.village.villagevegetables.Activitys.CategoriesWiseProductsListActivity
 import com.village.villagevegetables.Activitys.DashBoardActivity
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
+import com.village.villagevegetables.Adapters.HomeBannersAdapter
 import com.village.villagevegetables.Adapters.HomeCategoriesAdapter
 import com.village.villagevegetables.Adapters.HomeFeatureProductsAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.AddtoCartResponse
+import com.village.villagevegetables.Models.BannersModel
+import com.village.villagevegetables.Models.BannersResponse
 import com.village.villagevegetables.Models.CategoryListResponse
 import com.village.villagevegetables.Models.CategoryModel
 import com.village.villagevegetables.Models.DeleteCartResponse
@@ -33,6 +36,14 @@ import com.village.villagevegetables.databinding.FragmentHomeBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.os.Handler
+import android.os.Looper
+import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.abs
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+
 
 class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     HomeFeatureProductsAdapter.CartItemQuantityChangeListener {
@@ -45,6 +56,11 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     //Products list
     var productList: MutableList<ProductListResponse> = ArrayList()
     var cartItemsList: List<CartItems> = ArrayList()
+
+    //banners
+    private lateinit var handler : Handler
+    private lateinit var imageList:ArrayList<BannersResponse>
+    private lateinit var adapter: HomeBannersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,14 +83,28 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         cartItemQuantityChangeListener = this
         productItemClick = this
 
+        handler = Handler(Looper.myLooper()!!)
+        imageList = ArrayList()
+
         if (!ViewController.noInterNetConnectivity(requireActivity())) {
             ViewController.showToast(requireActivity(), "Please check your connection ")
             return
         } else {
-            homeBannersApi()
+            getBannersApi()
             getCategoriesApi()
             getProductsApi()
         }
+
+        //banners
+        setUpTransformer()
+        binding.viewPagerBanners.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable , 4000)
+            }
+        })
+
 
         binding.viewMoreProducts.setOnClickListener {
             val animations = ViewController.animation()
@@ -94,14 +124,53 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     }
 
-    private fun homeBannersApi() {
-        val imageList = mutableListOf<SlideModel>()
-        imageList.add(SlideModel(R.drawable.dummy_banner1, ""))
-        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
-        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
-        imageList.add(SlideModel(R.drawable.dummy_banner1, ""))
-        imageList.add(SlideModel(R.drawable.dummy_banner, ""))
-        binding.imageSlider.setImageList(imageList)
+    private fun getBannersApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getBannersApi(getString(R.string.api_key))
+        call.enqueue(object : Callback<BannersModel> {
+            override fun onResponse(call: Call<BannersModel>, response: Response<BannersModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        val bannersServicesList = response.body()?.response
+                        //empty
+                        if (bannersServicesList.isNullOrEmpty()) {
+                            binding.viewPagerBanners.visibility = View.GONE
+                            return
+                        }
+                        dataSetBanners(bannersServicesList)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<BannersModel>, t: Throwable) {
+                Log.e("onFailurebannersServicesList", "API Call Failed: ${t.message}")
+            }
+        })
+    }
+    private fun dataSetBanners(bannersselectedServicesList: ArrayList<BannersResponse>) {
+        adapter = HomeBannersAdapter(bannersselectedServicesList, binding.viewPagerBanners)
+
+        binding.viewPagerBanners.adapter = adapter
+        binding.viewPagerBanners.offscreenPageLimit = 3
+        binding.viewPagerBanners.clipToPadding = false
+        binding.viewPagerBanners.clipChildren = false
+        binding.viewPagerBanners.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+
+    }
+    private val runnable = Runnable {
+        binding.viewPagerBanners.currentItem = binding.viewPagerBanners.currentItem + 1
+    }
+    private fun setUpTransformer() {
+        val transformer = CompositePageTransformer()
+        transformer.addTransformer(MarginPageTransformer(20))
+        transformer.addTransformer { page, position ->
+            val r = 1 - abs(position)
+            page.scaleY = 0.85f + r * 0.14f
+//            page.alpha = 0.50f + (1 - abs(position)) * 0.50f
+        }
+        binding.viewPagerBanners.setPageTransformer(transformer)
     }
 
     private fun getCategoriesApi() {
@@ -426,6 +495,14 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     override fun onResume() {
         super.onResume()
         getProductsApi()
+
+        handler.postDelayed(runnable , 2000)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnable)
     }
 
 

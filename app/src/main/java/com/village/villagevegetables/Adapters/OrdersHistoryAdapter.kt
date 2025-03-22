@@ -52,7 +52,12 @@ class OrdersHistoryAdapter(
             .into(holder.image)
 
         holder.txtOrderNumber.text = item.orderNumber
-        holder.txtOrderAmount.text = "₹" + item.grandTotal
+        if (!item.deliveryCharge.equals("")){
+            var sum = item.grandTotal.toDouble() + item.deliveryCharge.toDouble()
+            holder.txtOrderAmount.text = "₹" + sum
+        }else{
+            holder.txtOrderAmount.text = "₹" + item.grandTotal
+        }
         holder.txtOrderDate.text = item.createdDate
 
         //order status
