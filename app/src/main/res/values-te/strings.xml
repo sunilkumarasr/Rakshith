@@ -100,6 +100,7 @@
     <string name="logout_note">మీరు ఖచ్చితంగా లాగ్ అవుట్ కావాలనుకుంటున్నారా?</string>
     <string name="cancel">రద్దు</string>
     <string name="ok">ఓకే</string>
+    <string name="proceed">కొనసాగించండి</string>
     <string name="checkout">చెక్ అవుట్</string>
     <string name="proceedtocheckout">చెక్ అవుట్ కు వెళ్లండి</string>
     <string name="placeorder">ఆర్డర్ చేయండి</string>
@@ -124,7 +125,10 @@
     <string name="orderFailedNote">మీరు మళ్లీ ఆర్డర్ చేయవచ్చు లేదా సమస్య కొనసాగితే మద్దతును సంప్రదించండి.</string>
     <string name="tryAgain">మళ్లీ ప్రయత్నించండి</string>
     <string name="delete">తొలగించు</string>
+    <string name="deleteAccount">ఖాతా తొలగించు</string>
+    <string name="deleteMyAccount">నా ఖాతాను తొలగించండి</string>
     <string name="deleteConfirmation">తొలగింపు నిర్ధారణ</string>
+    <string name="deletenote">మీ ఖాతాను తొలగించడం మీ యొక్క అన్ని వ్యక్తిగత సమాచారం, ప్రాధాన్యతలు మరియు కార్యకలాపాలను మా సిస్టమ్ నుండి శాశ్వతంగా తొలగిస్తుంది. ఒకసారి ఖాతా తొలగించిన తర్వాత, అది పునరుద్ధరించబడదు. దయచేసి కొనసాగించడానికి ముందు మీరు అవసరమైన డేటాను బ్యాకప్ చేసుకున్నట్లు నిర్ధారించుకోండి. మీరు ఇంకా కొనసాగించాలని కోరుకుంటే, మీరు మీ ఖాతాను తొలగించవచ్చు.</string>
     <string name="deleteConfirmationNote">మీరు ఈ అంశాన్ని తొలగించాలని ఖచ్చితంగా అనుకుంటున్నారా?</string>
     <string name="yes">అవును</string>
     <string name="no">కాదు</string>

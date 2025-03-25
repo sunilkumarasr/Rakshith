@@ -3,6 +3,7 @@ package com.village.villagevegetables.Adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,7 @@ class HomeFeatureProductsAdapter(
         val linearDecrement: LinearLayout = itemView.findViewById(R.id.linearDecrement)
         val linearIncrement: LinearLayout = itemView.findViewById(R.id.linearIncrement)
         val cartQty: TextView = itemView.findViewById(R.id.cartQty)
+        val txtStock: TextView = itemView.findViewById(R.id.txtStock)
         val addToCart: LinearLayout = itemView.findViewById(R.id.addToCart)
     }
 
@@ -48,6 +50,12 @@ class HomeFeatureProductsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+
+        if (item.stock.toInt() ==0){
+            holder.linearCount.visibility = View.GONE
+            holder.addToCart.visibility = View.GONE
+            holder.txtStock.visibility = View.VISIBLE
+        }
 
         Glide.with(holder.imgProducts)
             .load(item.productImage)

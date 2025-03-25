@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -64,7 +65,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun LogoAnimation() {
-        val splashLogo: AppCompatImageView = findViewById(R.id.imgLogo)
+        val splashLogo: LinearLayout = findViewById(R.id.imgLogo)
         // Create ObjectAnimators for the different effects
         val scaleX = ObjectAnimator.ofFloat(splashLogo, "scaleX", 0f, 1f)
         val scaleY = ObjectAnimator.ofFloat(splashLogo, "scaleY", 0f, 1f)

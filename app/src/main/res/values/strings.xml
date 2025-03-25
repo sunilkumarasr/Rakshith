@@ -103,6 +103,7 @@
     <string name="logout_note">Are you sure you want to logout?</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="proceed">Proceed</string>
     <string name="checkout">CheckOut</string>
     <string name="proceedtocheckout">Proceed to CheckOut</string>
     <string name="placeorder">Place Order</string>
@@ -127,7 +128,10 @@
     <string name="orderFailedNote">You can place the order again or contact support if the issue persists.</string>
     <string name="tryAgain">Try Again</string>
     <string name="delete">Delete</string>
+    <string name="deleteAccount">Delete Account</string>
+    <string name="deleteMyAccount">Delete my account</string>
     <string name="deleteConfirmation">Delete Confirmation</string>
+    <string name="deletenote">Deleting your account will permanently erase all your personal information, preferences, and activity from our system. Once deleted, your account cannot be recovered. Please make sure to back up any important data before proceeding. If you still wish to proceed, you can delete your account.</string>
     <string name="deleteConfirmationNote">Are you sure you want to delete this item?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

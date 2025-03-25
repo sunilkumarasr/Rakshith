@@ -16,6 +16,7 @@ import com.village.villagevegetables.Activitys.AboutUsActivity
 import com.village.villagevegetables.Activitys.MyAddressActivity
 import com.village.villagevegetables.Activitys.CartActivity
 import com.village.villagevegetables.Activitys.DashBoardActivity
+import com.village.villagevegetables.Activitys.DeleteAccountActivity
 import com.village.villagevegetables.Activitys.EditProfileActivity
 import com.village.villagevegetables.Activitys.FaqActivity
 import com.village.villagevegetables.Activitys.MyOrdersActivity
@@ -85,6 +86,7 @@ class MenuFragment : Fragment() ,View.OnClickListener{
         binding.linearFaq.setOnClickListener(this)
         binding.linearRefundPolicy.setOnClickListener(this)
         binding.linearShippingPolicy.setOnClickListener(this)
+        binding.linearDeleteAccount.setOnClickListener(this)
         binding.linearLogout.setOnClickListener(this)
     }
 
@@ -185,6 +187,11 @@ class MenuFragment : Fragment() ,View.OnClickListener{
                 startActivity(intent)
                 requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
+            R.id.linearDeleteAccount -> {
+                val animations = ViewController.animation()
+                view.startAnimation(animations)
+                deleteAccountDialog()
+            }
             R.id.linearLogout -> {
                 val animations = ViewController.animation()
                 view.startAnimation(animations)
@@ -275,6 +282,30 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             Preferences.deleteSharedPreferences(requireActivity())
             startActivity(Intent(requireActivity(), LoginActivity::class.java))
             requireActivity().finishAffinity()
+        }
+        bottomSheetDialog.show()
+
+    }
+
+    private fun deleteAccountDialog() {
+        val bottomSheetDialog = BottomSheetDialog(requireActivity(), R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_delete_account, null)
+        bottomSheetDialog.setContentView(view)
+
+        val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
+        val buttonOk = view.findViewById<Button>(R.id.buttonOk)
+        buttonCancel.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+        }
+        buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+            val intent = Intent(requireActivity(), DeleteAccountActivity::class.java)
+            startActivity(intent)
+            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
         bottomSheetDialog.show()
 

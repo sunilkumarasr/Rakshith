@@ -294,10 +294,12 @@ class ProductsDetailsActivity : AppCompatActivity() {
         //out of stock
         if (productResponse.stock.toInt() ==0) {
             binding.linearOutOfStock.visibility = View.VISIBLE
+            binding.linearcount.visibility = View.GONE
             binding.linearInStock.visibility = View.GONE
             binding.cardBottom.visibility = View.GONE
         } else {
             binding.linearOutOfStock.visibility = View.GONE
+            binding.linearcount.visibility = View.VISIBLE
             binding.linearInStock.visibility = View.VISIBLE
             binding.cardBottom.visibility = View.VISIBLE
         }

@@ -38,7 +38,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -104,7 +108,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                 handler.postDelayed(runnable , 4000)
             }
         })
-
 
         binding.viewMoreProducts.setOnClickListener {
             val animations = ViewController.animation()
@@ -172,6 +175,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         }
         binding.viewPagerBanners.setPageTransformer(transformer)
     }
+
 
     private fun getCategoriesApi() {
         val apiServices = RetrofitClient.apiInterface

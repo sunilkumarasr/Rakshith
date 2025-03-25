@@ -124,6 +124,17 @@
                 android:fontFamily="@font/teachers_regular"
                 android:textColor="@color/txtHeader"
                 android:textSize="12sp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:visibility="gone"
+                android:id="@+id/txtStock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:fontFamily="@font/teachers_regular"
+                android:textColor="@color/selectedRed"
+                android:text="@string/outofstock"
+                android:textSize="12sp" />
             <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/linearCount"

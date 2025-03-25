@@ -16,6 +16,7 @@ import com.village.villagevegetables.Models.CategoryWiseModel
 import com.village.villagevegetables.Models.CityModel
 import com.village.villagevegetables.Models.ContactUsModel
 import com.village.villagevegetables.Models.DeleteCartResponse
+import com.village.villagevegetables.Models.DeleteModel
 import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.ForgotModel
 import com.village.villagevegetables.Models.LoginModel
@@ -307,5 +308,12 @@ interface ApiInterface {
     fun contactUsApi(
         @Field("api_key") apiKey: String
     ): Call<ContactUsModel>
+
+    @FormUrlEncoded
+    @POST("deleteaccount")
+    fun deleteAccountApi(
+        @Field("api_key") apiKey: String,
+        @Field("customer_id") customerId: String,
+    ): Call<DeleteModel>
 
 }

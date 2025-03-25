@@ -123,8 +123,6 @@ class IntroScreensActivity : AppCompatActivity() {
             binding.indicatorContainer.addView(indicators[i])
         }
     }
-
-
     private fun setCurrentIndicator(index: Int) {
         val childCount = binding.indicatorContainer.childCount
         for (i in 0 until childCount) {

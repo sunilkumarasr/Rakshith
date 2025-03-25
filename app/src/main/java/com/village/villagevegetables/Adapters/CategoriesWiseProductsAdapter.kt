@@ -3,6 +3,7 @@ package com.village.villagevegetables.Adapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,14 @@ class CategoriesWiseProductsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
+
+        if (item.stock.toInt() ==0){
+            holder.linearCount.visibility = View.GONE
+            holder.addToCart.visibility = View.GONE
+            holder.txtTotalPrice.text = "Out of Stock"
+            holder.txtTotalPrice.visibility = View.VISIBLE
+            holder.txtTotalPrice.setTextColor(Color.RED)
+        }
 
         Glide.with(holder.imgProducts)
             .load(item.productImage)

@@ -22,11 +22,12 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="55dp"
+                    android:layout_width="45dp"
                     android:layout_height="50dp"
                     android:gravity="center"
+                    android:scaleType="fitXY"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/logo"/>
+                    android:src="@drawable/single_logo"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -64,12 +65,12 @@
                             android:textColorHint="@color/white"
                             android:textSize="15sp" />
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="25dp"
+                            android:layout_height="20dp"
+                            android:scaleType="fitXY"
                             android:layout_gravity="center_vertical"
                             android:src="@drawable/down_arrow"
-                            app:tint="@color/white"
-                            android:layout_marginStart="10dp"/>
+                            app:tint="@color/white"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -131,7 +132,6 @@
                     android:textColorHint="@color/txtdes" />
             </LinearLayout>
         </LinearLayout>
-
 
         <fragment
             android:id="@+id/frame_layout"
