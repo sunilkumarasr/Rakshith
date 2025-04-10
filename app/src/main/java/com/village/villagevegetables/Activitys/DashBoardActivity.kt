@@ -88,7 +88,7 @@ class DashBoardActivity : AppCompatActivity() {
             KeyPath("**"),  // Applies to all layers
             LottieProperty.COLOR_FILTER
         ) { PorterDuffColorFilter(ContextCompat.getColor(this@DashBoardActivity, R.color.white), PorterDuff.Mode.SRC_ATOP) }
-        binding.root.findViewById<LottieAnimationView>(R.id.lotiCart).addValueCallback(
+        binding.root.findViewById<LottieAnimationView> (R.id.lotiCart).addValueCallback(
             KeyPath("**"),  // Applies to all layers
             LottieProperty.COLOR_FILTER
         ) { PorterDuffColorFilter(ContextCompat.getColor(this@DashBoardActivity, R.color.white), PorterDuff.Mode.SRC_ATOP) }
