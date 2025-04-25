@@ -47,6 +47,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
+import com.village.villagevegetables.Logins.LoginActivity
 
 
 class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
@@ -65,6 +66,8 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     private lateinit var handler : Handler
     private lateinit var imageList:ArrayList<BannersResponse>
     private lateinit var adapter: HomeBannersAdapter
+
+    var userId: String = "";
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -89,6 +92,9 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
         handler = Handler(Looper.myLooper()!!)
         imageList = ArrayList()
+
+        userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "").toString()
+
 
         if (!ViewController.noInterNetConnectivity(requireActivity())) {
             ViewController.showToast(requireActivity(), "Please check your connection ")
@@ -205,10 +211,18 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
     private fun dataSet(selectedServicesList: List<CategoryListResponse>) {
         // Truncate the list to the first 6 items if needed
-        val truncatedList = selectedServicesList.take(6)
+        val set = R.drawable.vegitable_ic
+        val defaultItem = CategoryListResponse(
+            categoriesId = "0",
+            categoryName = "All",
+            categoryImage = set.toString()
+        )
+
+        val truncatedList = listOf(defaultItem) + selectedServicesList.take(6)
+
         binding.recyclerViewCategories.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(truncatedList) { item ->
+            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(requireActivity(), truncatedList) { item ->
                 val intent = Intent(activity, CategoriesWiseProductsListActivity::class.java).apply {
                     putExtra("categoriesId", item.categoriesId)
                     putExtra("categoryName", item.categoryName)
@@ -251,7 +265,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         })
     }
     private fun getCartApi() {
-        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
+
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCartApi(
             getString(R.string.api_key),
@@ -320,7 +334,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
 
     private fun addToCart(itemsData: ProductListResponse, cartQty: String) {
-        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.addToCartApi(
@@ -362,7 +375,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
 
     private fun updateCart(itemsData: ProductListResponse, cartQty: String) {
-        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.upDateCartApi(
@@ -416,7 +428,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         checkCartId(cartItem, "1")
     }
     private fun checkCartId(cartItem: ProductListResponse, deleteItem: String) {
-        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCartApi(
             getString(R.string.api_key),
@@ -458,7 +469,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         })
     }
     private fun removeFromCartApi(cartItem: ProductListResponse, cartID: String, count: String) {
-        val userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.removeFromCartApi(

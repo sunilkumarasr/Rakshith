@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.village.villagevegetables.Activitys.ProductsDetailsActivity
 import com.village.villagevegetables.Adapters.Cart.CartItems
+import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Logins.LoginActivity
 import com.village.villagevegetables.Models.ProductListResponse
 import com.village.villagevegetables.R
 
@@ -150,11 +152,19 @@ class HomeFeatureProductsAdapter(
         holder.addToCart.setOnClickListener {
 //            val animations = ViewController.animation()
 //            holder.addToCart.startAnimation(animations)
-
-            click!!.onAddToCartClicked(item, "1", 0)
-            holder.addToCart.visibility = View.GONE
-            holder.linearCount.visibility = View.VISIBLE
-            holder.cartQty.text = "1"
+            val userId = Preferences.loadStringValue(context, Preferences.userId, "").toString()
+            if (userId == ""){
+                val intent = Intent(context, LoginActivity::class.java)
+                context.startActivity(intent)
+                if (context is Activity) {
+                    context.overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                }
+            }else{
+                click!!.onAddToCartClicked(item, "1", 0)
+                holder.addToCart.visibility = View.GONE
+                holder.linearCount.visibility = View.VISIBLE
+                holder.cartQty.text = "1"
+            }
         }
 
         holder.imgProducts.setOnClickListener {

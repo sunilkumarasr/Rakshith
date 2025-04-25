@@ -45,19 +45,17 @@ class IntroScreensActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         inIts()
 
     }
 
-
     private fun inIts() {
+
         binding.introSliderViewPager.adapter = introSliderAdapter
         setupIndicators()
         setCurrentIndicator(0)
 
-        binding.introSliderViewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
+        binding.introSliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 setCurrentIndicator(position)
@@ -70,6 +68,7 @@ class IntroScreensActivity : AppCompatActivity() {
                     binding.linearSubmit.visibility = View.GONE
                     binding.relative.visibility = View.VISIBLE
                 }
+
             }
         })
 
@@ -77,7 +76,7 @@ class IntroScreensActivity : AppCompatActivity() {
             if (binding.introSliderViewPager.currentItem + 1 < introSliderAdapter.itemCount) {
                 binding.introSliderViewPager.currentItem += 1
             } else {
-                Intent(applicationContext, LoginActivity::class.java).also {
+                Intent(applicationContext, DashBoardActivity::class.java).also {
                     startActivity(it)
                     finish()
                 }
@@ -85,21 +84,20 @@ class IntroScreensActivity : AppCompatActivity() {
         }
 
         binding.linearSubmit.setOnClickListener {
-            Intent(applicationContext, LoginActivity::class.java).also {
+            Intent(applicationContext, DashBoardActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
         }
 
         binding.txtSkip.setOnClickListener {
-            Intent(applicationContext, LoginActivity::class.java).also {
+            Intent(applicationContext, DashBoardActivity::class.java).also {
                 startActivity(it)
                 finish()
             }
         }
+
     }
-
-
 
     private fun setupIndicators() {
         binding.indicatorContainer.removeAllViews() // Clear previous indicators

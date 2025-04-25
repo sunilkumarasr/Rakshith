@@ -17,108 +17,139 @@
         tools:targetApi="31">
         <activity
             android:name=".Activitys.DeleteAccountActivity"
-            android:exported="false" />
+            android:screenOrientation="portrait"
+            android:exported="false"/>
         <activity
             android:name=".Activitys.ReferAndEarnActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.MyOrderDetailsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.CategoriesActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.AllProductsListActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.ContactUsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.IntroScreensActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activitys.TestActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.HelpAndSupportActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.MyWalletActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.ShippingPolicyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.RefundPolicyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.CheckOutActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.FaqActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.EditAddressActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.CategoriesWiseProductsListActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.AboutUsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.MyAddressActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Logins.RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Logins.OTPActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Logins.ForgotActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Logins.CreatePasswordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Logins.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.MyOrdersActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.SearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.CartActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.FavouriteActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.NotificationsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.ProductsDetailsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.EditProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.TermsAndConditionsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.PrivacyPolicyActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.DashBoardActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activitys.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

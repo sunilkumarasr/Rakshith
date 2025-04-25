@@ -89,9 +89,9 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
-                        if (!response.body()?.response!!.isEmpty()){
+                        if (!response.body()?.response!!.isEmpty()) {
                             DataSet(response.body()?.response!!)
-                        }else{
+                        } else {
                             binding.recyclerview.visibility = View.GONE
                             binding.noData.visibility = View.VISIBLE
                         }
@@ -103,6 +103,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     binding.noData.visibility = View.VISIBLE
                 }
             }
+
             override fun onFailure(call: Call<AddressModel>, t: Throwable) {
                 Log.e("onFailuregetProductsApi", "API Call Failed: ${t.message}")
                 binding.shimmerLoading.visibility = View.GONE
@@ -111,9 +112,11 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             }
         })
     }
+
     private fun DataSet(addressList: List<AddressModelResponse>) {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@MyAddressActivity)
-        binding.recyclerview.adapter = AddressAdapter(  this@MyAddressActivity, addressList, this@MyAddressActivity)
+        binding.recyclerview.adapter =
+            AddressAdapter(this@MyAddressActivity, addressList, this@MyAddressActivity)
     }
 
     override fun onItemClick(itemsData: AddressModelResponse) {
@@ -122,11 +125,12 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
 
     override fun onClicked(
         itemsData: AddressModelResponse,
-        type: String) {
+        type: String
+    ) {
 
-        if (type.equals("edit")){
+        if (type.equals("edit")) {
             updateAddressDialog(itemsData)
-        }else{
+        } else {
             deleteAddressApi(itemsData.id)
         }
 
@@ -135,7 +139,8 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
     //update address
     //add address
     private fun updateAddressDialog(itemsData: AddressModelResponse) {
-        val bottomSheetDialog = BottomSheetDialog(this@MyAddressActivity, R.style.AppBottomSheetDialogTheme)
+        val bottomSheetDialog =
+            BottomSheetDialog(this@MyAddressActivity, R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_addaddress, null)
         bottomSheetDialog.setContentView(view)
 
@@ -169,7 +174,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             val alternateMobile = alternateMobileEdit.text.trim().toString()
             val area = areaEdit.text.trim().toString()
 
-            ViewController.hideKeyBoard(this@MyAddressActivity )
+            ViewController.hideKeyBoard(this@MyAddressActivity)
             if (name.isEmpty()) {
                 ViewController.customToast(applicationContext, "Enter name")
                 return@setOnClickListener
@@ -183,7 +188,10 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 return@setOnClickListener
             }
             if (mobile.equals(alternateMobile)) {
-                ViewController.customToast(applicationContext, "Mobile number and alternate mobile number both are same")
+                ViewController.customToast(
+                    applicationContext,
+                    "Mobile number and alternate mobile number both are same"
+                )
                 return@setOnClickListener
             }
             if (area.isEmpty()) {
@@ -198,61 +206,67 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 ViewController.customToast(applicationContext, "please select area")
                 return@setOnClickListener
             }
+            if (!ViewController.validateMobile(mobile)) {
+                ViewController.customToast(applicationContext, "Enter valid mobile")
+                return@setOnClickListener
+            }
+            if (!ViewController.validateMobile(alternateMobile)) {
+                ViewController.customToast(applicationContext, "Enter valid alternate mobile")
+                return@setOnClickListener
+            }
 
             val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
 
-            if (!ViewController.validateMobile(mobile)) {
-                ViewController.customToast(applicationContext, "Enter valid mobile")
-            }else if (!ViewController.validateMobile(alternateMobile)) {
-                ViewController.customToast(applicationContext, "Enter valid alternate mobile")
-            } else {
-                val apiServices = RetrofitClient.apiInterface
-                val call =
-                    apiServices.updateAddressApi(
-                        getString(R.string.api_key),
-                        userId.toString(),
-                        itemsData.id,
-                        name,
-                        mobile,
-                        alternateMobile,
-                        area,
-                        cityName,
-                        areaName
-                    )
-                call.enqueue(object : Callback<AddAddressModel> {
-                    override fun onResponse(
-                        call: Call<AddAddressModel>,
-                        response: Response<AddAddressModel>
-                    ) {
-                        bottomSheetDialog.dismiss()
-                        try {
-                            if (response.isSuccessful) {
-                                if (response.body()?.message.equals("Success")) {
-                                    if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                                        ViewController.showToast(applicationContext, "Please check your connection ")
-                                    } else {
-                                        addressListApi()
-                                    }
+            val apiServices = RetrofitClient.apiInterface
+            val call =
+                apiServices.updateAddressApi(
+                    getString(R.string.api_key),
+                    userId.toString(),
+                    itemsData.id,
+                    name,
+                    mobile,
+                    alternateMobile,
+                    area,
+                    cityName,
+                    areaName
+                )
+            call.enqueue(object : Callback<AddAddressModel> {
+                override fun onResponse(
+                    call: Call<AddAddressModel>,
+                    response: Response<AddAddressModel>
+                ) {
+                    bottomSheetDialog.dismiss()
+                    try {
+                        if (response.isSuccessful) {
+                            if (response.body()?.message.equals("Success")) {
+                                if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                                    ViewController.showToast(
+                                        applicationContext,
+                                        "Please check your connection "
+                                    )
+                                } else {
+                                    addressListApi()
                                 }
                             }
-                        } catch (e: NullPointerException) {
-                            e.printStackTrace()
-                            Log.e("t_", e.message.toString())
                         }
+                    } catch (e: NullPointerException) {
+                        e.printStackTrace()
+                        Log.e("t_", e.message.toString())
                     }
+                }
 
-                    override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
-                        Log.e("t_", t.message.toString())
-                        bottomSheetDialog.dismiss()
-                    }
-                })
-            }
+                override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
+                    Log.e("t_", t.message.toString())
+                    bottomSheetDialog.dismiss()
+                }
+            })
         }
         bottomSheetDialog.show()
     }
+
     private fun getCityListUpadteApi(spinnerCity: Spinner, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.getCityListApi(getString(R.string.api_key) )
+        val call = apiServices.getCityListApi(getString(R.string.api_key))
         call.enqueue(object : Callback<CityModel> {
             override fun onResponse(call: Call<CityModel>, response: Response<CityModel>) {
                 try {
@@ -270,28 +284,34 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             spinnerCity.adapter = adapter
 
                             // Handle item selection
-                            spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    val selectedState = stateList[position]
-                                    val stateId = selectedState.cityId
-                                    cityName = selectedState.cityName
+                            spinnerCity.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        val selectedState = stateList[position]
+                                        val stateId = selectedState.cityId
+                                        cityName = selectedState.cityName
 
-                                    areaName = ""
-                                    getAreaListUpdateApi(stateId, spinnerArea)
+                                        areaName = ""
+                                        getAreaListUpdateApi(stateId, spinnerArea)
+                                    }
+
+                                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                                        // Handle when nothing is selected, if needed
+                                    }
                                 }
 
-                                override fun onNothingSelected(p0: AdapterView<*>?) {
-                                    // Handle when nothing is selected, if needed
+                            if (!updateCityName.equals("")) {
+                                val position = stateList.indexOfFirst {
+                                    it.cityName.equals(
+                                        updateCityName,
+                                        ignoreCase = true
+                                    )
                                 }
-                            }
-
-                            if (!updateCityName.equals("")){
-                                val position = stateList.indexOfFirst { it.cityName.equals(updateCityName, ignoreCase = true) }
                                 if (position != -1) {
                                     // Set the default selection to the city found
                                     spinnerCity.setSelection(position)
@@ -313,19 +333,21 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     Log.e("onResponseException", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<CityModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
         })
     }
+
     private fun getAreaListUpdateApi(stateId: String, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId )
+        val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId)
         call.enqueue(object : Callback<AreaModel> {
             override fun onResponse(call: Call<AreaModel>, response: Response<AreaModel>) {
                 try {
                     if (response.isSuccessful) {
-                        if (response.body()?.status==true) {
+                        if (response.body()?.status == true) {
                             val stateList = response.body()?.response ?: emptyList()
                             // Update the spinner
                             val adapter = ArrayAdapter(
@@ -337,22 +359,29 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             spinnerArea.adapter = adapter
 
                             // Optional: Handle item selection
-                            spinnerArea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    val selectedState = stateList[position]
-                                    val city_id = selectedState.areaId
-                                    areaName = selectedState.areaName
-                                }
-                                override fun onNothingSelected(p0: AdapterView<*>?) {
-                                }
-                            }
+                            spinnerArea.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        val selectedState = stateList[position]
+                                        val city_id = selectedState.areaId
+                                        areaName = selectedState.areaName
+                                    }
 
-                            val position = stateList.indexOfFirst { it.areaName.equals(updateAreaName, ignoreCase = true) }
+                                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                                    }
+                                }
+
+                            val position = stateList.indexOfFirst {
+                                it.areaName.equals(
+                                    updateAreaName,
+                                    ignoreCase = true
+                                )
+                            }
                             if (position != -1) {
                                 // Set the default selection to the city found
                                 spinnerArea.setSelection(position)
@@ -362,7 +391,6 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             }
 
 
-
                         }
                     }
                 } catch (e: Exception) {
@@ -370,6 +398,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     Log.e("onResponseException", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<AreaModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
@@ -379,14 +408,17 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
     //delete address
     private fun deleteAddressApi(addressId: String) {
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.deleteAddressApi(getString(R.string.api_key), addressId )
+        val call = apiServices.deleteAddressApi(getString(R.string.api_key), addressId)
         call.enqueue(object : Callback<AddressModel> {
             override fun onResponse(call: Call<AddressModel>, response: Response<AddressModel>) {
                 try {
                     if (response.isSuccessful) {
-                        if (response.body()?.status==true) {
+                        if (response.body()?.status == true) {
                             if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                                ViewController.showToast(applicationContext, "Please check your connection ")
+                                ViewController.showToast(
+                                    applicationContext,
+                                    "Please check your connection "
+                                )
                             } else {
                                 addressListApi()
                             }
@@ -397,6 +429,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     Log.e("onResponseException", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<AddressModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
@@ -405,7 +438,8 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
 
     //add address
     private fun addAddressDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this@MyAddressActivity, R.style.AppBottomSheetDialogTheme)
+        val bottomSheetDialog =
+            BottomSheetDialog(this@MyAddressActivity, R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_addaddress, null)
         bottomSheetDialog.setContentView(view)
 
@@ -434,7 +468,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             val alternateMobile = alternateMobileEdit.text.trim().toString()
             val area = areaEdit.text.trim().toString()
 
-            ViewController.hideKeyBoard(this@MyAddressActivity )
+            ViewController.hideKeyBoard(this@MyAddressActivity)
             if (name.isEmpty()) {
                 ViewController.customToast(applicationContext, "Enter name")
                 return@setOnClickListener
@@ -448,7 +482,10 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 return@setOnClickListener
             }
             if (mobile.equals(alternateMobile)) {
-                ViewController.customToast(applicationContext, "Mobile number and alternate mobile number both are same")
+                ViewController.customToast(
+                    applicationContext,
+                    "Mobile number and alternate mobile number both are same"
+                )
                 return@setOnClickListener
             }
             if (area.isEmpty()) {
@@ -468,7 +505,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
 
             if (!ViewController.validateMobile(mobile)) {
                 ViewController.customToast(applicationContext, "Enter valid mobile")
-            }else if (!ViewController.validateMobile(alternateMobile)) {
+            } else if (!ViewController.validateMobile(alternateMobile)) {
                 ViewController.customToast(applicationContext, "Enter valid alternate mobile")
             } else {
                 val apiServices = RetrofitClient.apiInterface
@@ -493,7 +530,10 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             if (response.isSuccessful) {
                                 if (response.body()?.message.equals("Success")) {
                                     if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                                        ViewController.showToast(applicationContext, "Please check your connection ")
+                                        ViewController.showToast(
+                                            applicationContext,
+                                            "Please check your connection "
+                                        )
                                     } else {
                                         addressListApi()
                                     }
@@ -514,14 +554,15 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
         }
         bottomSheetDialog.show()
     }
+
     private fun getCityListApi(spinnerCity: Spinner, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.getCityListApi(getString(R.string.api_key) )
+        val call = apiServices.getCityListApi(getString(R.string.api_key))
         call.enqueue(object : Callback<CityModel> {
             override fun onResponse(call: Call<CityModel>, response: Response<CityModel>) {
                 try {
                     if (response.isSuccessful) {
-                        if (response.body()?.status==true) {
+                        if (response.body()?.status == true) {
                             val stateList = response.body()?.response ?: emptyList()
                             // Update the spinner
                             val adapter = ArrayAdapter(
@@ -533,24 +574,25 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             spinnerCity.adapter = adapter
 
                             // Optional: Handle item selection
-                            spinnerCity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    val selectedState = stateList[position]
-                                    val stateId = selectedState.cityId
-                                    cityName = selectedState.cityName
+                            spinnerCity.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        val selectedState = stateList[position]
+                                        val stateId = selectedState.cityId
+                                        cityName = selectedState.cityName
 
-                                    areaName = ""
-                                    getAreaListApi(stateId, spinnerArea)
-                                }
+                                        areaName = ""
+                                        getAreaListApi(stateId, spinnerArea)
+                                    }
 
-                                override fun onNothingSelected(p0: AdapterView<*>?) {
+                                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                                    }
                                 }
-                            }
                         }
 
                     }
@@ -559,19 +601,21 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     Log.e("onResponseException", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<CityModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }
         })
     }
+
     private fun getAreaListApi(stateId: String, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
-        val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId )
+        val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId)
         call.enqueue(object : Callback<AreaModel> {
             override fun onResponse(call: Call<AreaModel>, response: Response<AreaModel>) {
                 try {
                     if (response.isSuccessful) {
-                        if (response.body()?.status==true) {
+                        if (response.body()?.status == true) {
                             val stateList = response.body()?.response ?: emptyList()
                             // Update the spinner
                             val adapter = ArrayAdapter(
@@ -583,20 +627,22 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             spinnerArea.adapter = adapter
 
                             // Optional: Handle item selection
-                            spinnerArea.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>?,
-                                    view: View?,
-                                    position: Int,
-                                    id: Long
-                                ) {
-                                    val selectedState = stateList[position]
-                                    val city_id = selectedState.areaId
-                                    areaName = selectedState.areaName
+                            spinnerArea.onItemSelectedListener =
+                                object : AdapterView.OnItemSelectedListener {
+                                    override fun onItemSelected(
+                                        parent: AdapterView<*>?,
+                                        view: View?,
+                                        position: Int,
+                                        id: Long
+                                    ) {
+                                        val selectedState = stateList[position]
+                                        val city_id = selectedState.areaId
+                                        areaName = selectedState.areaName
+                                    }
+
+                                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                                    }
                                 }
-                                override fun onNothingSelected(p0: AdapterView<*>?) {
-                                }
-                            }
                         }
                     }
                 } catch (e: Exception) {
@@ -604,6 +650,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     Log.e("onResponseException", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<AreaModel>, t: Throwable) {
                 Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
             }

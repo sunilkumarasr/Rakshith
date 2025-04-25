@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.village.villagevegetables.Activitys.AllProductsListActivity
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CartAdapter
@@ -81,6 +80,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         binding.linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearSubmit.startAnimation(animations)
+
             val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
             intent.putExtra("note", binding.txtNote.text.toString())
             intent.putExtra("promoCodePrice", promoCodePrice)
@@ -128,7 +128,10 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
-                        cartItemsList = response.body()?.ResponseCartList!!
+                        var cartList: List<CartItems> = ArrayList()
+                        cartList = response.body()?.ResponseCartList ?: emptyList()
+                        //stock check
+                        cartItemsList = cartList.filter { it.stock.toInt() != 0 }
                         if (cartItemsList.size > 0) {
                             getTotalPrice(cartItemsList)
                             binding.relativeData.visibility = View.VISIBLE
@@ -479,6 +482,15 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         super.onBackPressed()
         finish()
         overridePendingTransition(R.anim.from_left, R.anim.to_right)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!ViewController.noInterNetConnectivity(applicationContext)) {
+            ViewController.showToast(applicationContext, "Please check your connection ")
+        } else {
+            getCartApi()
+        }
     }
 
 }

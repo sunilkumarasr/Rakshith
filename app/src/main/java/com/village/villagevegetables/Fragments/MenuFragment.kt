@@ -37,6 +37,8 @@ class MenuFragment : Fragment() ,View.OnClickListener{
 
     private lateinit var binding: FragmentMenuBinding
 
+    var userId: String = "";
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,6 +74,13 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             e.printStackTrace()
         }
 
+        userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "").toString()
+        if (userId.equals("")){
+           binding.linearMyAddress.visibility = View.GONE
+           binding.linearDeleteAccount.visibility = View.GONE
+           binding.linearLogout.visibility = View.GONE
+        }
+
         binding.linearProfile.setOnClickListener(this)
         binding.linearCart.setOnClickListener(this)
         binding.linearMyAddress.setOnClickListener(this)
@@ -95,10 +104,15 @@ class MenuFragment : Fragment() ,View.OnClickListener{
             R.id.linearProfile -> {
                 val animations = ViewController.animation()
                 view.startAnimation(animations)
-
-                val intent = Intent(requireActivity(), EditProfileActivity::class.java)
-                startActivity(intent)
-                requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                if (userId.equals("")){
+                    val intent = Intent(requireActivity(), LoginActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                }else{
+                    val intent = Intent(requireActivity(), EditProfileActivity::class.java)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                }
             }
             R.id.linearCart -> {
                 val animations = ViewController.animation()

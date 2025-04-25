@@ -69,7 +69,7 @@ class DashBoardActivity : AppCompatActivity() {
 
     private fun inIts() {
 
-        Preferences.saveStringValue(this@DashBoardActivity, Preferences.LOGINCHECK, "Login")
+        Preferences.saveStringValue(this@DashBoardActivity, Preferences.LOGINCHECK, "Open")
 
         val name = Preferences.loadStringValue(this@DashBoardActivity, Preferences.name, "")
         val cityName = Preferences.loadStringValue(this@DashBoardActivity, Preferences.cityName, "")

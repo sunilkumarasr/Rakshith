@@ -52,7 +52,7 @@ class SplashActivity : AppCompatActivity() {
 
         val loginCheck = Preferences.loadStringValue(applicationContext, Preferences.LOGINCHECK, "")
         Handler(Looper.getMainLooper()).postDelayed({
-            if (loginCheck.equals("Login")) {
+            if (loginCheck.equals("Open")) {
                 val intent = Intent(this@SplashActivity, DashBoardActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)

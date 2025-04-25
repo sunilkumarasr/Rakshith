@@ -1,5 +1,6 @@
 package com.village.villagevegetables.Activitys
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -14,6 +15,7 @@ import com.village.villagevegetables.Adapters.ProductDetailsResponse
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Logins.LoginActivity
 import com.village.villagevegetables.Models.AddFavouriteModel
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
@@ -42,11 +44,11 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     var favId: String = ""
     var cartId: String = ""
+    var userId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
 
         productsId = intent.getStringExtra("productsId").toString()
         quantity = intArrayOf(binding.cartQty.text.toString().toInt())
@@ -56,6 +58,12 @@ class ProductsDetailsActivity : AppCompatActivity() {
     }
 
     private fun inIts() {
+
+        userId = Preferences.loadStringValue(this@ProductsDetailsActivity, Preferences.userId, "").toString()
+        if (userId == ""){
+           binding.AddFavourite.visibility = View.GONE
+        }
+
         binding.imgBack.setOnClickListener {
             val animations = ViewController.animation()
             binding.imgBack.startAnimation(animations)
@@ -79,24 +87,31 @@ class ProductsDetailsActivity : AppCompatActivity() {
         binding.linearIncrement.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearIncrement.startAnimation(animations)
-            val cartQty = binding.cartQty.text.toString()
-            if(productResponseDetails==null)
-            {
-                return@setOnClickListener
-            }
-            if (productResponseDetails?.stock == cartQty) {
-                ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
+
+            if (userId == ""){
+                val intent = Intent(this@ProductsDetailsActivity, LoginActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }else{
-                quantity[0]++
-                binding.cartQty.text = quantity[0].toString()
-                val cartQty1 = binding.cartQty.text.toString()
-                if (!ViewController.noInterNetConnectivity(applicationContext)) {
-                    ViewController.customToast(applicationContext, "Please check your connection ")
-                } else {
-                    if (cartQty1 == "1")
-                        addToCartApi()
-                    else{
-                        upDateCartApi(cartQty1)
+                val cartQty = binding.cartQty.text.toString()
+                if(productResponseDetails==null)
+                {
+                    return@setOnClickListener
+                }
+                if (productResponseDetails?.stock == cartQty) {
+                    ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
+                }else{
+                    quantity[0]++
+                    binding.cartQty.text = quantity[0].toString()
+                    val cartQty1 = binding.cartQty.text.toString()
+                    if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                        ViewController.customToast(applicationContext, "Please check your connection ")
+                    } else {
+                        if (cartQty1 == "1")
+                            addToCartApi()
+                        else{
+                            upDateCartApi(cartQty1)
+                        }
                     }
                 }
             }
@@ -119,29 +134,35 @@ class ProductsDetailsActivity : AppCompatActivity() {
             val animations = ViewController.animation()
             binding.txtAddToCart.startAnimation(animations)
 
-            val cartQty1 = binding.cartQty.text.toString()
-            if(productResponseDetails==null)
-            {
-                return@setOnClickListener
-            }
-            if (productResponseDetails?.stock == cartQty1) {
-                ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
-            }else if (productCartStatus.equals("0")){
-                try {
-                    quantity[0]++
-                    binding.cartQty.text = quantity[0].toString()
-                    val cQty = binding.cartQty.text.toString()
-                    if (cQty == "1"){
-                        addToCartApi()
-                    }
-                } catch (e: NumberFormatException) {
-                    e.printStackTrace()
-                }
-            }
-            else {
-                val intent = Intent(this@ProductsDetailsActivity, CartActivity::class.java)
+            if (userId == ""){
+                val intent = Intent(this@ProductsDetailsActivity, LoginActivity::class.java)
                 startActivity(intent)
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            }else{
+                val cartQty1 = binding.cartQty.text.toString()
+                if(productResponseDetails==null)
+                {
+                    return@setOnClickListener
+                }
+                if (productResponseDetails?.stock == cartQty1) {
+                    ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
+                }else if (productCartStatus.equals("0")){
+                    try {
+                        quantity[0]++
+                        binding.cartQty.text = quantity[0].toString()
+                        val cQty = binding.cartQty.text.toString()
+                        if (cQty == "1"){
+                            addToCartApi()
+                        }
+                    } catch (e: NumberFormatException) {
+                        e.printStackTrace()
+                    }
+                }
+                else {
+                    val intent = Intent(this@ProductsDetailsActivity, CartActivity::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                }
             }
 
         }
@@ -157,7 +178,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //favorite
     private fun getFavouriteApi() {
-        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         Log.e("userId_",userId.toString())
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -199,7 +219,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
         })
     }
     private fun addFavouriteApi() {
-        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         Log.e("userId_",userId.toString())
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -318,7 +337,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //get cart
     private fun getCartApi() {
-        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.getCartApi(
@@ -389,7 +407,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //add to cart
     private fun addToCartApi() {
-        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.addToCartApi(
@@ -423,7 +440,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //update Cart
     private fun upDateCartApi(cartQty: String) {
-        val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.upDateCartApi(
@@ -455,7 +471,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     //delete for cart
     private fun removeFromCartApi() {
-        val userId = Preferences.loadStringValue(this@ProductsDetailsActivity, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.removeFromCartApi(
