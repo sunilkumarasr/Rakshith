@@ -28,6 +28,8 @@ class FavouriteFragment : Fragment() {
     //Favourite
     private lateinit var favouriteList: MutableList<FavouriteResponse>
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

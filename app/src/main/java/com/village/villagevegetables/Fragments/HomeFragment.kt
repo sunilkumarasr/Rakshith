@@ -64,10 +64,11 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
 
     //banners
     private lateinit var handler : Handler
-    private lateinit var imageList:ArrayList<BannersResponse>
     private lateinit var adapter: HomeBannersAdapter
 
     var userId: String = "";
+
+    var cityId : String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,9 +92,9 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         productItemClick = this
 
         handler = Handler(Looper.myLooper()!!)
-        imageList = ArrayList()
 
         userId = Preferences.loadStringValue(requireActivity(), Preferences.userId, "").toString()
+        cityId = Preferences.loadStringValue(requireActivity(), Preferences.cityId, "").toString()
 
 
         if (!ViewController.noInterNetConnectivity(requireActivity())) {
@@ -241,8 +242,12 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             override fun onResponse(call: Call<ProductModel>, response: Response<ProductModel>) {
                 try {
                     if (response.isSuccessful) {
-                        productList = response.body()?.response!!
-                        if (!productList.isEmpty()){
+                        val responseList = response.body()?.response
+                        productList = responseList?.filter {
+                            !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
+                        }?.toMutableList() ?: mutableListOf()
+
+                        if (productList.isNotEmpty()){
                             getCartApi()
                         }else{
                             ViewController.customToast(requireActivity(), "No Items Found")

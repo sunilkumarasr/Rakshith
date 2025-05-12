@@ -30,4 +30,5 @@ data class SearchItems(
     @SerializedName("created_date") val created_date: String,
     @SerializedName("updated_date") val updated_date: String,
     @SerializedName("final_amount") val final_amount: String,
+    @SerializedName("location_id") val locationIds: List<String>
 )

@@ -52,6 +52,7 @@ class DashBoardActivity : AppCompatActivity() {
     //exit
     private var isHomeFragmentDisplayed = false
 
+    var cityId: String = ""
     var cityName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -111,7 +112,6 @@ class DashBoardActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
-
         binding.linearSearch.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearSearch.startAnimation(animations)
@@ -126,6 +126,7 @@ class DashBoardActivity : AppCompatActivity() {
             settingsApi()
             getCartApi()
         }
+
     }
 
     private fun locationPopup() {
@@ -152,6 +153,7 @@ class DashBoardActivity : AppCompatActivity() {
 
         linearSubmit.setOnClickListener {
             if (!cityName.equals("")){
+                Preferences.saveStringValue(this@DashBoardActivity, Preferences.cityId, cityId)
                 Preferences.saveStringValue(this@DashBoardActivity, Preferences.cityName, cityName)
                 binding.txtUserLocation.text = cityName
                 bottomSheetDialog.dismiss()
@@ -189,7 +191,7 @@ class DashBoardActivity : AppCompatActivity() {
                                     id: Long
                                 ) {
                                     val selectedState = stateList[position]
-                                    val stateId = selectedState.cityId
+                                    cityId = selectedState.cityId
                                     cityName = selectedState.cityName
                                 }
                                 override fun onNothingSelected(p0: AdapterView<*>?) {

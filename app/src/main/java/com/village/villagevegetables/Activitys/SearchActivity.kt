@@ -12,7 +12,9 @@ import com.village.villagevegetables.Adapters.Search.SearchAdapter
 import com.village.villagevegetables.Adapters.Search.SearchItems
 import com.village.villagevegetables.Adapters.Search.SearchModel
 import com.village.villagevegetables.Api.RetrofitClient
+import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Models.ProductListResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivitySearchBinding
 import retrofit2.Call
@@ -26,6 +28,11 @@ class SearchActivity : AppCompatActivity() {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
+    //Products list
+    var productList: MutableList<SearchItems> = ArrayList()
+
+    var cityId : String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -35,6 +42,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun inIts() {
+
+        cityId = Preferences.loadStringValue(this@SearchActivity, Preferences.cityId, "").toString()
+
+
         binding.imgBack.setOnClickListener {
             val animations = ViewController.animation()
             binding.imgBack.startAnimation(animations)
@@ -81,15 +92,21 @@ class SearchActivity : AppCompatActivity() {
                 binding.progressBar.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
-                        val searchList = response.body()?.responsecartList!!
-                        if (searchList.isEmpty()) {
-                            binding.txtNoData.visibility = View.VISIBLE
-                            binding.recyclerview.visibility = View.GONE
-                        }else{
+                        val responseList = response.body()?.responsecartList!!
+                        productList = responseList?.filter {
+                            !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
+                        }?.toMutableList() ?: mutableListOf()
+
+
+                        if (productList.isNotEmpty()){
                             binding.txtNoData.visibility = View.GONE
                             binding.recyclerview.visibility = View.VISIBLE
-                            DataSet(searchList)
+                            DataSet(productList)
+                        }else{
+                            binding.txtNoData.visibility = View.VISIBLE
+                            binding.recyclerview.visibility = View.GONE
                         }
+
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()

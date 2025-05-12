@@ -12,11 +12,15 @@ android {
         applicationId = "com.village.villagevegetables"
         minSdk = 25
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.0.3"
+        versionCode = 4
+        versionName = "1.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+//    email: sunilkumar.ece016@gmail.com
+//    key0
+//    Pwd: Sunil@9900
 
     buildTypes {
         release {

@@ -39,12 +39,16 @@ class ProductsDetailsActivity : AppCompatActivity() {
 
     lateinit var quantity: IntArray
     var isFavorite = false
-    var productCartStatus: String = ""
+    var productCartStatus: String = "0"
     var TotalPrice: Double = 0.0
 
     var favId: String = ""
     var cartId: String = ""
     var userId: String = ""
+
+    var cityId : String = ""
+    var productCityId : String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +62,8 @@ class ProductsDetailsActivity : AppCompatActivity() {
     }
 
     private fun inIts() {
+
+        cityId = Preferences.loadStringValue(this@ProductsDetailsActivity, Preferences.cityId, "").toString()
 
         userId = Preferences.loadStringValue(this@ProductsDetailsActivity, Preferences.userId, "").toString()
         if (userId == ""){
@@ -134,36 +140,41 @@ class ProductsDetailsActivity : AppCompatActivity() {
             val animations = ViewController.animation()
             binding.txtAddToCart.startAnimation(animations)
 
-            if (userId == ""){
-                val intent = Intent(this@ProductsDetailsActivity, LoginActivity::class.java)
-                startActivity(intent)
-                overridePendingTransition(R.anim.from_right, R.anim.to_left)
-            }else{
-                val cartQty1 = binding.cartQty.text.toString()
-                if(productResponseDetails==null)
-                {
-                    return@setOnClickListener
-                }
-                if (productResponseDetails?.stock == cartQty1) {
-                    ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
-                }else if (productCartStatus.equals("0")){
-                    try {
-                        quantity[0]++
-                        binding.cartQty.text = quantity[0].toString()
-                        val cQty = binding.cartQty.text.toString()
-                        if (cQty == "1"){
-                            addToCartApi()
-                        }
-                    } catch (e: NumberFormatException) {
-                        e.printStackTrace()
-                    }
-                }
-                else {
-                    val intent = Intent(this@ProductsDetailsActivity, CartActivity::class.java)
+            if (productCityId.equals(cityId)){
+                if (userId == ""){
+                    val intent = Intent(this@ProductsDetailsActivity, LoginActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                }else{
+                    val cartQty1 = binding.cartQty.text.toString()
+                    if(productResponseDetails==null)
+                    {
+                        return@setOnClickListener
+                    }
+                    if (productResponseDetails?.stock == cartQty1) {
+                        ViewController.customToast(this@ProductsDetailsActivity,"Stock Limit only " + productResponseDetails?.stock)
+                    }else if (productCartStatus.equals("0")){
+                        try {
+                            quantity[0]++
+                            binding.cartQty.text = quantity[0].toString()
+                            val cQty = binding.cartQty.text.toString()
+                            if (cQty == "1"){
+                                addToCartApi()
+                            }
+                        } catch (e: NumberFormatException) {
+                            e.printStackTrace()
+                        }
+                    } else {
+                        val intent = Intent(this@ProductsDetailsActivity, CartActivity::class.java)
+                        startActivity(intent)
+                        overridePendingTransition(R.anim.from_right, R.anim.to_left)
+                    }
                 }
+            }else{
+                ViewController.customToast(applicationContext, "No available in your city")
             }
+
+
 
         }
 
@@ -274,8 +285,6 @@ class ProductsDetailsActivity : AppCompatActivity() {
         })
     }
 
-
-
     //details api
     private fun productDetailsApi() {
         binding.shimmerLoading.visibility = View.VISIBLE
@@ -293,6 +302,15 @@ class ProductsDetailsActivity : AppCompatActivity() {
                 try {
                     if (response.isSuccessful) {
                         productResponseDetails = response.body()?.response!!
+
+                        //loop match for city
+                        for (id in productResponseDetails!!.locationIds) {
+                            if (id.trim() == cityId.trim()) {
+                                productCityId = id
+                                break // exit loop after first match
+                            }
+                        }
+
                         DataSet(productResponseDetails!!)
                     }
                 } catch (e: NullPointerException) {
@@ -333,6 +351,7 @@ class ProductsDetailsActivity : AppCompatActivity() {
         binding.txtActualPrice.paintFlags = binding.txtActualPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         binding.txtQuantity.text = productResponse.quantity
         binding.txtDec.text = HtmlCompat.fromHtml(productResponse.product_information, HtmlCompat.FROM_HTML_MODE_LEGACY)
+
     }
 
     //get cart

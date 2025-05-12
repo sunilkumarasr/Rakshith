@@ -35,6 +35,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgProduct"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:src="@drawable/logo"/>
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -71,12 +77,6 @@
                             </LinearLayout>
                         </RelativeLayout>
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imgProduct"
-                            android:layout_width="match_parent"
-                            android:layout_height="250dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/logo"/>
                     </FrameLayout>
 
 

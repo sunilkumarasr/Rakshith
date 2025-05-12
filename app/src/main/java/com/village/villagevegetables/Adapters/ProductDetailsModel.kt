@@ -26,7 +26,8 @@ data class ProductDetailsResponse(
     @SerializedName("updated_date") val updated_date : String,
     @SerializedName("final_amount") val final_amount : String,
     @SerializedName("images") val productImage: List<ProductImage>,
-    @SerializedName("category_2_price") val category_2_price: String
+    @SerializedName("category_2_price") val category_2_price: String,
+    @SerializedName("location_id") val locationIds: List<String>
 )
 
 data class ProductImage(

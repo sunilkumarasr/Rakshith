@@ -14,6 +14,7 @@ import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.AddtoCartResponse
+import com.village.villagevegetables.Models.CategoryWiseResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
 import com.village.villagevegetables.Models.ProductListResponse
 import com.village.villagevegetables.Models.ProductModel
@@ -35,8 +36,10 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     lateinit var productItemClick: AllProductsAdapter.ProductItemClick
 
 
+    var cityId : String = ""
+
     //Products list
-    var productList: List<ProductListResponse> = ArrayList()
+    var productList: MutableList<ProductListResponse> = ArrayList()
     var cartItemsList: List<CartItems> = ArrayList()
 
 
@@ -51,6 +54,9 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
     private fun inIts() {
         cartItemQuantityChangeListener = this@AllProductsListActivity
         productItemClick = this@AllProductsListActivity
+
+        cityId = Preferences.loadStringValue(this@AllProductsListActivity, Preferences.cityId, "").toString()
+
 
         val cartCount = Preferences.loadStringValue(applicationContext, Preferences.cartCount, "")
         binding.root.findViewById<TextView>(R.id.cart_badge_count).text = cartCount.toString()
@@ -94,8 +100,20 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
             override fun onResponse(call: Call<ProductModel>, response: Response<ProductModel>) {
                 try {
                     if (response.isSuccessful) {
-                        productList = response.body()?.response!!
-                        getCartApi()
+
+                        val responseList = response.body()?.response
+                        productList = responseList?.filter {
+                            !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
+                        }?.toMutableList() ?: mutableListOf()
+
+                        if (productList.size > 0) {
+                            binding.linearNoData.visibility = View.GONE
+                            getCartApi()
+                        } else {
+                            binding.linearNoData.visibility = View.VISIBLE
+                            binding.shimmerLoading.visibility = View.GONE
+                        }
+
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()

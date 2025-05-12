@@ -36,9 +36,11 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
     lateinit var productItemClick: CategoriesWiseProductsAdapter.ProductItemClick
 
     //Products list
-    var productList: List<CategoryWiseResponse> = ArrayList()
+    var productList: MutableList<CategoryWiseResponse> = ArrayList()
+
     var cartItemsList: List<CartItems> = ArrayList()
 
+    var cityId : String = ""
     var categoriesId: String = ""
     var categoryName: String = ""
 
@@ -48,6 +50,8 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
         categoriesId = intent.getStringExtra("categoriesId").toString()
         categoryName = intent.getStringExtra("categoryName").toString()
+
+        cityId = Preferences.loadStringValue(this@CategoriesWiseProductsListActivity, Preferences.cityId, "").toString()
 
         inIts()
 
@@ -108,7 +112,11 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
             ) {
                 try {
                     if (response.isSuccessful) {
-                        productList = response.body()?.response!!
+                        val responseList = response.body()?.response
+                        productList = responseList?.filter {
+                            !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
+                        }?.toMutableList() ?: mutableListOf()
+
                         if (productList.size > 0) {
                             binding.linearNoData.visibility = View.GONE
                             getCartApi()
