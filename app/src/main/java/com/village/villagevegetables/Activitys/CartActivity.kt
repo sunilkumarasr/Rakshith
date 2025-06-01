@@ -185,14 +185,14 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             minAmount?.toInt()?.let {
                 if (it <= TotalPrice){
                     binding.txtDeliveryCharge.text = "FREE"
-                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItems.text = getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
                     binding.txtItemsPrice.text = "₹"+TotalPrice
                     binding.txtTotalPrice.text = "₹"+TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
                 }else{
                     binding.txtDeliveryCharge.text = "₹20"
                     TotalPrice = (TotalPrice + 20)
-                    binding.txtItems.text = "Items ("+cartItemsList.size.toString()+")"
+                    binding.txtItems.text = getString(R.string.Items) + " ("+cartItemsList.size.toString()+")"
                     binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
                     binding.txtTotalPrice.text = "₹"+TotalPrice
                     TotalFinalPrice = TotalPrice.toString()

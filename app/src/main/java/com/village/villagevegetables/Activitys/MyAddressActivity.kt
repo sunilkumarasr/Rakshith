@@ -112,7 +112,6 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             }
         })
     }
-
     private fun DataSet(addressList: List<AddressModelResponse>) {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@MyAddressActivity)
         binding.recyclerview.adapter =

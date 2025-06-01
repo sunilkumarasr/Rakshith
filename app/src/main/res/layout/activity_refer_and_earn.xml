@@ -58,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/teachers_medium"
-                    android:text="Invite your friend"
+                    android:text="@string/Inviteyourfriend"
                     android:layout_gravity="center_horizontal"
                     android:textSize="20sp"
                     android:textColor="@color/white"/>
@@ -70,7 +70,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginStart="25dp"
                     android:fontFamily="@font/teachers_medium"
-                    android:text="Hey everyone, I just had this amazing experience and I can't wait to tell you all about it! It was such a great time, and I think you guys would love it too!"
+                    android:text="@string/referNote"
                     android:layout_gravity="center_horizontal"
                     android:textSize="13sp"
                     android:textColor="@color/lightPrimary"
@@ -82,7 +82,7 @@
                     android:fontFamily="@font/teachers_medium"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
-                    android:text="Please share your experience in your friends"
+                    android:text="@string/Pleaseshareyourexperienceinyourfriends"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -117,7 +117,7 @@
                             android:gravity="center_vertical"
                             android:layout_marginStart="15dp"
                             android:layout_marginEnd="15dp"
-                            android:text="Copy"
+                            android:text="@string/Copy"
                             android:fontFamily="@font/teachers_medium"
                             android:textColor="@color/colorPrimary"
                             android:textSize="19sp"/>
@@ -142,15 +142,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Invite Friend"
+                    android:text="@string/InviteFriend"
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:fontFamily="@font/teachers_medium"/>
             </LinearLayout>
         </RelativeLayout>
-
-
 
     </LinearLayout>
 

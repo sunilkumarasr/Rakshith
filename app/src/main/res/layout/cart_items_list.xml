@@ -189,7 +189,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:fontFamily="@font/teachers_regular"
-                android:text="Remove"
+                android:text="@string/Remove"
                 android:textColor="@color/txtLight"
                 android:textSize="14sp" />
         </LinearLayout>

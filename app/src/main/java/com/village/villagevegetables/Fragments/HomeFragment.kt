@@ -174,10 +174,10 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
     }
     private fun setUpTransformer() {
         val transformer = CompositePageTransformer()
-        transformer.addTransformer(MarginPageTransformer(20))
+        transformer.addTransformer(MarginPageTransformer(1))
         transformer.addTransformer { page, position ->
             val r = 1 - abs(position)
-            page.scaleY = 0.85f + r * 0.14f
+            page.scaleY = 0.85f + r * 0.10f
 //            page.alpha = 0.50f + (1 - abs(position)) * 0.50f
         }
         binding.viewPagerBanners.setPageTransformer(transformer)
@@ -250,7 +250,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                         if (productList.isNotEmpty()){
                             getCartApi()
                         }else{
-                            ViewController.customToast(requireActivity(), "No Items Found")
                             binding.shimmerLoading.visibility = View.GONE
                         }
                     }

@@ -155,6 +155,43 @@
     <string name="addaNotetoYourOrder">Add a note to your order</string>
     <string name="save">Save</string>
     <string name="cancelPolicy">Orders cannot be cancelled once the order is confirmed. In case of unexpected delays, a refund will be provided, if applicable.</string>
+    <string name="updateYourApp">Update your app</string>
+    <string name="updateNote">To enjoy our newest features tap the button below</string>
+    <string name="Exit">Exit</string>
+    <string name="Areyousurewanttoexitthisapp">Are you sure want to exit this app?</string>
+    <string name="Inviteyourfriend">Invite your friend</string>
+    <string name="referNote">Hey everyone, I just had this amazing experience and I can\'t wait to tell you all about it! It was such a great time, and I think you guys would love it too!</string>
+    <string name="Pleaseshareyourexperienceinyourfriends">Please share your experience in your friends</string>
+    <string name="Copy">Copy</string>
+    <string name="InviteFriend">Invite Friend</string>
+    <string name="Edit">Edit</string>
+    <string name="Paymentsummery">Payment summery</string>
+    <string name="Remove">Remove</string>
+    <string name="Total">Total</string>
+    <string name="CancellationPolicy">Cancellation Policy</string>
+    <string name="Date">Date</string>
+    <string name="OrderStatus_">Order Status  :</string>
+    <string name="OrderNumber">Order Number</string>
+    <string name="Amount">Amount</string>
+    <string name="OrderID_">Order ID : </string>
+    <string name="OrderPlaced">Order Placed</string>
+    <string name="OrderPlacedNote">We have received your order</string>
+    <string name="Confirmed">Confirmed</string>
+    <string name="ConfirmedNote">Your order is confirmed. We will deliver it soon</string>
+    <string name="Pickup">Pickup</string>
+    <string name="PickupNote">The order is ready for pickup</string>
+    <string name="Delivered">Delivered</string>
+    <string name="DeliveredNote">Your order was delivered</string>
+    <string name="ShippingDetails">Shipping Details</string>
+    <string name="PriceDetails">Price Details</string>
+    <string name="Address_">Address : </string>
+    <string name="Name_">Name : </string>
+    <string name="Mobile_">Mobile : </string>
+    <string name="Email_">Email : </string>
+    <string name="OrderDate_">Order Date : </string>
+    <string name="Free">Free</string>
+
+
 
     <string name="dummyNote">Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
      </string>

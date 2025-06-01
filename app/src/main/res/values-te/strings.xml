@@ -152,8 +152,42 @@
     <string name="orderNote">ఆర్డర్ గమనిక</string>
     <string name="addaNotetoYourOrder">మీ ఆర్డర్‌కు ఒక గమనికను జోడించండి</string>
     <string name="save">సేవ్</string>
-    <string name="cancelPolicy">Orders cannot be cancelled once the order is confirmed. In case of unexpected delays, a refund will be provided, if applicable.</string>
-
+    <string name="cancelPolicy">ఆర్డర్ నిర్ధారించిన తర్వాత ఆర్డర్ రద్దు చేయలేరు. అనుకోని ఆలస్యం జరిగిన సందర్భంలో, వర్తించగలిగితే రీఫండ్ అందించబడుతుంది.</string>
+    <string name="updateYourApp">మీ యాప్‌ను నవీకరించండి</string>
+    <string name="updateNote">మా కొత్త లక్షణాలను ఆస్వాదించేందుకు, దిగువ బటన్‌ను నొక్కండి</string>
+    <string name="Exit">నిష్క్రమించు</string>
+    <string name="Areyousurewanttoexitthisapp">మీరు ఈ యాప్ నుండి నిష్క్రమించాలనుకుంటున్నారా?</string>
+    <string name="Inviteyourfriend">మీ స్నేహితుని ఆహ్వానించండి</string>
+    <string name="referNote">అందరికీ హాయ్! నేను అద్భుతమైన అనుభవం పొందాను మరియు మీకు ఇది చెప్పేందుకు ఆతురతగా ఉన్నాను! అది అద్భుతమైన సమయం, మీకూ నచ్చుతుంది అనుకుంటున్నాను!</string>
+    <string name="Pleaseshareyourexperienceinyourfriends">దయచేసి మీ అనుభవాన్ని మీ స్నేహితులతో పంచుకోండి</string>
+    <string name="Copy">కాపీ చేయి</string>
+    <string name="InviteFriend">స్నేహితుని ఆహ్వానించండి</string>
+    <string name="Edit">సవరించు</string>
+    <string name="Paymentsummery">చెల్లింపు సంగ్రహం</string>
+    <string name="Remove">తొలగించు</string>
+    <string name="Total">మొత్తం</string>
+    <string name="CancellationPolicy">రద్దు విధానం</string>
+    <string name="Date">తేదీ</string>
+    <string name="OrderStatus_">ఆర్డర్ స్థితి :</string>
+    <string name="OrderNumber">ఆర్డర్ నంబర్</string>
+    <string name="Amount">మొత్తం</string>
+    <string name="OrderID_">ఆర్డర్ ID :</string>
+    <string name="OrderPlaced">ఆర్డర్ పెట్టబడింది</string>
+    <string name="OrderPlacedNote">మేము మీ ఆర్డర్‌ను స్వీకరించాము</string>
+    <string name="Confirmed">నిర్ధారించబడింది</string>
+    <string name="ConfirmedNote">మీ ఆర్డర్ నిర్ధారించబడింది. త్వరలో డెలివరీ చేస్తాము</string>
+    <string name="Pickup">పికప్</string>
+    <string name="PickupNote">ఆర్డర్ పికప్ కోసం సిద్ధంగా ఉంది</string>
+    <string name="Delivered">వినియోగదారుడికి అందించబడింది</string>
+    <string name="DeliveredNote">మీ ఆర్డర్ డెలివరీ చేయబడింది</string>
+    <string name="ShippingDetails">రవాణా వివరాలు</string>
+    <string name="PriceDetails">ధర వివరాలు</string>
+    <string name="Address_">చిరునామా :</string>
+    <string name="Name_">పేరు :</string>
+    <string name="Mobile_">మొబైల్ :</string>
+    <string name="Email_">ఈమెయిల్ :</string>
+    <string name="OrderDate_">ఆర్డర్ తేదీ :</string>
+    <string name="Free">ఉచితం</string>
 
 
 

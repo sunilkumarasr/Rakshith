@@ -3,6 +3,7 @@ package com.village.villagevegetables.Activitys
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +15,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -77,11 +79,11 @@ class DashBoardActivity : AppCompatActivity() {
         binding.txtUserName.text = "Hi "+name
         binding.txtUserLocation.text = cityName
         if (cityName.equals("")){
-            locationPopup()
+            //locationPopup()
         }
 
         binding.linearLocationChange.setOnClickListener {
-            locationPopup()
+            //locationPopup()
         }
 
         //LottieAnimation color change
@@ -259,14 +261,16 @@ class DashBoardActivity : AppCompatActivity() {
             ) {
                 try {
                     if (response.isSuccessful) {
-                        extractAmount(response.body()?.response!!.get(0).cartText)
-
-                        //Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,extractAmount(response.body()?.response!!.get(0).cartText).toString())
-                        Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,"300".toString())
-
+                        Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,response.body()?.response!!.get(0).cartText.toString())
                         if (!response.body()?.response!!.get(0).appMode.equals("online")){
                             offlineAppPopup()
                         }
+
+                        if (!response.body()?.response!!.get(0).version.equals("12")){
+                            upDateAppPopup()
+                        }
+
+
 
                     }
                 } catch (e: NullPointerException) {
@@ -280,29 +284,6 @@ class DashBoardActivity : AppCompatActivity() {
             }
         })
     }
-    fun extractAmount(cartText: String?): Int? {
-        // Check if the input is null or empty
-        if (cartText.isNullOrEmpty()) {
-            return null
-        }
-
-        // Trim any leading or trailing whitespace (just in case)
-        val trimmedText = cartText.trim()
-
-        // Split the string by space
-        val parts = trimmedText.split(" ")
-
-        // Ensure that we have at least two parts (e.g., "Minimum Order" and "5000/-")
-        if (parts.size < 2) {
-            return null
-        }
-
-        // Extract the last part (should be the amount with "/-")
-        val amountString = parts.lastOrNull()?.replace("/-", "")
-
-        // Convert to integer safely
-        return amountString?.toIntOrNull()
-    }
     private fun offlineAppPopup() {
         val bottomSheetDialog = BottomSheetDialog(this@DashBoardActivity, R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_offline, null)
@@ -312,6 +293,24 @@ class DashBoardActivity : AppCompatActivity() {
         bottomSheetDialog.setCancelable(false)
         bottomSheetDialog.setCanceledOnTouchOutside(false)
 
+        bottomSheetDialog.show()
+    }
+    private fun upDateAppPopup() {
+        val bottomSheetDialog = BottomSheetDialog(this@DashBoardActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_updateapp, null)
+        bottomSheetDialog.setContentView(view)
+
+        // Disable touch outside to dismiss dialog
+        bottomSheetDialog.setCancelable(false)
+        bottomSheetDialog.setCanceledOnTouchOutside(false)
+
+        val cardUpdate = view.findViewById<CardView>(R.id.cardUpdate)
+        cardUpdate.setOnClickListener {
+            // Redirect to Play Store or start update logic
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.village.villagevegetables"))
+            startActivity(intent)
+//            bottomSheetDialog.dismiss()
+        }
 
         bottomSheetDialog.show()
     }
@@ -374,17 +373,18 @@ class DashBoardActivity : AppCompatActivity() {
     private fun exitDialog() {
         isHomeFragmentDisplayed = false
         val dialogBuilder = AlertDialog.Builder(this@DashBoardActivity)
-        dialogBuilder.setTitle("Exit")
-        dialogBuilder.setMessage("Are you sure want to exit this app?")
-        dialogBuilder.setPositiveButton("OK") { dialog, _ ->
+        dialogBuilder.setTitle(R.string.Exit)
+        dialogBuilder.setMessage(R.string.Areyousurewanttoexitthisapp)
+        dialogBuilder.setPositiveButton(R.string.ok) { dialog, _ ->
             finishAffinity()
             dialog.dismiss()
         }
-        dialogBuilder.setNegativeButton("Cancel") { dialog, _ ->
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.dismiss()
         }
         val b = dialogBuilder.create()
         b.show()
     }
+
 
 }

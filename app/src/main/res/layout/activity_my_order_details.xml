@@ -141,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
-                        android:text="Order ID : "
+                        android:text="@string/OrderID_"
                         android:fontFamily="@font/teachers_regular"
                         android:textColor="@color/black"
                         android:textSize="13sp"
@@ -170,7 +170,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total Amount"
+                        android:text="@string/totalAmount"
                         android:fontFamily="@font/teachers_medium"
                         android:textColor="@color/black"
                         android:textSize="17sp"
@@ -244,7 +244,7 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Order Placed"
+                                android:text="@string/OrderPlaced"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
@@ -253,7 +253,7 @@
                                 android:layout_width="250dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="We have received your order"
+                                android:text="@string/OrderPlacedNote"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/txtdes"
                                 android:textSize="11sp"
@@ -307,7 +307,7 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Confirmed"
+                                android:text="@string/Confirmed"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
@@ -316,7 +316,7 @@
                                 android:layout_width="250dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="Your order is confirmed. We will deliver it soon"
+                                android:text="@string/ConfirmedNote"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/txtdes"
                                 android:textSize="11sp"
@@ -367,7 +367,7 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Pickup"
+                                android:text="@string/Pickup"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
@@ -376,7 +376,7 @@
                                 android:layout_width="250dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="The order is ready for pickup"
+                                android:text="@string/PickupNote"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/txtdes"
                                 android:textSize="11sp"
@@ -408,7 +408,7 @@
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Delivered"
+                                android:text="@string/Delivered"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/black"
                                 android:textSize="13sp"
@@ -417,7 +417,7 @@
                                 android:layout_width="250dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="3dp"
-                                android:text="Your order was delivered"
+                                android:text="@string/DeliveredNote"
                                 android:fontFamily="@font/teachers_regular"
                                 android:textColor="@color/txtdes"
                                 android:textSize="11sp"
@@ -555,7 +555,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Items"
+                        android:text="@string/Items"
                         android:fontFamily="@font/teachers_medium"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText" />
@@ -585,7 +585,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Shipping Details"
+                        android:text="@string/ShippingDetails"
                         android:fontFamily="@font/teachers_medium"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText" />
@@ -668,7 +668,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Price Details"
+                        android:text="@string/PriceDetails"
                         android:fontFamily="@font/teachers_medium"
                         android:textSize="15sp"
                         tools:ignore="HardcodedText" />

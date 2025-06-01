@@ -11,5 +11,6 @@ data class SettingsModel(
 
 data class SettingsResponse(
     @SerializedName("app_mode") val appMode : String,
+    @SerializedName("version") val version : String,
     @SerializedName("cart_text") val cartText : String
 )

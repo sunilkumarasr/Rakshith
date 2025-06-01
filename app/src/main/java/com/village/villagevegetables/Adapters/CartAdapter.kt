@@ -62,7 +62,7 @@ class CartAdapter(
 
 
         val finalAmount: Int = item.offer_price.toInt() * item.cart_quantity.toInt()
-        holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+        holder.txtTotalPrice.text = context.getString(R.string.Total) + ": ₹"+finalAmount
 
         holder.linearDelete.setOnClickListener {
             val animations = ViewController.animation()
@@ -84,7 +84,8 @@ class CartAdapter(
                 val carstQty = holder.cartQty.text.toString()
                 //total price
                 val finalAmount: Int = item.offer_price.toInt() * carstQty.toInt()
-                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+                holder.txtTotalPrice.text = context.getString(R.string.Total) + ": ₹" + finalAmount
+
                 item.cart_quantity = cartQ[0].toString()
                 if(cartQ[0]==1){
                     click!!.onAddToCartClicked(item, carstQty,1)
@@ -113,7 +114,7 @@ class CartAdapter(
 
                 //total price
                 val finalAmount: Int = item.offer_price.toInt() * cartQ.get(0)
-                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+                holder.txtTotalPrice.text = context.getString(R.string.Total) + ": ₹"+finalAmount
 
                 item.cart_quantity = cartQ[0].toString()
 

@@ -87,7 +87,7 @@ class OrdersHistoryAdapter(
 
         //total items size
         val itemsSize =item.productDetails as ArrayList
-        holder.txtTotalItems.text = "("+itemsSize.size+(" items)")
+        holder.txtTotalItems.text = "("+itemsSize.size+(context.getString(R.string.Items) +")")
 
     }
 
