@@ -160,7 +160,7 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         })
     }
     private fun dataSetBanners(bannersselectedServicesList: ArrayList<BannersResponse>) {
-        adapter = HomeBannersAdapter(bannersselectedServicesList, binding.viewPagerBanners)
+        adapter = HomeBannersAdapter(requireActivity(), bannersselectedServicesList, binding.viewPagerBanners)
 
         binding.viewPagerBanners.adapter = adapter
         binding.viewPagerBanners.offscreenPageLimit = 3

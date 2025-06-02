@@ -14,15 +14,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CartAdapter
+import com.village.villagevegetables.Adapters.HomeCategoriesAdapter
+import com.village.villagevegetables.Adapters.PromoCodeAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
+import com.village.villagevegetables.Models.PromoCodeItems
+import com.village.villagevegetables.Models.PromoCodeListResponse
 import com.village.villagevegetables.Models.UpdateCartResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityCartBinding
@@ -467,6 +472,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode, null)
         bottomSheetDialog.setContentView(view)
 
+        val recyclerviewPromo = view.findViewById<RecyclerView>(R.id.recyclerviewPromo)
+        val linearNoData = view.findViewById<LinearLayout>(R.id.linearNoData)
         val buttonOk = view.findViewById<Button>(R.id.buttonOk)
 
         buttonOk.setOnClickListener {
@@ -475,7 +482,61 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             bottomSheetDialog.dismiss()
         }
 
+        getPromoCodesListApi(recyclerviewPromo, linearNoData)
+
         bottomSheetDialog.show()
+    }
+    private fun getPromoCodesListApi(recyclerviewPromo: RecyclerView, linearNoData: LinearLayout) {
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.getPromoCodesListApi(
+                getString(R.string.api_key)
+            )
+        call.enqueue(object : Callback<PromoCodeListResponse> {
+            override fun onResponse(
+                call: Call<PromoCodeListResponse>,
+                response: Response<PromoCodeListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        var promoList: List<PromoCodeItems> = ArrayList()
+                        promoList = response.body()?.ResponseCartList ?: emptyList()
+                        if (promoList.size > 0) {
+                            recyclerviewPromo.visibility = View.VISIBLE
+                            linearNoData.visibility = View.GONE
+                            PromoCodesListDataSet(recyclerviewPromo, promoList )
+                        } else {
+                            linearNoData.visibility = View.VISIBLE
+                            recyclerviewPromo.visibility = View.GONE
+                        }
+
+                    } else {
+                        linearNoData.visibility = View.VISIBLE
+                        recyclerviewPromo.visibility = View.GONE
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                    linearNoData.visibility = View.VISIBLE
+                    recyclerviewPromo.visibility = View.GONE
+                }
+            }
+            override fun onFailure(call: Call<PromoCodeListResponse>, t: Throwable) {
+                linearNoData.visibility = View.VISIBLE
+                recyclerviewPromo.visibility = View.GONE
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+
+    }
+    private fun PromoCodesListDataSet(
+        recyclerviewPromo: RecyclerView,
+        promoList: List<PromoCodeItems>
+    ) {
+        recyclerviewPromo.layoutManager = LinearLayoutManager(this@CartActivity)
+        recyclerviewPromo.adapter  = PromoCodeAdapter(this@CartActivity, promoList) { item ->
+
+        }
     }
 
     override fun onBackPressed() {

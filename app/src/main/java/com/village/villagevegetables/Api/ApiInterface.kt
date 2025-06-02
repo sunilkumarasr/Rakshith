@@ -25,6 +25,7 @@ import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.Models.PrivacyPolicyModel
 import com.village.villagevegetables.Models.ProductModel
 import com.village.villagevegetables.Models.ProfileModel
+import com.village.villagevegetables.Models.PromoCodeListResponse
 import com.village.villagevegetables.Models.RefundPolicyModel
 import com.village.villagevegetables.Models.RegisterModel
 import com.village.villagevegetables.Models.SettingsModel
@@ -97,6 +98,13 @@ interface ApiInterface {
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String
     ): Call<CartListResponse>
+
+    @FormUrlEncoded
+    @POST("promotioncode")
+    fun getPromoCodesListApi(
+        @Field("api_key") apiKey: String
+    ): Call<PromoCodeListResponse>
+
 
     @FormUrlEncoded
     @POST("all_products_list")

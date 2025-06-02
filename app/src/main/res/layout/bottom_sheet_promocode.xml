@@ -14,20 +14,14 @@
         app:cardCornerRadius="25dp"
         app:cardElevation="1dp"/>
 
-    <LinearLayout
-        android:visibility="gone"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerviewPromo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerviewPromo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <include
-            layout="@layout/promocode_items_list"/>
-    </LinearLayout>
+        android:layout_marginBottom="25dp"/>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/linearNoData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

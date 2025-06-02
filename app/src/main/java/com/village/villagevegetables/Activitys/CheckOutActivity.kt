@@ -606,7 +606,6 @@ class CheckOutActivity : AppCompatActivity() {
                 promoCodePrice,
                 deliveryChargePrice,
             )
-
         call.enqueue(object : Callback<PlaceorderModel> {
             override fun onResponse(
                 call: Call<PlaceorderModel>,

@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title"
                 android:fontFamily="@font/teachers_medium"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:textColor="@color/txtHeader"/>
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtDec"

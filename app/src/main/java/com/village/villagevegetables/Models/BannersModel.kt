@@ -12,5 +12,6 @@ data class BannersModel(
 data class BannersResponse(
     @SerializedName("id") val id : String,
     @SerializedName("image") val image : String,
+    @SerializedName("url") val url : String,
     @SerializedName("full_path") val fullPath : String
 )

@@ -79,11 +79,11 @@ class DashBoardActivity : AppCompatActivity() {
         binding.txtUserName.text = "Hi "+name
         binding.txtUserLocation.text = cityName
         if (cityName.equals("")){
-            //locationPopup()
+            locationPopup()
         }
 
         binding.linearLocationChange.setOnClickListener {
-            //locationPopup()
+            locationPopup()
         }
 
         //LottieAnimation color change
