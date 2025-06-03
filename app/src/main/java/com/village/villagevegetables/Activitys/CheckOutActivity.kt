@@ -35,6 +35,8 @@ import com.village.villagevegetables.Models.AddressModel
 import com.village.villagevegetables.Models.AddressModelResponse
 import com.village.villagevegetables.Models.AreaModel
 import com.village.villagevegetables.Models.CityModel
+import com.village.villagevegetables.Models.CreateOrderModel
+import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityPlaceOrderBinding
@@ -65,6 +67,8 @@ class CheckOutActivity : AppCompatActivity() {
 
     lateinit var productsIDS: String
     lateinit var productsQtyS: String
+
+    var orderId: String = ""
 
     var note: String = ""
     var promoCodePrice: String = ""
@@ -107,21 +111,19 @@ class CheckOutActivity : AppCompatActivity() {
             val animations = ViewController.animation()
             binding.linearPayment.startAnimation(animations)
             if (addressListStatus) {
-                //orderSuccessPopup()
-                productsIDS = ""
-                productsQtyS = ""
-                cartItemsList.forEach({
-                    if (productsIDS.isEmpty())
-                        productsIDS = it.products_id.toString()
-                    else
-                        productsIDS = productsIDS + "##" + it.products_id
+                // orderSuccessPopup()
 
-                    if (productsQtyS.isEmpty())
-                        productsQtyS = it.cart_quantity.toString()
-                    else
-                        productsQtyS = productsQtyS + "##" + it.cart_quantity
-                })
+                val productsIDS = cartItemsList.joinToString("##") { it.products_id.toString() }
+                val productsQtyS = cartItemsList.joinToString("##") { it.cart_quantity.toString() }
+
+                // If needed globally, store them somewhere accessible
+                this.productsIDS = productsIDS
+                this.productsQtyS = productsQtyS
+
                 placeOrderSuccessApi()
+
+                //payment gateWay
+               // crateOrderId()
 
             } else {
                 ViewController.showToast(applicationContext, "Please add your address")
@@ -175,7 +177,6 @@ class CheckOutActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun DataSet() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@CheckOutActivity)
         binding.recyclerview.adapter = CheckOutProductsAdapter(this@CheckOutActivity, cartItemsList)
@@ -263,7 +264,6 @@ class CheckOutActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun DataSet(addressList: List<AddressModelResponse>) {
 
         // Selected address set
@@ -446,7 +446,7 @@ class CheckOutActivity : AppCompatActivity() {
                     alternateMobile,
                     area,
                     cityName,
-                    areaName
+                    areaName,
                 )
             call.enqueue(object : Callback<AddAddressModel> {
                 override fun onResponse(
@@ -590,7 +590,6 @@ class CheckOutActivity : AppCompatActivity() {
         })
     }
 
-
     private fun placeOrderSuccessApi() {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
@@ -623,6 +622,80 @@ class CheckOutActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<PlaceorderModel>, t: Throwable) {
+                Log.e("onFailure", t.message.toString())
+                orderFailedPopup()
+            }
+        })
+    }
+
+    //payment GateWay
+    private fun crateOrderId() {
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.crateOrderId(
+                TotalFinalPrice
+            )
+        call.enqueue(object : Callback<CreateOrderModel> {
+            override fun onResponse(
+                call: Call<CreateOrderModel>,
+                response: Response<CreateOrderModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        try {
+                            orderId = response.body()?.order_id.toString()
+                            //start gate way
+                            startPayment()
+//                            order_id?.let {  }
+                        } catch (e: java.lang.NullPointerException) {
+                            e.printStackTrace()
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure", e.message.toString())
+                    orderFailedPopup()
+                }
+            }
+            override fun onFailure(call: Call<CreateOrderModel>, t: Throwable) {
+                Log.e("onFailure", t.message.toString())
+                orderFailedPopup()
+            }
+        })
+    }
+    private fun startPayment() {
+        //implement GateWay
+        //onpayment success call this api
+        razorpayCallback()
+    }
+    private fun razorpayCallback() {
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.razorpayCallback(
+                orderId,
+                "T2206021401555418246314"
+            )
+        call.enqueue(object : Callback<PaymentModel> {
+            override fun onResponse(
+                call: Call<PaymentModel>,
+                response: Response<PaymentModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        try {
+                            placeOrderSuccessApi()
+                        } catch (e: java.lang.NullPointerException) {
+                            e.printStackTrace()
+                            orderFailedPopup()
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure", e.message.toString())
+                    orderFailedPopup()
+                }
+            }
+            override fun onFailure(call: Call<PaymentModel>, t: Throwable) {
                 Log.e("onFailure", t.message.toString())
                 orderFailedPopup()
             }

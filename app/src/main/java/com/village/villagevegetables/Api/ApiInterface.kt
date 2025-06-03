@@ -15,12 +15,14 @@ import com.village.villagevegetables.Models.CategoryModel
 import com.village.villagevegetables.Models.CategoryWiseModel
 import com.village.villagevegetables.Models.CityModel
 import com.village.villagevegetables.Models.ContactUsModel
+import com.village.villagevegetables.Models.CreateOrderModel
 import com.village.villagevegetables.Models.DeleteCartResponse
 import com.village.villagevegetables.Models.DeleteModel
 import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.ForgotModel
 import com.village.villagevegetables.Models.LoginModel
 import com.village.villagevegetables.Models.OrderHistoryModel
+import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.Models.PrivacyPolicyModel
 import com.village.villagevegetables.Models.ProductModel
@@ -273,6 +275,20 @@ interface ApiInterface {
         @Field("promocode") promoCode: String,
         @Field("delivery_charge") deliveryCharge: String,
     ): Call<PlaceorderModel>
+
+
+    @FormUrlEncoded
+    @POST("createOrder")
+    fun crateOrderId(
+        @Field("amount") amount: String
+    ): Call<CreateOrderModel>
+
+    @FormUrlEncoded
+    @POST("update_payment_id")
+    fun razorpayCallback(
+        @Field("order_id") orderId: String,
+        @Field("payment_id") paymentId: String
+    ): Call<PaymentModel>
 
 
     @GET("faq")

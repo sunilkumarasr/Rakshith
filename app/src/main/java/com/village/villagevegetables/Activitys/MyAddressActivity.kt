@@ -517,7 +517,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                         alternateMobile,
                         area,
                         cityName,
-                        areaName
+                        areaName,
                     )
                 call.enqueue(object : Callback<AddAddressModel> {
                     override fun onResponse(
@@ -543,7 +543,6 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                             Log.e("t_", e.message.toString())
                         }
                     }
-
                     override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
                         Log.e("t_", t.message.toString())
                         bottomSheetDialog.dismiss()
