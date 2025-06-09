@@ -4,6 +4,7 @@ import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.FaqModel
 import com.village.villagevegetables.Adapters.ProductDetailsModel
 import com.village.villagevegetables.Adapters.Search.SearchModel
+import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.AboutUsModel
 import com.village.villagevegetables.Models.AddAddressModel
 import com.village.villagevegetables.Models.AddFavouriteModel
@@ -22,7 +23,6 @@ import com.village.villagevegetables.Models.FavouriteModel
 import com.village.villagevegetables.Models.ForgotModel
 import com.village.villagevegetables.Models.LoginModel
 import com.village.villagevegetables.Models.OrderHistoryModel
-import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.Models.PrivacyPolicyModel
 import com.village.villagevegetables.Models.ProductModel

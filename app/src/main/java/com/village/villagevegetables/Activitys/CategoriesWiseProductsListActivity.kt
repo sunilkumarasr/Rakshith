@@ -9,14 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
+import com.village.villagevegetables.Adapters.CategoriesNewAdapter
 import com.village.villagevegetables.Adapters.CategoriesWiseProductsAdapter
+import com.village.villagevegetables.Adapters.HomeCategoriesAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.AddtoCartResponse
+import com.village.villagevegetables.Models.CategoryListResponse
+import com.village.villagevegetables.Models.CategoryModel
 import com.village.villagevegetables.Models.CategoryWiseModel
 import com.village.villagevegetables.Models.CategoryWiseResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
+import com.village.villagevegetables.Models.ProductListResponse
+import com.village.villagevegetables.Models.ProductModel
 import com.village.villagevegetables.Models.UpdateCartResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityCategoriesProductsListBinding
@@ -34,6 +40,7 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
     lateinit var cartItemQuantityChangeListener: CategoriesWiseProductsAdapter.CartItemQuantityChangeListener
     lateinit var productItemClick: CategoriesWiseProductsAdapter.ProductItemClick
+
 
     //Products list
     var productList: MutableList<CategoryWiseResponse> = ArrayList()
@@ -90,21 +97,65 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
+            getCategoriesApi()
             getCategoryWiseProductsListApi()
         }
 
+    }
 
+    //Categories List
+    private fun getCategoriesApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.getCategoriesApi(getString(R.string.api_key))
+        call.enqueue(object : Callback<CategoryModel> {
+            override fun onResponse(call: Call<CategoryModel>, response: Response<CategoryModel>) {
+                try {
+                    if (response.isSuccessful) {
+                        val selectedServicesList = response.body()?.response
+                        //empty
+                        if (selectedServicesList.isNullOrEmpty()) {
+                            binding.recyclerViewCategory.visibility = View.GONE
+                            return
+                        }
+                        dataSet(selectedServicesList)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Log.e("onResponseException", e.message.toString())
+                }
+            }
+            override fun onFailure(call: Call<CategoryModel>, t: Throwable) {
+                Log.e("onFailureCategoryModel", "API Call Failed: ${t.message}")
+            }
+        })
+    }
+    private fun dataSet(selectedServicesList: List<CategoryListResponse>) {
+        binding.recyclerViewCategory.apply {
+            layoutManager = LinearLayoutManager(this@CategoriesWiseProductsListActivity)
+            binding.recyclerViewCategory.adapter  = CategoriesNewAdapter(this@CategoriesWiseProductsListActivity, selectedServicesList) { item ->
+//                val intent = Intent(this@CategoriesWiseProductsListActivity, CategoriesWiseProductsListActivity::class.java).apply {
+//                    putExtra("categoriesId", item.categoriesId)
+//                    putExtra("categoryName", item.categoryName)
+//                }
+//                startActivity(intent)
+//                overridePendingTransition(R.anim.from_right, R.anim.to_left)
+
+                categoriesId = item.categoriesId
+                categoryName = item.categoryName
+                getCategoryWiseProductsListApi()
+
+            }
+        }
     }
 
     //list
     private fun getCategoryWiseProductsListApi() {
         binding.shimmerLoading.visibility = View.VISIBLE
         val apiServices = RetrofitClient.apiInterface
-        val call =
-            apiServices.getCategoryWiseProductsListApi(
-                getString(R.string.api_key),
-                categoriesId,
-            )
+        val call = apiServices.getCategoryWiseProductsListApi(
+            getString(R.string.api_key),
+            categoriesId,
+        )
         call.enqueue(object : Callback<CategoryWiseModel> {
             override fun onResponse(
                 call: Call<CategoryWiseModel>,
@@ -113,43 +164,51 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 try {
                     if (response.isSuccessful) {
                         val responseList = response.body()?.response
-                        productList = responseList?.filter {
+                        productList.clear()
+                        responseList?.filter {
                             !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
-                        }?.toMutableList() ?: mutableListOf()
+                        }?.let {
+                            productList.addAll(it)
+                        }
 
-                        if (productList.size > 0) {
+                        if (productList.isNotEmpty()) {
                             binding.linearNoData.visibility = View.GONE
                             getCartApi()
                         } else {
                             binding.linearNoData.visibility = View.VISIBLE
+                            binding.recyclerview.visibility = View.GONE
                             binding.shimmerLoading.visibility = View.GONE
                         }
                     } else {
-                        binding.linearNoData.visibility = View.GONE
+                        binding.linearNoData.visibility = View.VISIBLE
+                        binding.recyclerview.visibility = View.GONE
                         binding.shimmerLoading.visibility = View.GONE
                     }
-                } catch (e: NullPointerException) {
+                } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
-                    binding.linearNoData.visibility = View.GONE
+                    Log.e("onFailure", e.message.toString())
+                    binding.linearNoData.visibility = View.VISIBLE
+                    binding.recyclerview.visibility = View.GONE
                     binding.shimmerLoading.visibility = View.GONE
                 }
             }
+
             override fun onFailure(call: Call<CategoryWiseModel>, t: Throwable) {
+                Log.e("onFailure", t.message.toString())
                 binding.shimmerLoading.visibility = View.GONE
+                binding.recyclerview.visibility = View.GONE
                 binding.linearNoData.visibility = View.VISIBLE
-                Log.e("onFailure",t.message.toString())
             }
         })
-
     }
     private fun getCartApi() {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCartApi(
-                getString(R.string.api_key),
-                userId.toString(),
-            )
+            getString(R.string.api_key),
+            userId.toString(),
+        )
+
         call.enqueue(object : Callback<CartListResponse> {
             override fun onResponse(
                 call: Call<CartListResponse>,
@@ -158,32 +217,44 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 binding.shimmerLoading.visibility = View.GONE
                 try {
                     if (response.isSuccessful) {
-                        cartItemsList = response.body()?.ResponseCartList!!
-                        updateCartCount(response.body()?.ResponseCartList!!.size.toString())
+                        cartItemsList = response.body()?.ResponseCartList ?: arrayListOf()
+                        updateCartCount(cartItemsList.size.toString())
                         dataSet()
                     } else {
                         dataSet()
                     }
-                } catch (e: NullPointerException) {
+                } catch (e: Exception) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                     dataSet()
                 }
             }
+
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
                 binding.shimmerLoading.visibility = View.GONE
                 dataSet()
             }
         })
     }
     private fun dataSet() {
-        //empty list
-        val cartListToPass = if (cartItemsList.isNullOrEmpty()) arrayListOf() else cartItemsList
+        val cartListToPass = cartItemsList ?: arrayListOf()
 
-        binding.recyclerview.layoutManager = LinearLayoutManager(this@CategoriesWiseProductsListActivity)
-        binding.recyclerview.adapter = CategoriesWiseProductsAdapter(this@CategoriesWiseProductsListActivity, productList,cartListToPass, this@CategoriesWiseProductsListActivity, cartItemQuantityChangeListener)
+        binding.recyclerview.visibility = View.VISIBLE
+        if (binding.recyclerview.adapter == null) {
+            binding.recyclerview.layoutManager = LinearLayoutManager(this@CategoriesWiseProductsListActivity)
+            binding.recyclerview.adapter = CategoriesWiseProductsAdapter(
+                this@CategoriesWiseProductsListActivity,
+                productList,
+                cartListToPass,
+                this@CategoriesWiseProductsListActivity,
+                cartItemQuantityChangeListener
+            )
+        } else {
+            binding.recyclerview.adapter?.notifyDataSetChanged()
+        }
     }
+
 
     override fun onProductItemClick(itemsData: CategoryWiseResponse) {
 

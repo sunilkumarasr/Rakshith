@@ -1,6 +1,7 @@
 package com.village.villagevegetables.Fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -132,6 +133,12 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
 
+        binding.cardViewOrder.setOnClickListener {
+            val phoneIntent = Intent(Intent.ACTION_DIAL) // or Intent.ACTION_CALL if you have permission
+            phoneIntent.data = Uri.parse("tel:9441085061")
+            startActivity(phoneIntent)
+        }
+
     }
 
     private fun getBannersApi() {
@@ -246,7 +253,6 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
                         productList = responseList?.filter {
                             !it.locationIds.isNullOrEmpty() && it.locationIds.contains(cityId)
                         }?.toMutableList() ?: mutableListOf()
-
                         if (productList.isNotEmpty()){
                             getCartApi()
                         }else{

@@ -15,15 +15,15 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.village.villagevegetables.Activitys.CartActivity
-import com.village.villagevegetables.Activitys.SplashActivity
+import com.razorpay.Checkout
+import com.razorpay.PaymentResultListener
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
-import com.village.villagevegetables.Adapters.CartAdapter
 import com.village.villagevegetables.Adapters.CheckInAddressAdapter
 import com.village.villagevegetables.Adapters.CheckInDialogAddressAdapter
 import com.village.villagevegetables.Adapters.CheckOutProductsAdapter
@@ -40,13 +40,13 @@ import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.PlaceorderModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityPlaceOrderBinding
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Field
 import kotlin.toString
 
-class CheckOutActivity : AppCompatActivity() {
+class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
     val binding: ActivityPlaceOrderBinding by lazy {
         ActivityPlaceOrderBinding.inflate(layoutInflater)
@@ -63,7 +63,6 @@ class CheckOutActivity : AppCompatActivity() {
 
     lateinit var cityName: String
     lateinit var areaName: String
-
 
     lateinit var productsIDS: String
     lateinit var productsQtyS: String
@@ -120,10 +119,11 @@ class CheckOutActivity : AppCompatActivity() {
                 this.productsIDS = productsIDS
                 this.productsQtyS = productsQtyS
 
-                placeOrderSuccessApi()
+                //placeOrderSuccessApi()
 
                 //payment gateWay
-               // crateOrderId()
+                // crateOrderId()
+                startPayment()
 
             } else {
                 ViewController.showToast(applicationContext, "Please add your address")
@@ -154,7 +154,6 @@ class CheckOutActivity : AppCompatActivity() {
                 call: Call<CartListResponse>,
                 response: Response<CartListResponse>
             ) {
-
                 try {
                     if (response.isSuccessful) {
                         var cartList: List<CartItems> = ArrayList()
@@ -375,13 +374,11 @@ class CheckOutActivity : AppCompatActivity() {
         val spinnerArea = view.findViewById<Spinner>(R.id.spinnerArea)
         val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
 
-
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
             getCityListApi(spinnerCity, spinnerArea)
         }
-
 
         linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
@@ -478,13 +475,13 @@ class CheckOutActivity : AppCompatActivity() {
                         Log.e("t_", e.message.toString())
                     }
                 }
-
                 override fun onFailure(call: Call<AddAddressModel>, t: Throwable) {
                     Log.e("t_", t.message.toString())
                     bottomSheetDialog.dismiss()
                 }
             })
         }
+
         bottomSheetDialog.show()
     }
 
@@ -665,8 +662,46 @@ class CheckOutActivity : AppCompatActivity() {
     }
     private fun startPayment() {
         //implement GateWay
+        val name = Preferences.loadStringValue(this@CheckOutActivity, Preferences.name, "")
+        val mobileNumber = Preferences.loadStringValue(this@CheckOutActivity, Preferences.mobileNumber, "")
+        val email = Preferences.loadStringValue(this@CheckOutActivity, Preferences.email, "")
+
+        val checkout = Checkout()
+        checkout.setKeyID("rzp_test_7gskeEN6o9AxuP") // Replace with your key
+
+        try {
+            val options = JSONObject()
+            options.put("name", name)
+            options.put("description", "Test Payment")
+//            options.put("image", "https://your-logo-url.com/logo.png")
+            options.put("theme.color", "#3b6c64")
+            options.put("currency", "INR")
+            options.put("amount", "50000") // Amount in paise (50000 = ₹500)
+//            options.put("order_id", "order_DBJOWzybf0sJbb")
+
+            val prefill = JSONObject()
+            prefill.put("email", email)
+            prefill.put("contact", mobileNumber)
+            options.put("prefill", prefill)
+
+            checkout.open(this, options)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error in payment: ${e.message}", Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
+
+
+
+
+    }
+    override fun onPaymentSuccess(p0: String?) {
         //onpayment success call this api
-        razorpayCallback()
+        //razorpayCallback()
+        Toast.makeText(this, "Success: ${p0}", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onPaymentError(p0: Int, p1: String?) {
+        Toast.makeText(this, "Error in payment: ${p1}", Toast.LENGTH_LONG).show()
     }
     private fun razorpayCallback() {
         val apiServices = RetrofitClient.apiInterface
@@ -788,5 +823,6 @@ class CheckOutActivity : AppCompatActivity() {
         finish()
         overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
+
 
 }
