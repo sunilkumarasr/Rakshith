@@ -1,8 +1,6 @@
 package com.village.villagevegetables.Adapters
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.village.villagevegetables.Activitys.AllProductsListActivity
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.CategoryListResponse
 import com.village.villagevegetables.R
@@ -20,11 +17,12 @@ import com.village.villagevegetables.R
 class CategoriesNewAdapter(
     private val context: Context,
     private val items: List<CategoryListResponse>,
-    private val onItemClick: (CategoryListResponse) -> Unit // Click listener function
+    private val categoriesId: String,
+    private val onItemClick: (CategoryListResponse) -> Unit // Click listener function){}
 ) : RecyclerView.Adapter<CategoriesNewAdapter.ItemViewHolder>() {
 
     var previousSelectedIndex = -1
-    var selectedIndex = 0
+    var selectedIndex = items.indexOfFirst { it.categoriesId == categoriesId }.takeIf { it >= 0 } ?: 0
 
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgBanner: ImageView = itemView.findViewById(R.id.imgBanner)
@@ -67,6 +65,7 @@ class CategoriesNewAdapter(
         // Apply background based on selectedIndex
         if (position == selectedIndex) {
             holder.viewLine.visibility = View.VISIBLE
+            holder.txtTitle.setTextColor(ContextCompat.getColor(context, R.color.black))
 
             val isMovingUp = selectedIndex < previousSelectedIndex
             holder.viewLine.visibility = View.VISIBLE
@@ -84,7 +83,10 @@ class CategoriesNewAdapter(
 
         } else {
             holder.viewLine.visibility = View.GONE
+            holder.txtTitle.setTextColor(ContextCompat.getColor(context, R.color.txtH))
+
         }
+
 
 
     }

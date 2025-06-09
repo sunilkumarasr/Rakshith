@@ -11,7 +11,6 @@ import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CategoriesNewAdapter
 import com.village.villagevegetables.Adapters.CategoriesWiseProductsAdapter
-import com.village.villagevegetables.Adapters.HomeCategoriesAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
@@ -21,8 +20,6 @@ import com.village.villagevegetables.Models.CategoryModel
 import com.village.villagevegetables.Models.CategoryWiseModel
 import com.village.villagevegetables.Models.CategoryWiseResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
-import com.village.villagevegetables.Models.ProductListResponse
-import com.village.villagevegetables.Models.ProductModel
 import com.village.villagevegetables.Models.UpdateCartResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityCategoriesProductsListBinding
@@ -93,12 +90,10 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
         binding.txtTitle.text = categoryName
 
-
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
             getCategoriesApi()
-            getCategoryWiseProductsListApi()
         }
 
     }
@@ -112,13 +107,28 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
                 try {
                     if (response.isSuccessful) {
                         val selectedServicesList = response.body()?.response
-                        //empty
+
+                        // Handle empty list
                         if (selectedServicesList.isNullOrEmpty()) {
                             binding.recyclerViewCategory.visibility = View.GONE
                             return
                         }
+
+                        binding.recyclerViewCategory.visibility = View.VISIBLE
+
                         dataSet(selectedServicesList)
+
+                        if (categoriesId.isEmpty()) {
+                            selectedServicesList.firstOrNull()?.let { firstItem ->
+                                categoriesId = firstItem.categoriesId
+                                categoryName = firstItem.categoryName
+                                getCategoryWiseProductsListApi()
+                            }
+                        } else {
+                            getCategoryWiseProductsListApi()
+                        }
                     }
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                     Log.e("onResponseException", e.message.toString())
@@ -132,7 +142,7 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
     private fun dataSet(selectedServicesList: List<CategoryListResponse>) {
         binding.recyclerViewCategory.apply {
             layoutManager = LinearLayoutManager(this@CategoriesWiseProductsListActivity)
-            binding.recyclerViewCategory.adapter  = CategoriesNewAdapter(this@CategoriesWiseProductsListActivity, selectedServicesList) { item ->
+            binding.recyclerViewCategory.adapter  = CategoriesNewAdapter(this@CategoriesWiseProductsListActivity, selectedServicesList, categoriesId) { item ->
 //                val intent = Intent(this@CategoriesWiseProductsListActivity, CategoriesWiseProductsListActivity::class.java).apply {
 //                    putExtra("categoriesId", item.categoriesId)
 //                    putExtra("categoryName", item.categoryName)
@@ -434,10 +444,12 @@ class CategoriesWiseProductsListActivity : AppCompatActivity(), CategoriesWisePr
 
     override fun onResume() {
         super.onResume()
-        if (!ViewController.noInterNetConnectivity(applicationContext)) {
-            ViewController.showToast(applicationContext, "Please check your connection ")
-        } else {
-            getCategoryWiseProductsListApi()
+        if (categoriesId!=""){
+            if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                ViewController.showToast(applicationContext, "Please check your connection ")
+            } else {
+                getCategoryWiseProductsListApi()
+            }
         }
     }
 

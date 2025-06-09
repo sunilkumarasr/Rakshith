@@ -3,6 +3,7 @@ package com.village.villagevegetables.Activitys
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,7 +20,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.village.villagevegetables.Adapters.Cart.CartItems
 import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CartAdapter
-import com.village.villagevegetables.Adapters.HomeCategoriesAdapter
 import com.village.villagevegetables.Adapters.PromoCodeAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
@@ -55,7 +55,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     var quantity = 1
     var isFavorite = false
 
+    private var promoCodePriceCheck: Double = 0.0
     private var promoCodePrice: String = ""
+    lateinit var bottomSheetDialog: BottomSheetDialog
+
+    var minAmount: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     private fun inIts() {
         cartItemQuantityChangeListener = this@CartActivity
         productItemClick = this@CartActivity
+
+        minAmount = Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "").toString()
+
 
         binding.imgBack.setOnClickListener {
             val animations = ViewController.animation()
@@ -101,9 +108,9 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             overridePendingTransition(0, 0)
         }
 
-        binding.txtSelectPromoCode.setOnClickListener {
+        binding.linearSelectPromoCode.setOnClickListener {
             val animations = ViewController.animation()
-            binding.txtSelectPromoCode.startAnimation(animations)
+            binding.linearSelectPromoCode.startAnimation(animations)
             promoCodeDialog()
         }
 
@@ -114,7 +121,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         }
 
     }
-
 
     private fun getCartApi() {
         binding.shimmerLoading.visibility = View.VISIBLE
@@ -186,21 +192,34 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                 }
             }
 
-            val minAmount = Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "")
-            minAmount?.toInt()?.let {
+            minAmount.toInt().let {
                 if (it <= TotalPrice){
                     binding.txtDeliveryCharge.text = "FREE"
                     binding.txtItems.text = getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
                     binding.txtItemsPrice.text = "₹"+TotalPrice
                     binding.txtTotalPrice.text = "₹"+TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
+                    binding.linearFreeDeliveryNote.visibility = View.GONE
+                    promoCodePriceCheck = TotalPrice
                 }else{
+                    //free delivery note show
+                    binding.linearFreeDeliveryNote.visibility = View.VISIBLE
+                    val remainingAmount = minAmount.toDouble() - TotalPrice
+                    binding.tvFreeDeliveryText.text = "₹$remainingAmount"
+                    val screenWidthInPx = Resources.getSystem().displayMetrics.widthPixels
+                    val progressPercent = (TotalPrice * 100 / minAmount.toDouble()).coerceAtMost(100.0)
+                    val layoutParams = binding.viewProgressLine.layoutParams
+                    layoutParams.width = (screenWidthInPx * progressPercent / 100).toInt()
+                    binding.viewProgressLine.layoutParams = layoutParams
+
                     binding.txtDeliveryCharge.text = "₹20"
+                    promoCodePriceCheck = TotalPrice
                     TotalPrice = (TotalPrice + 20)
                     binding.txtItems.text = getString(R.string.Items) + " ("+cartItemsList.size.toString()+")"
                     binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
                     binding.txtTotalPrice.text = "₹"+TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
+
                 }
             }
         } catch (e: NumberFormatException) {
@@ -468,7 +487,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
     //promoCode
     private fun promoCodeDialog() {
-        val bottomSheetDialog = BottomSheetDialog(this@CartActivity, R.style.AppBottomSheetDialogTheme)
+        bottomSheetDialog = BottomSheetDialog(this@CartActivity, R.style.AppBottomSheetDialogTheme)
         val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode, null)
         bottomSheetDialog.setContentView(view)
 
@@ -534,7 +553,11 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         promoList: List<PromoCodeItems>
     ) {
         recyclerviewPromo.layoutManager = LinearLayoutManager(this@CartActivity)
-        recyclerviewPromo.adapter  = PromoCodeAdapter(this@CartActivity, promoList) { item ->
+        recyclerviewPromo.adapter  = PromoCodeAdapter(this@CartActivity, promoList, promoCodePriceCheck) { item ->
+
+            if (promoCodePriceCheck >= item.amount.toDouble()){
+                bottomSheetDialog.dismiss()
+            }
 
         }
     }

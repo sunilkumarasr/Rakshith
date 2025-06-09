@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.PromoCodeItems
@@ -13,12 +14,14 @@ import com.village.villagevegetables.R
 class PromoCodeAdapter(
     val context: Context,
     private val items: List<PromoCodeItems>,
-    private val onItemClick: (PromoCodeItems) -> Unit // Click listener function
-    ) : RecyclerView.Adapter<PromoCodeAdapter.ViewHolder>() {
+    private val promoCodePriceCheck: Double,
+    private val onItemClick: (PromoCodeItems) -> Unit // Click listener function){}
+) : RecyclerView.Adapter<PromoCodeAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitle)
         val txtDec: TextView = itemView.findViewById(R.id.txtDec)
+        val txtApply: TextView = itemView.findViewById(R.id.txtApply)
 
         init {
             itemView.setOnClickListener {
@@ -44,6 +47,10 @@ class PromoCodeAdapter(
 
         holder.txtTitle.text = item.type
         holder.txtDec.text = "Minimum order amount: ₹" + item.amount
+
+        if (promoCodePriceCheck >= item.amount.toDouble()){
+            holder.txtApply.setTextColor(ContextCompat.getColor(context, R.color.green))
+        }
 
     }
 

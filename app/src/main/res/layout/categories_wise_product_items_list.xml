@@ -18,8 +18,8 @@
 
         <RelativeLayout
             android:id="@+id/relative"
-            android:layout_width="100dp"
-            android:layout_height="95dp"
+            android:layout_width="95dp"
+            android:layout_height="85dp"
             android:layout_gravity="center_vertical">
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProducts"

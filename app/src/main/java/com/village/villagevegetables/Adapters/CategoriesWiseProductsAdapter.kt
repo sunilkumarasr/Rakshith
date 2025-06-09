@@ -83,8 +83,8 @@ class CategoriesWiseProductsAdapter(
                 }
 
                 val finalAmount: Int = item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total Price : ₹"+finalAmount
+//                holder.txtTotalPrice.visibility = View.VISIBLE
+//                holder.txtTotalPrice.text = "Total Price : ₹"+finalAmount
 
                 //setCartId
                 item.cartId= cartList[j].id.toString()
@@ -110,15 +110,15 @@ class CategoriesWiseProductsAdapter(
                 }
                 val finalAmount: Int =
                     item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+//                holder.txtTotalPrice.visibility = View.VISIBLE
+//                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
                 // holder.binding.addToCartBtn.performClick()
             } else if (cartQ[0] == 1) {
                 //delete
                 quantityChangeListener?.onDeleteCartItem(item)
                 //without api load
                 holder.linearCount.visibility = View.GONE
-                holder.txtTotalPrice.visibility = View.INVISIBLE
+//                holder.txtTotalPrice.visibility = View.INVISIBLE
                 holder.addToCart.visibility = View.VISIBLE
             }
 
@@ -140,8 +140,8 @@ class CategoriesWiseProductsAdapter(
                 val cartQty1 = holder.cartQty.text.toString()
                 val finalAmount: Int =
                     item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+//                holder.txtTotalPrice.visibility = View.VISIBLE
+//                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
                 if (!ViewController.noInterNetConnectivity(context)) {
                     ViewController.customToast(context,"Please check your connection ")
                 } else {
@@ -171,8 +171,8 @@ class CategoriesWiseProductsAdapter(
 
                 val finalAmount: Int =
                     item.offerPrice.toInt() * holder.cartQty.text.toString().toInt()
-                holder.txtTotalPrice.visibility = View.VISIBLE
-                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
+//                holder.txtTotalPrice.visibility = View.VISIBLE
+//                holder.txtTotalPrice.text = "Total : ₹"+finalAmount
             }
 
         }

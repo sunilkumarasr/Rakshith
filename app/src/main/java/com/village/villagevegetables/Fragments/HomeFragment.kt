@@ -128,9 +128,17 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         binding.viewMoreCategories.setOnClickListener {
             val animations = ViewController.animation()
             binding.viewMoreCategories.startAnimation(animations)
-            val intent = Intent(activity, CategoriesActivity::class.java)
+//            val intent = Intent(activity, CategoriesActivity::class.java)
+//            startActivity(intent)
+//            requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+
+            val intent = Intent(activity, CategoriesWiseProductsListActivity::class.java).apply {
+                putExtra("categoriesId", "")
+                putExtra("categoryName", "")
+            }
             startActivity(intent)
             requireActivity().overridePendingTransition(R.anim.from_right, R.anim.to_left)
+
         }
 
         binding.cardViewOrder.setOnClickListener {
@@ -218,19 +226,9 @@ class HomeFragment : Fragment() , HomeFeatureProductsAdapter.ProductItemClick,
         })
     }
     private fun dataSet(selectedServicesList: List<CategoryListResponse>) {
-        // Truncate the list to the first 6 items if needed
-        val set = R.drawable.vegitable_ic
-        val defaultItem = CategoryListResponse(
-            categoriesId = "0",
-            categoryName = "All",
-            categoryImage = set.toString()
-        )
-
-        val truncatedList = listOf(defaultItem) + selectedServicesList.take(6)
-
         binding.recyclerViewCategories.apply {
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(requireActivity(), truncatedList) { item ->
+            binding.recyclerViewCategories.adapter  = HomeCategoriesAdapter(requireActivity(), selectedServicesList) { item ->
                 val intent = Intent(activity, CategoriesWiseProductsListActivity::class.java).apply {
                     putExtra("categoriesId", item.categoriesId)
                     putExtra("categoryName", item.categoryName)
