@@ -45,7 +45,16 @@ class PromoCodeAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
 
-        holder.txtTitle.text = item.type
+        val parts = item.type.split(",")
+        val value = parts[0]
+        val type = parts[1]
+
+        if (type.equals("percentage")){
+            holder.txtTitle.text = value+"% off"
+        }else{
+            holder.txtTitle.text = "RS:"+value +" off"
+        }
+
         holder.txtDec.text = "Minimum order amount: ₹" + item.amount
 
         if (promoCodePriceCheck >= item.amount.toDouble()){

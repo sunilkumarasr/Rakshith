@@ -11,12 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -27,6 +29,7 @@ import com.village.villagevegetables.Adapters.Cart.CartListResponse
 import com.village.villagevegetables.Adapters.CheckInAddressAdapter
 import com.village.villagevegetables.Adapters.CheckInDialogAddressAdapter
 import com.village.villagevegetables.Adapters.CheckOutProductsAdapter
+import com.village.villagevegetables.Adapters.PromoCodeAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
@@ -38,6 +41,8 @@ import com.village.villagevegetables.Models.CityModel
 import com.village.villagevegetables.Models.CreateOrderModel
 import com.village.villagevegetables.Models.PaymentModel
 import com.village.villagevegetables.Models.PlaceorderModel
+import com.village.villagevegetables.Models.PromoCodeItems
+import com.village.villagevegetables.Models.PromoCodeListResponse
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityPlaceOrderBinding
 import org.json.JSONObject
@@ -75,11 +80,14 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
     private var deliveryChargePrice: String = ""
 
+    private var promoCodePriceCheck: Double = 0.0
+    lateinit var bottomSheetDialog: BottomSheetDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         note = intent.getStringExtra("note").toString()
-        promoCodePrice = intent.getStringExtra("promoCodePrice").toString()
+        TotalFinalPrice = intent.getStringExtra("TotalFinalPrice").toString()
 
         inIts()
 
@@ -105,7 +113,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             AddressListDialog()
         }
 
-
         binding.linearPayment.setOnClickListener {
             val animations = ViewController.animation()
             binding.linearPayment.startAnimation(animations)
@@ -119,11 +126,11 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                 this.productsIDS = productsIDS
                 this.productsQtyS = productsQtyS
 
-                //placeOrderSuccessApi()
+                placeOrderSuccessApi()
 
                 //payment gateWay
                 // crateOrderId()
-                startPayment()
+                //startPayment()
 
             } else {
                 ViewController.showToast(applicationContext, "Please add your address")
@@ -137,6 +144,16 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             getCartApi()
         }
 
+
+        binding.linearSelectPromoCode.setOnClickListener {
+            val animations = ViewController.animation()
+            binding.linearSelectPromoCode.startAnimation(animations)
+            if (promoCodePrice.equals("")) {
+                promoCodeDialog()
+            } else {
+                promoCodeRemoveDialog()
+            }
+        }
 
     }
 
@@ -205,6 +222,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                     binding.txtItemsPrice.text = "₹" + TotalPrice
                     binding.txtTotalPrice.text = "₹" + TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
+                    promoCodePriceCheck = TotalFinalPrice.toDouble()
                 } else {
                     deliveryChargePrice = "20"
                     binding.txtDeliveryCharge.text = "₹" + deliveryChargePrice
@@ -213,6 +231,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                     binding.txtItemsPrice.text = "₹" + (TotalPrice - 20)
                     binding.txtTotalPrice.text = "₹" + TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
+                    promoCodePriceCheck = TotalFinalPrice.toDouble()
                 }
             }
 
@@ -359,7 +378,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
         bottomSheetDialog.show()
     }
-
     private fun addAddressDialog() {
         val bottomSheetDialog =
             BottomSheetDialog(this@CheckOutActivity, R.style.AppBottomSheetDialogTheme)
@@ -484,7 +502,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
         bottomSheetDialog.show()
     }
-
     private fun getCityListApi(spinnerCity: Spinner, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getCityListApi(getString(R.string.api_key))
@@ -537,7 +554,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             }
         })
     }
-
     private fun getAreaListApi(stateId: String, spinnerArea: Spinner) {
         val apiServices = RetrofitClient.apiInterface
         val call = apiServices.getAreaListApi(getString(R.string.api_key), stateId)
@@ -588,6 +604,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     private fun placeOrderSuccessApi() {
+        Log.e("TotalFinalPrice_",TotalFinalPrice)
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -699,7 +716,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
         //razorpayCallback()
         Toast.makeText(this, "Success: ${p0}", Toast.LENGTH_LONG).show()
     }
-
     override fun onPaymentError(p0: Int, p1: String?) {
         Toast.makeText(this, "Error in payment: ${p1}", Toast.LENGTH_LONG).show()
     }
@@ -816,6 +832,185 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
         // Show the dialog
         dialog.show()
+    }
+
+    //promoCode
+    private fun promoCodeDialog() {
+        bottomSheetDialog = BottomSheetDialog(this@CheckOutActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode, null)
+        bottomSheetDialog.setContentView(view)
+
+        val recyclerviewPromo = view.findViewById<RecyclerView>(R.id.recyclerviewPromo)
+        val linearNoData = view.findViewById<LinearLayout>(R.id.linearNoData)
+        val buttonOk = view.findViewById<Button>(R.id.buttonOk)
+
+        buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+        }
+
+        getPromoCodesListApi(recyclerviewPromo, linearNoData)
+
+        bottomSheetDialog.show()
+    }
+    private fun getPromoCodesListApi(recyclerviewPromo: RecyclerView, linearNoData: LinearLayout) {
+        val apiServices = RetrofitClient.apiInterface
+        val call =
+            apiServices.getPromoCodesListApi(
+                getString(R.string.api_key)
+            )
+        call.enqueue(object : Callback<PromoCodeListResponse> {
+            override fun onResponse(
+                call: Call<PromoCodeListResponse>,
+                response: Response<PromoCodeListResponse>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        var promoList: List<PromoCodeItems> = ArrayList()
+                        promoList = response.body()?.ResponseCartList ?: emptyList()
+                        if (promoList.size > 0) {
+                            recyclerviewPromo.visibility = View.VISIBLE
+                            linearNoData.visibility = View.GONE
+                            PromoCodesListDataSet(recyclerviewPromo, promoList)
+                        } else {
+                            linearNoData.visibility = View.VISIBLE
+                            recyclerviewPromo.visibility = View.GONE
+                        }
+
+                    } else {
+                        linearNoData.visibility = View.VISIBLE
+                        recyclerviewPromo.visibility = View.GONE
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure", e.message.toString())
+                    linearNoData.visibility = View.VISIBLE
+                    recyclerviewPromo.visibility = View.GONE
+                }
+            }
+
+            override fun onFailure(call: Call<PromoCodeListResponse>, t: Throwable) {
+                linearNoData.visibility = View.VISIBLE
+                recyclerviewPromo.visibility = View.GONE
+                Log.e("onFailure", t.message.toString())
+            }
+        })
+
+    }
+    private fun PromoCodesListDataSet(
+        recyclerviewPromo: RecyclerView,
+        promoList: List<PromoCodeItems>
+    ) {
+        recyclerviewPromo.layoutManager = LinearLayoutManager(this@CheckOutActivity)
+        recyclerviewPromo.adapter =
+            PromoCodeAdapter(this@CheckOutActivity, promoList, promoCodePriceCheck) { item ->
+
+                if (promoCodePriceCheck >= item.amount.toDouble()) {
+
+                    val parts = item.type.split(",")
+                    val value = parts[0]
+                    val type = parts[1]
+
+                    //percentage off and discount off
+                    if (type.equals("percentage")) {
+                        val percentage = value.filter { it.isDigit() || it == '.' }.toDouble()
+                        val result = (percentage * promoCodePriceCheck) / 100
+                        promoCodePrice = String.format("%.2f", result)
+                        // Set UI
+                        binding.txtSelectCoupon.text = "Remove"
+                        binding.txtApplyCoupon.text = "You saved ₹$promoCodePrice"
+                        binding.txtDiscount.setText("-₹$promoCodePrice")
+                        binding.txtSelectCoupon.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.selectedRed
+                            )
+                        )
+                        binding.txtApplyCoupon.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.green
+                            )
+                        )
+                        binding.txtDiscount.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.green
+                            )
+                        )
+
+                        TotalPrice = promoCodePriceCheck - promoCodePrice.toDouble()
+                        binding.txtTotalPrice.text = "₹"+TotalPrice
+                        TotalFinalPrice = TotalPrice.toString()
+                        promoCodePriceCheck = TotalPrice
+                    } else {
+                        val discount = value.toDouble()
+                        val result = promoCodePriceCheck - discount
+                        promoCodePrice = result.toString()
+                        //set
+                        binding.txtSelectCoupon.text = "Remove"
+                        binding.txtApplyCoupon.text = "You saved ₹${String.format("%.2f", discount)}"
+                        binding.txtDiscount.setText("-₹${String.format("%.2f", discount)}")
+
+
+                        binding.txtSelectCoupon.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.selectedRed
+                            )
+                        )
+                        binding.txtApplyCoupon.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.green
+                            )
+                        )
+                        binding.txtDiscount.setTextColor(
+                            ContextCompat.getColor(
+                                this@CheckOutActivity,
+                                R.color.green
+                            )
+                        )
+
+                        binding.txtTotalPrice.text = "₹"+promoCodePrice
+                        TotalPrice = promoCodePrice.toDouble()
+                        TotalFinalPrice = promoCodePrice.toString()
+                        promoCodePriceCheck = promoCodePrice.toDouble()
+
+                    }
+
+                    bottomSheetDialog.dismiss()
+                }
+
+            }
+    }
+    private fun promoCodeRemoveDialog() {
+        val bottomSheetDialog =
+            BottomSheetDialog(this@CheckOutActivity, R.style.AppBottomSheetDialogTheme)
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode_remove, null)
+        bottomSheetDialog.setContentView(view)
+
+        val buttonCancel = view.findViewById<Button>(R.id.buttonCancel)
+        val buttonOk = view.findViewById<Button>(R.id.buttonOk)
+        buttonCancel.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+        }
+        buttonOk.setOnClickListener {
+            val animations = ViewController.animation()
+            view.startAnimation(animations)
+            bottomSheetDialog.dismiss()
+
+            val intent = intent
+            finish()
+            overridePendingTransition(0, 0)
+            startActivity(intent)
+            overridePendingTransition(0, 0)
+
+        }
+        bottomSheetDialog.show()
     }
 
     override fun onBackPressed() {

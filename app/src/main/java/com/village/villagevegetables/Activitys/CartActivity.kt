@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -24,6 +25,7 @@ import com.village.villagevegetables.Adapters.PromoCodeAdapter
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
 import com.village.villagevegetables.Config.ViewController
+import com.village.villagevegetables.Logins.LoginActivity
 import com.village.villagevegetables.Models.AddtoCartResponse
 import com.village.villagevegetables.Models.DeleteCartResponse
 import com.village.villagevegetables.Models.PromoCodeItems
@@ -55,10 +57,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     var quantity = 1
     var isFavorite = false
 
-    private var promoCodePriceCheck: Double = 0.0
-    private var promoCodePrice: String = ""
-    lateinit var bottomSheetDialog: BottomSheetDialog
-
     var minAmount: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +71,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         cartItemQuantityChangeListener = this@CartActivity
         productItemClick = this@CartActivity
 
-        minAmount = Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "").toString()
+        minAmount =
+            Preferences.loadStringValue(this@CartActivity, Preferences.minAmount, "").toString()
 
 
         binding.imgBack.setOnClickListener {
@@ -95,7 +94,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
             val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
             intent.putExtra("note", binding.txtNote.text.toString())
-            intent.putExtra("promoCodePrice", promoCodePrice)
+            intent.putExtra("TotalFinalPrice", TotalFinalPrice)
             startActivity(intent)
             overridePendingTransition(R.anim.from_right, R.anim.to_left)
         }
@@ -106,12 +105,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val intent = Intent(this@CartActivity, DashBoardActivity::class.java)
             startActivity(intent)
             overridePendingTransition(0, 0)
-        }
-
-        binding.linearSelectPromoCode.setOnClickListener {
-            val animations = ViewController.animation()
-            binding.linearSelectPromoCode.startAnimation(animations)
-            promoCodeDialog()
         }
 
         binding.linearOrderNote.setOnClickListener {
@@ -159,32 +152,41 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                     binding.relativeData.visibility = View.GONE
                     binding.linearNoData.visibility = View.VISIBLE
                 }
             }
+
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
                 binding.shimmerLoading.visibility = View.GONE
                 binding.relativeData.visibility = View.GONE
                 binding.linearNoData.visibility = View.VISIBLE
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
             }
         })
 
     }
+
     private fun DataSet() {
         binding.recyclerview.layoutManager = LinearLayoutManager(this@CartActivity)
-        binding.recyclerview.adapter = CartAdapter(this@CartActivity, cartItemsList, this@CartActivity, cartItemQuantityChangeListener)
+        binding.recyclerview.adapter = CartAdapter(
+            this@CartActivity,
+            cartItemsList,
+            this@CartActivity,
+            cartItemQuantityChangeListener
+        )
     }
 
     @SuppressLint("SetTextI18n")
     private fun getTotalPrice(cartItemsList: List<CartItems>) {
         try {
+
             TotalPrice = 0.0
+
             for (i in cartItemsList.indices) {
                 try {
-                    Log.e("cart_quantity_",cartItemsList[i].cart_quantity.toString())
+                    Log.e("cart_quantity_", cartItemsList[i].cart_quantity.toString())
                     TotalPrice = TotalPrice + cartItemsList[i].offer_price
                         .toDouble() * cartItemsList[i].cart_quantity.toDouble()
                 } catch (e: Exception) {
@@ -193,33 +195,33 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             }
 
             minAmount.toInt().let {
-                if (it <= TotalPrice){
+                if (it <= TotalPrice) {
                     binding.txtDeliveryCharge.text = "FREE"
-                    binding.txtItems.text = getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
-                    binding.txtItemsPrice.text = "₹"+TotalPrice
-                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    binding.txtItems.text =
+                        getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
+                    binding.txtItemsPrice.text = "₹" + TotalPrice
+                    binding.txtTotalPrice.text = "₹" + TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
                     binding.linearFreeDeliveryNote.visibility = View.GONE
-                    promoCodePriceCheck = TotalPrice
-                }else{
+                } else {
                     //free delivery note show
                     binding.linearFreeDeliveryNote.visibility = View.VISIBLE
                     val remainingAmount = minAmount.toDouble() - TotalPrice
                     binding.tvFreeDeliveryText.text = "₹$remainingAmount"
                     val screenWidthInPx = Resources.getSystem().displayMetrics.widthPixels
-                    val progressPercent = (TotalPrice * 100 / minAmount.toDouble()).coerceAtMost(100.0)
+                    val progressPercent =
+                        (TotalPrice * 100 / minAmount.toDouble()).coerceAtMost(100.0)
                     val layoutParams = binding.viewProgressLine.layoutParams
                     layoutParams.width = (screenWidthInPx * progressPercent / 100).toInt()
                     binding.viewProgressLine.layoutParams = layoutParams
 
                     binding.txtDeliveryCharge.text = "₹20"
-                    promoCodePriceCheck = TotalPrice
                     TotalPrice = (TotalPrice + 20)
-                    binding.txtItems.text = getString(R.string.Items) + " ("+cartItemsList.size.toString()+")"
-                    binding.txtItemsPrice.text = "₹"+ (TotalPrice - 20)
-                    binding.txtTotalPrice.text = "₹"+TotalPrice
+                    binding.txtItems.text =
+                        getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
+                    binding.txtItemsPrice.text = "₹" + (TotalPrice - 20)
+                    binding.txtTotalPrice.text = "₹" + TotalPrice
                     TotalFinalPrice = TotalPrice.toString()
-
                 }
             }
         } catch (e: NumberFormatException) {
@@ -230,8 +232,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     }
 
     override fun onProductItemClick(itemsData: CartItems) {
-
     }
+
     override fun onAddToCartClicked(itemsData: CartItems, cartQty: String, isAdd: Int) {
         if (isAdd == 0) {
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
@@ -239,7 +241,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             } else {
                 addToCart(itemsData, cartQty)
             }
-        } else{
+        } else {
             if (!ViewController.noInterNetConnectivity(applicationContext)) {
                 ViewController.showToast(applicationContext, "Please check your connection ")
             } else {
@@ -275,11 +277,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<AddtoCartResponse>, t: Throwable) {
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -313,11 +316,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<UpdateCartResponse>, t: Throwable) {
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
                 if (!ViewController.noInterNetConnectivity(applicationContext)) {
                     ViewController.showToast(applicationContext, "Please check your connection ")
                 } else {
@@ -340,10 +344,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     override fun onDeleteCartItem(cartItem: CartItems) {
         deletePopup(cartItem)
     }
+
     @SuppressLint("InflateParams")
     private fun deletePopup(cartItem: CartItems) {
         val dialog = Dialog(this)
-        val customView = LayoutInflater.from(this).inflate(R.layout.item_delete_conformation_popup, null)
+        val customView =
+            LayoutInflater.from(this).inflate(R.layout.item_delete_conformation_popup, null)
         dialog.setContentView(customView)
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         dialog.setCancelable(false)
@@ -374,6 +380,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         // Show the dialog
         dialog.show()
     }
+
     private fun removeFromCartApi(cartItem: CartItems) {
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
@@ -391,17 +398,18 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             ) {
                 getCartApi()
                 try {
-                    if(response.isSuccessful) {
+                    if (response.isSuccessful) {
                         val res = response.body()
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<DeleteCartResponse>, t: Throwable) {
                 getCartApi()
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
             }
         })
     }
@@ -430,11 +438,12 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     }
                 } catch (e: NullPointerException) {
                     e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
+                    Log.e("onFailure", e.message.toString())
                 }
             }
+
             override fun onFailure(call: Call<CartListResponse>, t: Throwable) {
-                Log.e("onFailure",t.message.toString())
+                Log.e("onFailure", t.message.toString())
             }
         })
 
@@ -461,15 +470,15 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         val buttonCancel = customView.findViewById<TextView>(R.id.buttonCancel)
         val buttonOk = customView.findViewById<TextView>(R.id.buttonOk)
 
-        if (!binding.txtNote.text.toString().equals("")){
+        if (!binding.txtNote.text.toString().equals("")) {
             editNote.setText(binding.txtNote.text.toString())
         }
 
         buttonOk.setOnClickListener {
             if (editNote.text.toString().trim().isEmpty()) {
                 ViewController.customToast(this@CartActivity, "Please enter your note")
-            }else{
-                if (!editNote.text.toString().equals("")){
+            } else {
+                if (!editNote.text.toString().equals("")) {
                     binding.txtNote.text = editNote.text.toString()
                     binding.txtNoteButton.text = getString(R.string.editNote)
                 }
@@ -485,83 +494,6 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         dialog.show()
     }
 
-    //promoCode
-    private fun promoCodeDialog() {
-        bottomSheetDialog = BottomSheetDialog(this@CartActivity, R.style.AppBottomSheetDialogTheme)
-        val view = layoutInflater.inflate(R.layout.bottom_sheet_promocode, null)
-        bottomSheetDialog.setContentView(view)
-
-        val recyclerviewPromo = view.findViewById<RecyclerView>(R.id.recyclerviewPromo)
-        val linearNoData = view.findViewById<LinearLayout>(R.id.linearNoData)
-        val buttonOk = view.findViewById<Button>(R.id.buttonOk)
-
-        buttonOk.setOnClickListener {
-            val animations = ViewController.animation()
-            view.startAnimation(animations)
-            bottomSheetDialog.dismiss()
-        }
-
-        getPromoCodesListApi(recyclerviewPromo, linearNoData)
-
-        bottomSheetDialog.show()
-    }
-    private fun getPromoCodesListApi(recyclerviewPromo: RecyclerView, linearNoData: LinearLayout) {
-        val apiServices = RetrofitClient.apiInterface
-        val call =
-            apiServices.getPromoCodesListApi(
-                getString(R.string.api_key)
-            )
-        call.enqueue(object : Callback<PromoCodeListResponse> {
-            override fun onResponse(
-                call: Call<PromoCodeListResponse>,
-                response: Response<PromoCodeListResponse>
-            ) {
-                try {
-                    if (response.isSuccessful) {
-                        var promoList: List<PromoCodeItems> = ArrayList()
-                        promoList = response.body()?.ResponseCartList ?: emptyList()
-                        if (promoList.size > 0) {
-                            recyclerviewPromo.visibility = View.VISIBLE
-                            linearNoData.visibility = View.GONE
-                            PromoCodesListDataSet(recyclerviewPromo, promoList )
-                        } else {
-                            linearNoData.visibility = View.VISIBLE
-                            recyclerviewPromo.visibility = View.GONE
-                        }
-
-                    } else {
-                        linearNoData.visibility = View.VISIBLE
-                        recyclerviewPromo.visibility = View.GONE
-                    }
-                } catch (e: NullPointerException) {
-                    e.printStackTrace()
-                    Log.e("onFailure",e.message.toString())
-                    linearNoData.visibility = View.VISIBLE
-                    recyclerviewPromo.visibility = View.GONE
-                }
-            }
-            override fun onFailure(call: Call<PromoCodeListResponse>, t: Throwable) {
-                linearNoData.visibility = View.VISIBLE
-                recyclerviewPromo.visibility = View.GONE
-                Log.e("onFailure",t.message.toString())
-            }
-        })
-
-    }
-    private fun PromoCodesListDataSet(
-        recyclerviewPromo: RecyclerView,
-        promoList: List<PromoCodeItems>
-    ) {
-        recyclerviewPromo.layoutManager = LinearLayoutManager(this@CartActivity)
-        recyclerviewPromo.adapter  = PromoCodeAdapter(this@CartActivity, promoList, promoCodePriceCheck) { item ->
-
-            if (promoCodePriceCheck >= item.amount.toDouble()){
-                bottomSheetDialog.dismiss()
-            }
-
-        }
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         finish()
@@ -573,7 +505,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
-            getCartApi()
+            //getCartApi()
         }
     }
 

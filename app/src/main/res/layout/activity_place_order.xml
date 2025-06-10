@@ -131,9 +131,52 @@
                         android:layout_height="wrap_content"/>
 
                     <LinearLayout
+                        android:id="@+id/linearSelectPromoCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="15sp"
+                        android:layout_marginEnd="15sp"
+                        android:background="@drawable/edge_items_light_gray"
+                        android:orientation="horizontal"
+                        android:elevation="2dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="15sp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/discount_ic"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtApplyCoupon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:layout_marginStart="15sp"
+                            android:singleLine="true"
+                            android:textSize="14sp"
+                            android:fontFamily="@font/teachers_medium"
+                            android:text="@string/applycoupon"
+                            android:textColor="@color/black"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/txtSelectCoupon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="@string/select"
+                            android:textColor="@color/colorPrimary"
+                            android:fontFamily="@font/teachers_semibold"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="5dp"
                         android:layout_marginStart="15sp"
                         android:layout_marginEnd="15sp"
                         android:layout_marginBottom="15dp"
@@ -271,6 +314,7 @@
                                         android:textSize="13sp" />
                                 </LinearLayout>
                                 <androidx.appcompat.widget.AppCompatTextView
+                                    android:id="@+id/txtDiscount"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"

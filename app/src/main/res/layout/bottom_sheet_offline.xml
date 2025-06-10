@@ -1,36 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@drawable/bottom_topup_round"
     android:padding="16dp">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/sorry"/>
+                android:src="@drawable/comingsoon"/>
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/teachers_regular"
+                android:fontFamily="@font/teachers_semibold"
                 android:layout_marginTop="25dp"
                 android:textAlignment="center"
-                android:text="There is a technical issue that can wait until the result is resolved."
+                android:text="This app will be coming to you in a few days"
                 android:textColor="@color/txtdes"
                 android:textSize="15sp" />
 
@@ -38,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/teachers_medium"
+                android:fontFamily="@font/teachers_bold"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
                 android:text="Thank you"
@@ -47,5 +46,4 @@
 
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

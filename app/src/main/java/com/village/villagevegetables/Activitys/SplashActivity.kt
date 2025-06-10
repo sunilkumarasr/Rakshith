@@ -97,7 +97,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 overridePendingTransition(R.anim.from_right, R.anim.to_left)
             }
-        }, 3000)
+        }, 2000)
     }
 
     private fun LogoAnimation() {

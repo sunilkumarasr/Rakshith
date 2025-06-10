@@ -263,14 +263,12 @@ class DashBoardActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,response.body()?.response!!.get(0).cartText.toString())
                         if (!response.body()?.response!!.get(0).appMode.equals("online")){
-                            offlineAppPopup()
+                           // offlineAppPopup()
                         }
 
                         if (!response.body()?.response!!.get(0).version.equals("12")){
                             upDateAppPopup()
                         }
-
-
 
                     }
                 } catch (e: NullPointerException) {

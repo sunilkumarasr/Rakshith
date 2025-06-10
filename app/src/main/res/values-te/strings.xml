@@ -189,6 +189,8 @@
     <string name="OrderDate_">ఆర్డర్ తేదీ :</string>
     <string name="Free">ఉచితం</string>
     <string name="moreForFreeDelivery">ఉచిత డెలివరీ కోసం <b><font color='#4CAF50'>Free</font></b> ఇంకా అవసరం</string>
+    <string name="conformation">Conformation</string>
+    <string name="conformationNoteForPromo">మీరు ఈ ప్రమో కోడ్‌ను తొలగించాలని ఖచ్చితంగా అనుకుంటున్నారా?</string>
 
 
     <string name="dummyNote">Lorem Ipsum అనేది 1500ల నుండి పరిశ్రమలలోని ప్రామాణిక డమ్మీ టెక్స్ట్‌గా ఉంటుంది, ఒక అజ్ఞాతమైన ప్రింటర్ గ్యాలీ యొక్క టైప్‌ని తీసుకుని దానిని ఒక టైప్ స్పెసిమెన్ బుక్ తయారు</string>

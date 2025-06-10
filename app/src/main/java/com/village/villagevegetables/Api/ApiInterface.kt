@@ -263,7 +263,7 @@ interface ApiInterface {
 
     
     @FormUrlEncoded
-    @POST("place_order_save")
+    @POST("place_order_")
     fun placeOrderSuccessApi(
         @Field("api_key") apiKey: String,
         @Field("customer_id") customerId: String,
