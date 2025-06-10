@@ -87,7 +87,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         note = intent.getStringExtra("note").toString()
-        TotalFinalPrice = intent.getStringExtra("TotalFinalPrice").toString()
 
         inIts()
 
@@ -202,6 +201,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
     private fun getTotalPrice(cartItemsList: List<CartItems>) {
         try {
             TotalPrice = 0.0
+
             for (i in cartItemsList.indices) {
                 try {
                     Log.e("cart_quantity_", cartItemsList[i].cart_quantity.toString())
@@ -604,7 +604,6 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     private fun placeOrderSuccessApi() {
-        Log.e("TotalFinalPrice_",TotalFinalPrice)
         val userId = Preferences.loadStringValue(applicationContext, Preferences.userId, "")
         val apiServices = RetrofitClient.apiInterface
         val call =
@@ -1018,6 +1017,5 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
         finish()
         overridePendingTransition(R.anim.from_left, R.anim.to_right)
     }
-
 
 }

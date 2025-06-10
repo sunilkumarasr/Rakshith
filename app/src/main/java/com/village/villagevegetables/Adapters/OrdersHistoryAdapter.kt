@@ -50,18 +50,24 @@ class OrdersHistoryAdapter(
         Glide.with(context).load(item.productDetails[0].image).error(R.drawable.logo)
             .placeholder(R.drawable.logo)
             .into(holder.image)
-
         holder.txtOrderNumber.text = item.orderNumber
-        if (!item.deliveryCharge.equals("")){
-            var sum = item.grandTotal.toDouble() + item.deliveryCharge.toDouble()
-            holder.txtOrderAmount.text = "₹" + sum
-        }else{
-            holder.txtOrderAmount.text = "₹" + item.grandTotal
-        }
         holder.txtOrderDate.text = item.createdDate
 
-        //order status
 
+        //price
+        var sum = item.grandTotal.toDouble()
+        // delivery charge
+        if (!item.deliveryCharge.equals("")) {
+            sum += item.deliveryCharge.toDouble()
+        }
+         // promo code discount
+        if (!item.promocode.equals("")) {
+            sum -= item.promocode.toDouble()
+        }
+        holder.txtOrderAmount.text = "₹$sum"
+
+
+        //order status
         when (item.deliveryStatus) {
             "1" -> {
                 holder.txtOrderStatus.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.blue))

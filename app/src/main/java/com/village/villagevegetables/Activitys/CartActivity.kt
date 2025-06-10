@@ -58,6 +58,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
     var isFavorite = false
 
     var minAmount: String = ""
+    var linearSubmitStatus: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,11 +93,13 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
             val animations = ViewController.animation()
             binding.linearSubmit.startAnimation(animations)
 
-            val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
-            intent.putExtra("note", binding.txtNote.text.toString())
-            intent.putExtra("TotalFinalPrice", TotalFinalPrice)
-            startActivity(intent)
-            overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            linearSubmitStatus = "1"
+            if (!ViewController.noInterNetConnectivity(applicationContext)) {
+                ViewController.showToast(applicationContext, "Please check your connection ")
+            } else {
+                getCartApi()
+            }
+
         }
 
         binding.linearSubmitGotoHome.setOnClickListener {
@@ -184,11 +187,19 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
 
             TotalPrice = 0.0
 
-            for (i in cartItemsList.indices) {
+//            for (i in cartItemsList.indices) {
+//                try {
+//                    Log.e("cart_quantity_", cartItemsList[i].cart_quantity.toString())
+//                    TotalPrice = TotalPrice + cartItemsList[i].offer_price
+//                        .toDouble() * cartItemsList[i].cart_quantity.toDouble()
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
+
+            cartItemsList.forEach { item ->
                 try {
-                    Log.e("cart_quantity_", cartItemsList[i].cart_quantity.toString())
-                    TotalPrice = TotalPrice + cartItemsList[i].offer_price
-                        .toDouble() * cartItemsList[i].cart_quantity.toDouble()
+                    TotalPrice += item.offer_price.toDoubleOrNull()?.times(item.cart_quantity.toDoubleOrNull() ?: 1.0) ?: 0.0
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -201,8 +212,8 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                         getString(R.string.Items) + " (" + cartItemsList.size.toString() + ")"
                     binding.txtItemsPrice.text = "₹" + TotalPrice
                     binding.txtTotalPrice.text = "₹" + TotalPrice
-                    TotalFinalPrice = TotalPrice.toString()
                     binding.linearFreeDeliveryNote.visibility = View.GONE
+                    TotalFinalPrice = TotalPrice.toString()
                 } else {
                     //free delivery note show
                     binding.linearFreeDeliveryNote.visibility = View.VISIBLE
@@ -224,6 +235,17 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
                     TotalFinalPrice = TotalPrice.toString()
                 }
             }
+
+            //linear Submit button click time Status check
+            if (!linearSubmitStatus.equals("")){
+                linearSubmitStatus = ""
+                val intent = Intent(this@CartActivity, CheckOutActivity::class.java)
+                intent.putExtra("note", binding.txtNote.text.toString())
+                intent.putExtra("TotalFinalPrice", TotalFinalPrice)
+                startActivity(intent)
+                overridePendingTransition(R.anim.from_right, R.anim.to_left)
+            }
+
         } catch (e: NumberFormatException) {
             e.printStackTrace()
         } catch (e: NullPointerException) {
@@ -505,7 +527,7 @@ class CartActivity : AppCompatActivity(), CartAdapter.ProductItemClick,
         if (!ViewController.noInterNetConnectivity(applicationContext)) {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
-            //getCartApi()
+            getCartApi()
         }
     }
 

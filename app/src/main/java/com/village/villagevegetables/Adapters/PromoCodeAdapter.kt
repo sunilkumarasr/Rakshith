@@ -58,6 +58,7 @@ class PromoCodeAdapter(
         holder.txtDec.text = "Minimum order amount: ₹" + item.amount
 
         if (promoCodePriceCheck >= item.amount.toDouble()){
+            holder.txtDec.setTextColor(ContextCompat.getColor(context, R.color.green))
             holder.txtApply.setTextColor(ContextCompat.getColor(context, R.color.green))
         }
 

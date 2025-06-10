@@ -756,6 +756,7 @@
                         android:textColor="@color/txtdes"
                         android:textSize="13sp" />
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtDiscount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

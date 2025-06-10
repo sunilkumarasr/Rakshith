@@ -35,7 +35,6 @@ class MyOrderDetailsActivity : AppCompatActivity() {
 
         orderId = intent.getStringExtra("orderId").toString()
 
-
         inIts()
 
     }
@@ -114,20 +113,42 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 }
                 binding.txtItems.text = getString(R.string.Items)+ " " + ordersItemsList.size
                 binding.txtItemsPrice.text = "₹" + order.grandTotal
-                binding.txtTotalAmount.text = "₹" + order.grandTotal
+
+                //price
+                var sum = order.grandTotal.toDouble()
+                // Apply promo code discount (if any)
+                if (order.promocode.isNotEmpty()) {
+                    sum -= order.promocode.toDouble()
+                    binding.txtDiscount.text = "-₹" + order.promocode
+                    binding.txtDiscount.setTextColor(
+                        ContextCompat.getColor(
+                            this@MyOrderDetailsActivity,
+                            R.color.green
+                        )
+                    )
+                }
+                // Apply delivery charge
+                if (order.deliveryCharge.isNotEmpty()) {
+                    binding.txtDeliveryCharge.text = "₹${order.deliveryCharge}"
+                    sum += order.deliveryCharge.toDouble()
+                } else {
+                    binding.txtDeliveryCharge.text = getString(R.string.Free)
+                    binding.txtDeliveryCharge.setTextColor(
+                        ContextCompat.getColor(
+                            this@MyOrderDetailsActivity,
+                            R.color.green
+                        )
+                    )
+                }
+                // Set final amount (after both adjustments)
+                binding.txtTotalAmount.text = "₹${sum}"
+                binding.txtOrderTotalAmount.text = "₹${sum}"
+
                 binding.txtAddress.text = getString(R.string.Address_) +order.billingAddress
                 binding.txtName.text = getString(R.string.Name_) +order.fullName
                 binding.txtMobile.text = getString(R.string.Mobile_) +order.mobile
                 binding.txtEmail.text = getString(R.string.Email_) +order.email
                 binding.txtOrderDate.text =getString(R.string.OrderDate_) + order.updatedDate
-                if (!order.deliveryCharge.equals("")){
-                    binding.txtDeliveryCharge.text = "₹" +order.deliveryCharge
-                    var sum = order.grandTotal.toDouble() + order.deliveryCharge.toDouble()
-                    binding.txtOrderTotalAmount.text = "₹" + sum.toString()
-                }else{
-                    binding.txtDeliveryCharge.text = getString(R.string.Free)
-                    binding.txtOrderTotalAmount.text = "₹" + order.grandTotal
-                }
 
                 // set fields
                 binding.txtOrderNumber.text = order.orderNumber
