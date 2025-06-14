@@ -21,6 +21,7 @@ data class OrderHistoryResponse(
     @SerializedName("product_details") val productDetails : List<OrderHistoryProductDetailsResponse>,
     @SerializedName("billing_address") val billingAddress : String,
     @SerializedName("area_name") val areaName : String,
+    @SerializedName("city_name") val cityName : String,
     @SerializedName("grand_total") val grandTotal : String,
     @SerializedName("delivery_charge") val deliveryCharge : String,
     @SerializedName("promocode") val promocode : String,

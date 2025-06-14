@@ -76,6 +76,9 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
     var note: String = ""
     var promoCodePrice: String = ""
+    var selectedCityName: String = ""
+    var selectedAreaName: String = ""
+    var paymentType: String = "Payment"
     var selectedAddress: String = ""
 
     private var deliveryChargePrice: String = ""
@@ -125,10 +128,10 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                 this.productsIDS = productsIDS
                 this.productsQtyS = productsQtyS
 
-                placeOrderSuccessApi()
+                //placeOrderSuccessApi()
 
                 //payment gateWay
-                // crateOrderId()
+                 crateOrderId()
                 //startPayment()
 
             } else {
@@ -292,11 +295,15 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             val position = addressPosition?.toIntOrNull()
             if (position != null && position in addressList.indices) {
                 newAddressList.add(addressList[position])
+                selectedCityName = addressList[position].city
+                selectedAreaName = addressList[position].area
                 selectedAddress =
                     addressList[position].name + ", " + addressList[position].city + ", " + addressList[position].area + ", " + addressList[position].landmark + ", " + addressList[position].mobileNo + ", " + addressList[position].alternateMobileNumber
             }
         } else {
             newAddressList.add(addressList[0])
+            selectedCityName = addressList[0].city
+            selectedAreaName = addressList[0].area
             selectedAddress =
                 addressList[0].name + ", " + addressList[0].city + ", " + addressList[0].area + ", " + addressList[0].landmark + ", " + addressList[0].mobileNo + ", " + addressList[0].alternateMobileNumber
         }
@@ -617,6 +624,9 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                 selectedAddress,
                 promoCodePrice,
                 deliveryChargePrice,
+                selectedCityName,
+                selectedAreaName,
+                paymentType
             )
         call.enqueue(object : Callback<PlaceorderModel> {
             override fun onResponse(
@@ -643,10 +653,11 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
 
     //payment GateWay
     private fun crateOrderId() {
+        val amountInPaise = (TotalFinalPrice.toFloat() * 100).toInt()
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.crateOrderId(
-                TotalFinalPrice
+                amountInPaise
             )
         call.enqueue(object : Callback<CreateOrderModel> {
             override fun onResponse(
@@ -658,7 +669,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
                         try {
                             orderId = response.body()?.order_id.toString()
                             //start gate way
-                            startPayment()
+                            startPayment(orderId)
 //                            order_id?.let {  }
                         } catch (e: java.lang.NullPointerException) {
                             e.printStackTrace()
@@ -676,24 +687,25 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             }
         })
     }
-    private fun startPayment() {
+
+    private fun startPayment(orderId: String) {
         //implement GateWay
         val name = Preferences.loadStringValue(this@CheckOutActivity, Preferences.name, "")
         val mobileNumber = Preferences.loadStringValue(this@CheckOutActivity, Preferences.mobileNumber, "")
         val email = Preferences.loadStringValue(this@CheckOutActivity, Preferences.email, "")
-
         val checkout = Checkout()
-        checkout.setKeyID("rzp_test_7gskeEN6o9AxuP") // Replace with your key
-
+        checkout.setKeyID("rzp_live_1uXiZbv2fFb282")// Replace with your key
+//        checkout.setKeyID("rzp_test_Fe3pK3jbB5feQP")// Replace with your key
         try {
             val options = JSONObject()
             options.put("name", name)
-            options.put("description", "Test Payment")
+            options.put("description", "Payment")
 //            options.put("image", "https://your-logo-url.com/logo.png")
             options.put("theme.color", "#3b6c64")
             options.put("currency", "INR")
-            options.put("amount", "50000") // Amount in paise (50000 = ₹500)
-//            options.put("order_id", "order_DBJOWzybf0sJbb")
+            val payAmount = TotalFinalPrice.toDouble() * 100
+            options.put("amount", payAmount)
+            options.put("order_id", orderId)
 
             val prefill = JSONObject()
             prefill.put("email", email)
@@ -706,24 +718,22 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
             e.printStackTrace()
         }
 
-
-
-
     }
     override fun onPaymentSuccess(p0: String?) {
         //onpayment success call this api
-        //razorpayCallback()
-        Toast.makeText(this, "Success: ${p0}", Toast.LENGTH_LONG).show()
+        razorpayCallback(p0)
+        //Toast.makeText(this, "Success: ${p0}", Toast.LENGTH_LONG).show()
     }
     override fun onPaymentError(p0: Int, p1: String?) {
-        Toast.makeText(this, "Error in payment: ${p1}", Toast.LENGTH_LONG).show()
+        orderFailedPopup()
+       // Toast.makeText(this, "Error in payment: ${p1}", Toast.LENGTH_LONG).show()
     }
-    private fun razorpayCallback() {
+    private fun razorpayCallback(paymentId: String?) {
         val apiServices = RetrofitClient.apiInterface
         val call =
             apiServices.razorpayCallback(
                 orderId,
-                "T2206021401555418246314"
+                paymentId.toString()
             )
         call.enqueue(object : Callback<PaymentModel> {
             override fun onResponse(

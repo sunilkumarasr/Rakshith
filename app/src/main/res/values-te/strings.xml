@@ -182,6 +182,8 @@
     <string name="DeliveredNote">మీ ఆర్డర్ డెలివరీ చేయబడింది</string>
     <string name="ShippingDetails">రవాణా వివరాలు</string>
     <string name="PriceDetails">ధర వివరాలు</string>
+    <string name="City_">నగరం :</string>
+    <string name="Area_">ప్రాంతం :</string>
     <string name="Address_">చిరునామా :</string>
     <string name="Name_">పేరు :</string>
     <string name="Mobile_">మొబైల్ :</string>

@@ -184,6 +184,8 @@
     <string name="DeliveredNote">Your order was delivered</string>
     <string name="ShippingDetails">Shipping Details</string>
     <string name="PriceDetails">Price Details</string>
+    <string name="City_">City : </string>
+    <string name="Area_">Area : </string>
     <string name="Address_">Address : </string>
     <string name="Name_">Name : </string>
     <string name="Mobile_">Mobile : </string>

@@ -45,11 +45,9 @@ class LoginActivity : AppCompatActivity() {
                 Log.e("Fetching FCM registration token failed", task.exception.toString())
                 return@OnCompleteListener
             }
-
             // Get new FCM registration token
             token = task.result
             Log.e("token_", token.toString())
-
         })
 
         binding.txtForgot.setOnClickListener {

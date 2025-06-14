@@ -66,7 +66,6 @@ class OrdersHistoryAdapter(
         }
         holder.txtOrderAmount.text = "₹$sum"
 
-
         //order status
         when (item.deliveryStatus) {
             "1" -> {

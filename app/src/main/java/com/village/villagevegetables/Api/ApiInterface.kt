@@ -34,6 +34,7 @@ import com.village.villagevegetables.Models.SettingsModel
 import com.village.villagevegetables.Models.ShippingPolicyModel
 import com.village.villagevegetables.Models.TermsAndConditionsModel
 import com.village.villagevegetables.Models.UpdateCartResponse
+import com.village.villagevegetables.Models.WishBannersModel
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.Call
@@ -74,6 +75,12 @@ interface ApiInterface {
     fun settingsApi(
         @Field("api_key") apiKey: String,
     ): Call<SettingsModel>
+
+    @FormUrlEncoded
+    @POST("wishbanner")
+    fun wishbannerApi(
+        @Field("api_key") apiKey: String,
+    ): Call<WishBannersModel>
 
     @FormUrlEncoded
     @POST("sliders")
@@ -260,7 +267,6 @@ interface ApiInterface {
         @Field("api_key") apiKey: String,
         @Field("address_id") addressId: String
     ): Call<AddressModel>
-
     
     @FormUrlEncoded
     @POST("place_order_save")
@@ -274,13 +280,15 @@ interface ApiInterface {
         @Field("address") address: String,
         @Field("promocode") promoCode: String,
         @Field("delivery_charge") deliveryCharge: String,
+        @Field("city_name") city_name: String,
+        @Field("area_name") area_name: String,
+        @Field("payment_type") payment_type: String,
     ): Call<PlaceorderModel>
-
 
     @FormUrlEncoded
     @POST("createOrder")
     fun crateOrderId(
-        @Field("amount") amount: String
+        @Field("amount") amount: Int
     ): Call<CreateOrderModel>
 
     @FormUrlEncoded
@@ -289,7 +297,6 @@ interface ApiInterface {
         @Field("order_id") orderId: String,
         @Field("payment_id") paymentId: String
     ): Call<PaymentModel>
-
 
     @GET("faq")
     fun faqListApi(): Call<List<FaqModel>>

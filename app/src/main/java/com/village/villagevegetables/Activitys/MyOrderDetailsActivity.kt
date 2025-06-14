@@ -130,6 +130,12 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 // Apply delivery charge
                 if (order.deliveryCharge.isNotEmpty()) {
                     binding.txtDeliveryCharge.text = "₹${order.deliveryCharge}"
+                    binding.txtDeliveryCharge.setTextColor(
+                        ContextCompat.getColor(
+                            this@MyOrderDetailsActivity,
+                            R.color.selectedRed
+                        )
+                    )
                     sum += order.deliveryCharge.toDouble()
                 } else {
                     binding.txtDeliveryCharge.text = getString(R.string.Free)
@@ -144,6 +150,8 @@ class MyOrderDetailsActivity : AppCompatActivity() {
                 binding.txtTotalAmount.text = "₹${sum}"
                 binding.txtOrderTotalAmount.text = "₹${sum}"
 
+                binding.txtCity.text = getString(R.string.City_) +order.cityName
+                binding.txtArea.text = getString(R.string.Area_) +order.areaName
                 binding.txtAddress.text = getString(R.string.Address_) +order.billingAddress
                 binding.txtName.text = getString(R.string.Name_) +order.fullName
                 binding.txtMobile.text = getString(R.string.Mobile_) +order.mobile

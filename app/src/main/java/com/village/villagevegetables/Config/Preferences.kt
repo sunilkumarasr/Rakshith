@@ -20,6 +20,7 @@ object Preferences {
     const val minAmount = "minAmount"
     const val cityId = "cityId"
     const val cityName = "cityName"
+    const val wishBanner = "wishBanner"
 
 
 

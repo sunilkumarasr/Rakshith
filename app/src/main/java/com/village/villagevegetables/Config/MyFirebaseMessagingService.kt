@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
@@ -93,6 +94,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(){
 
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.single_logo)
+            .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.single_logo)) // Full-color image
             .setContentTitle("Village Vegetables")
             .setContentText(body)
             .setAutoCancel(true)
@@ -111,7 +113,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(){
         val notificationManager = getSystemService(NotificationManager::class.java)
         val channel = NotificationChannel(
             channelId,
-            "Village Vegetables",
+            "Village_Vegetables",
             NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = body

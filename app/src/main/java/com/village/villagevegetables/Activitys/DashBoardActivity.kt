@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -23,6 +24,7 @@ import androidx.navigation.ui.NavigationUI
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.model.KeyPath
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.village.villagevegetables.Activitys.AllProductsListActivity
@@ -35,6 +37,7 @@ import com.village.villagevegetables.Models.AddAddressModel
 import com.village.villagevegetables.Models.AreaModel
 import com.village.villagevegetables.Models.CityModel
 import com.village.villagevegetables.Models.SettingsModel
+import com.village.villagevegetables.Models.WishBannersModel
 import com.village.villagevegetables.R
 import com.village.villagevegetables.databinding.ActivityDashBoardBinding
 import retrofit2.Call
@@ -126,6 +129,7 @@ class DashBoardActivity : AppCompatActivity() {
             ViewController.showToast(applicationContext, "Please check your connection ")
         } else {
             settingsApi()
+            wishbannerApi()
             getCartApi()
         }
 
@@ -263,7 +267,7 @@ class DashBoardActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,response.body()?.response!!.get(0).cartText.toString())
                         if (!response.body()?.response!!.get(0).appMode.equals("online")){
-                           // offlineAppPopup()
+                           //offlineAppPopup()
                         }
 
                         if (!response.body()?.response!!.get(0).version.equals("12")){
@@ -313,6 +317,60 @@ class DashBoardActivity : AppCompatActivity() {
         bottomSheetDialog.show()
     }
 
+    fun wishbannerApi() {
+        val apiServices = RetrofitClient.apiInterface
+        val call = apiServices.wishbannerApi(
+            getString(R.string.api_key)
+        )
+        call.enqueue(object : Callback<WishBannersModel> {
+            override fun onResponse(
+                call: Call<WishBannersModel>,
+                response: Response<WishBannersModel>
+            ) {
+                try {
+                    if (response.isSuccessful) {
+                        val bannerList = response.body()?.response
+                        if (!bannerList.isNullOrEmpty() && !bannerList[0].fullPath.isNullOrEmpty()) {
+                            Preferences.saveStringValue(this@DashBoardActivity, Preferences.wishBanner, bannerList[0].fullPath)
+                            wishBannerPopup()
+                        }
+                    }
+                } catch (e: NullPointerException) {
+                    e.printStackTrace()
+                    Log.e("onFailure",e.message.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<WishBannersModel>, t: Throwable) {
+                Log.e("onFailure",t.message.toString())
+            }
+        })
+    }
+    private fun wishBannerPopup() {
+        val dialogView = layoutInflater.inflate(R.layout.custom_wishbanner_dialog, null)
+
+        val customDialog = AlertDialog.Builder(this@DashBoardActivity)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        val imageView = dialogView.findViewById<ImageView>(R.id.imgBanner)
+
+        val wishBanner = Preferences.loadStringValue(this@DashBoardActivity, Preferences.wishBanner, "")
+
+        Glide.with(imageView)
+            .load(wishBanner)
+            .error(R.drawable.logo)
+            .into(imageView)
+
+        dialogView.findViewById<ImageView>(R.id.imgClose).setOnClickListener {
+            customDialog.dismiss()
+        }
+
+        customDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        customDialog.show()
+
+    }
 
     fun getCartApi() {
         val userId = Preferences.loadStringValue(this@DashBoardActivity, Preferences.userId, "")
@@ -383,6 +441,5 @@ class DashBoardActivity : AppCompatActivity() {
         val b = dialogBuilder.create()
         b.show()
     }
-
 
 }

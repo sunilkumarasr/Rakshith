@@ -126,32 +126,6 @@
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:background="@drawable/offline_order">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="If you want to order offline, call the number below now."
-                                android:textColor="@color/white"
-                                android:textSize="14sp"
-                                android:padding="10dp"
-                                android:gravity="center_horizontal"
-                                android:fontFamily="@font/teachers_medium"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Call: +91 9441085061"
-                                android:textColor="@color/white"
-                                android:textSize="18sp"
-                                android:gravity="center_horizontal"
-                                android:fontFamily="@font/teachers_medium"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Order Now"
-                                android:textColor="@color/white"
-                                android:textSize="25sp"
-                                android:gravity="center_horizontal"
-                                android:fontFamily="@font/teachers_semibold"/>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
