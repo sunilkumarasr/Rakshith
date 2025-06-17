@@ -2,6 +2,7 @@ package com.village.villagevegetables.Activitys
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.tabs.TabLayoutMediator
 import com.village.villagevegetables.Adapters.ViewPagerAdapter
 import com.village.villagevegetables.Config.ViewController
@@ -15,6 +16,7 @@ class MyOrdersActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

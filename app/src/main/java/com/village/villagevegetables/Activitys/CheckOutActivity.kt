@@ -18,6 +18,7 @@ import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -87,6 +88,7 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
     lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         note = intent.getStringExtra("note").toString()
@@ -827,15 +829,14 @@ class CheckOutActivity : AppCompatActivity(), PaymentResultListener {
         linearSubmit.setOnClickListener {
             val animations = ViewController.animation()
             linearSubmit.startAnimation(animations)
-            val intent = Intent(this@CheckOutActivity, DashBoardActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(R.anim.from_right, R.anim.to_left)
             dialog.dismiss()
         }
         linearHome.setOnClickListener {
             val animations = ViewController.animation()
             linearHome.startAnimation(animations)
-
+            val intent = Intent(this@CheckOutActivity, DashBoardActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.from_right, R.anim.to_left)
             dialog.dismiss()
         }
 

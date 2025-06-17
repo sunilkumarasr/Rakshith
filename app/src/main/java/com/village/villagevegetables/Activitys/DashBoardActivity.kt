@@ -16,6 +16,7 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -61,6 +62,7 @@ class DashBoardActivity : AppCompatActivity() {
     var cityName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         ViewController.changeStatusBarColor(
@@ -156,13 +158,18 @@ class DashBoardActivity : AppCompatActivity() {
             getCityListApi(spinnerCity)
         }
 
-
         linearSubmit.setOnClickListener {
             if (!cityName.equals("")){
                 Preferences.saveStringValue(this@DashBoardActivity, Preferences.cityId, cityId)
                 Preferences.saveStringValue(this@DashBoardActivity, Preferences.cityName, cityName)
                 binding.txtUserLocation.text = cityName
                 bottomSheetDialog.dismiss()
+                val intent = intent
+                finish()
+                overridePendingTransition(0, 0)
+                startActivity(intent)
+                overridePendingTransition(0, 0)
+
             }else{
                 ViewController.customToast(applicationContext, "select your address")
             }
@@ -267,10 +274,10 @@ class DashBoardActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Preferences.saveStringValue(this@DashBoardActivity, Preferences.minAmount,response.body()?.response!!.get(0).cartText.toString())
                         if (!response.body()?.response!!.get(0).appMode.equals("online")){
-                           //offlineAppPopup()
+                           offlineAppPopup()
                         }
 
-                        if (!response.body()?.response!!.get(0).version.equals("12")){
+                        if (!response.body()?.response!!.get(0).version.equals("13")){
                             upDateAppPopup()
                         }
 

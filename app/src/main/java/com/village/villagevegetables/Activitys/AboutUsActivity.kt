@@ -5,6 +5,7 @@ import android.text.Html
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.ViewController
 import com.village.villagevegetables.Models.AboutUsModel
@@ -21,6 +22,7 @@ class AboutUsActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 

@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.village.villagevegetables.Adapters.AddressAdapter
@@ -42,6 +43,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
     lateinit var updateAreaName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -146,7 +148,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
         val nameEdit = view.findViewById<EditText>(R.id.nameEdit)
         val mobileEdit = view.findViewById<EditText>(R.id.mobileEdit)
         val alternateMobileEdit = view.findViewById<EditText>(R.id.alternateMobileEdit)
-        val areaEdit = view.findViewById<EditText>(R.id.areaEdit)
+        val landmarkEdit = view.findViewById<EditText>(R.id.landmarkEdit)
         val spinnerCity = view.findViewById<Spinner>(R.id.spinnerCity)
         val spinnerArea = view.findViewById<Spinner>(R.id.spinnerArea)
         val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
@@ -154,7 +156,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
         nameEdit.setText(itemsData.name.toString())
         mobileEdit.setText(itemsData.mobileNo.toString())
         alternateMobileEdit.setText(itemsData.alternateMobileNumber.toString())
-        areaEdit.setText(itemsData.landmark.toString())
+        landmarkEdit.setText(itemsData.landmark.toString())
         updateCityName = itemsData.city.toString()
         updateAreaName = itemsData.area.toString()
 
@@ -171,7 +173,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             val name = nameEdit.text.trim().toString()
             val mobile = mobileEdit.text.trim().toString()
             val alternateMobile = alternateMobileEdit.text.trim().toString()
-            val area = areaEdit.text.trim().toString()
+            val landmark = landmarkEdit.text.trim().toString()
 
             ViewController.hideKeyBoard(this@MyAddressActivity)
             if (name.isEmpty()) {
@@ -193,8 +195,8 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 )
                 return@setOnClickListener
             }
-            if (area.isEmpty()) {
-                ViewController.customToast(applicationContext, "Enter area")
+            if (landmark.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter landmark")
                 return@setOnClickListener
             }
             if (cityName.isEmpty()) {
@@ -225,7 +227,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                     name,
                     mobile,
                     alternateMobile,
-                    area,
+                    landmark,
                     cityName,
                     areaName
                 )
@@ -445,7 +447,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
         val nameEdit = view.findViewById<EditText>(R.id.nameEdit)
         val mobileEdit = view.findViewById<EditText>(R.id.mobileEdit)
         val alternateMobileEdit = view.findViewById<EditText>(R.id.alternateMobileEdit)
-        val areaEdit = view.findViewById<EditText>(R.id.areaEdit)
+        val landmarkEdit = view.findViewById<EditText>(R.id.landmarkEdit)
         val spinnerCity = view.findViewById<Spinner>(R.id.spinnerCity)
         val spinnerArea = view.findViewById<Spinner>(R.id.spinnerArea)
         val linearSubmit = view.findViewById<LinearLayout>(R.id.linearSubmit)
@@ -465,7 +467,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
             val name = nameEdit.text.trim().toString()
             val mobile = mobileEdit.text.trim().toString()
             val alternateMobile = alternateMobileEdit.text.trim().toString()
-            val area = areaEdit.text.trim().toString()
+            val landmark = landmarkEdit.text.trim().toString()
 
             ViewController.hideKeyBoard(this@MyAddressActivity)
             if (name.isEmpty()) {
@@ -487,8 +489,8 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                 )
                 return@setOnClickListener
             }
-            if (area.isEmpty()) {
-                ViewController.customToast(applicationContext, "Enter area")
+            if (landmark.isEmpty()) {
+                ViewController.customToast(applicationContext, "Enter landmark")
                 return@setOnClickListener
             }
             if (cityName.isEmpty()) {
@@ -515,7 +517,7 @@ class MyAddressActivity : AppCompatActivity(), AddressAdapter.ItemClick {
                         name,
                         mobile,
                         alternateMobile,
-                        area,
+                        landmark,
                         cityName,
                         areaName,
                     )

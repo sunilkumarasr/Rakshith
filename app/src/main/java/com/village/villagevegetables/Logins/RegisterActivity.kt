@@ -6,6 +6,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.village.villagevegetables.Activitys.DashBoardActivity
 import com.village.villagevegetables.Api.RetrofitClient
 import com.village.villagevegetables.Config.Preferences
@@ -27,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
@@ -34,8 +36,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun inIts() {
-
-
+        
         // Toggle password visibility
         binding.passwordToggle.setOnClickListener {
             binding.passwordEdit.transformationMethod = PasswordTransformationMethod.getInstance()

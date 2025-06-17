@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.GridLayoutManager
 import com.village.villagevegetables.Adapters.AllProductsAdapter
 import com.village.villagevegetables.Adapters.Cart.CartItems
@@ -44,6 +45,7 @@ class AllProductsListActivity : AppCompatActivity() , AllProductsAdapter.Product
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
